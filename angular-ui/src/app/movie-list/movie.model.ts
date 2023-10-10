@@ -1,4 +1,5 @@
 export class Movie {
+  public id: number;
   public title: string;
   public genres: string[];
   public rating: string;
@@ -11,6 +12,7 @@ export class Movie {
   public streamingSources: string[];
 
   constructor(
+    id: number,
     title: string,
     genres: string[],
     rating: string,
@@ -22,6 +24,7 @@ export class Movie {
     stars: string[],
     streamingSources: string[]
   ) {
+    this.id = id;
     this.title = title;
     this.genres = genres;
     this.rating = rating;

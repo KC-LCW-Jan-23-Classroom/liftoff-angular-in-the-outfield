@@ -1,4 +1,4 @@
-<div class="card" style="width: 18rem">
+<div class="card m-2" style="width: 18rem">
   <img [src]="movieItem.poster" class="card-img-top" [alt]="movieItem.title" />
   <div class="card-body">
     <div class="d-flex justify-content-between">
@@ -19,7 +19,22 @@
         <img
           src="/assets/images/streaming/prime.svg"
           [alt]="source"
-          *ngIf="source == 'Prime'"
+          *ngIf="source === 'Prime'"
+        />
+        <img
+          src="/assets/images/streaming/netflix.svg"
+          [alt]="source"
+          *ngIf="source === 'Netflix'"
+        />
+        <img
+          src="/assets/images/streaming/hulu.svg"
+          [alt]="source"
+          *ngIf="source === 'Hulu'"
+        />
+        <img
+          src="/assets/images/streaming/apple-tv.svg"
+          [alt]="source"
+          *ngIf="source === 'Apple TV'"
         />
       </span>
     </div>

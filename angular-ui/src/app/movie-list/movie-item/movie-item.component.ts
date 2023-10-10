@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Movie } from '../movie.model';
 
 @Component({
@@ -7,16 +7,5 @@ import { Movie } from '../movie.model';
   styleUrls: ['./movie-item.component.css'],
 })
 export class MovieItemComponent {
-  movieItem: Movie = new Movie(
-    'Peter Pan',
-    ['Adventure', 'Family', 'Fantasy', 'Romance'],
-    'PG',
-    2003,
-    113,
-    '/assets/images/posters/peter-pan.png',
-    'In stifling Edwardian London, Wendy Darling mesmerizes her brothers every night with bedtime tales of swordplay, swashbuckling, and the fearsome Captain Hook. But the children become the heroes of an even greater story, when Peter Pan flies into their nursery one night and leads them over moonlit rooftops through a galaxy of stars and to the lush jungles of Neverland. Wendy and her brothers join Peter and the Lost Boys in an exhilarating life--free of grown-up rules--while also facing the inevitable showdown with Hook and his bloodthirsty pirates.',
-    'P.J. Hogan',
-    ['Jeremy Sumpter', 'Jason Isaacs', 'Olivia Williams'],
-    ['Prime']
-  );
+  @Input() movieItem!: Movie;
 }
