@@ -1,1 +1,52 @@
-<p>movie-item works!</p>
+<div class="card" style="width: 18rem">
+  <img [src]="movieItem.poster" class="card-img-top" [alt]="movieItem.title" />
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="card-title">{{ movieItem.title }}</h5>
+      <p>{{ movieItem.rating }}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p>{{ movieItem.releaseYear }}</p>
+      <p>{{ movieItem.runtimeMinutes }} minutes</p>
+    </div>
+    <div class="d-flex justify-content-between flex-wrap">
+      <p class="genre-list" *ngFor="let genre of movieItem.genres">
+        {{ genre }}
+      </p>
+    </div>
+    <div class="d-flex justify-content-between flex-wrap">
+      <span *ngFor="let source of movieItem.streamingSources">
+        <img
+          src="/assets/images/streaming/prime.svg"
+          [alt]="source"
+          *ngIf="source == 'Prime'"
+        />
+      </span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <button
+        class="btn btn-link btn-sm text-nowrap"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapseExample"
+        aria-expanded="false"
+        aria-controls="collapseExample"
+      >
+        More Details
+      </button>
+      <button class="btn btn-sm btn-secondary rounded-pill">Watched</button>
+      <img src="assets/images/plus.svg" alt="save for later" />
+    </div>
+  </div>
+  <div class="collapse" id="collapseExample">
+    <div class="card-body">
+      <p><span class="fw-bold">Director: </span>{{ movieItem.director }}</p>
+      <p>
+        <span class="fw-bold">Cast: </span>
+        <span *ngFor="let star of movieItem.stars">{{ star }}, </span>
+      </p>
+      <p>{{ movieItem.plot }}</p>
+      <!-- <a target="_blank" href="https://icons8.com/icon/EHtqS186HLz5/amazon-prime">Amazon Prime</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
+    </div>
+  </div>
+</div>
