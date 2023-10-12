@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieItemComponent } from './movie-list/movie-item/movie-item.component';
+import { WatchHistoryComponent } from './watch-history/watch-history.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MovieItemComponent } from './movie-list/movie-item/movie-item.component
 
     SidebarComponent,
     MovieListComponent,
-    MovieItemComponent
+    MovieItemComponent,
+    WatchHistoryComponent
   ],
   imports: [
     BrowserModule,
