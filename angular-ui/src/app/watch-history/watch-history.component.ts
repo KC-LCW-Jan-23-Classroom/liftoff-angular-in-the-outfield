@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Movie } from '../movie-list/movie.model';
 
 @Component({
   selector: 'app-watch-history',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./watch-history.component.css']
 })
 export class WatchHistoryComponent {
+  watchedList: Movie[] = [];
 
 }
