@@ -15,7 +15,7 @@ import { MovieItemComponent } from './movie-list/movie-item/movie-item.component
 
     NavbarComponent, // Declare NavbarComponent in the declarations array
 
-    SidebarComponent
+    SidebarComponent,
     MovieListComponent,
     MovieItemComponent
   ],
@@ -24,7 +24,6 @@ import { MovieItemComponent } from './movie-list/movie-item/movie-item.component
     AppRoutingModule
 
   ],
-  imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })
