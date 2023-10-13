@@ -12,7 +12,7 @@ import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent
+    SidebarComponent,
     MovieListComponent,
     MovieItemComponent,
     FooterComponent
