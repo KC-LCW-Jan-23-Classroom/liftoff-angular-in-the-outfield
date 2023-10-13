@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MovieListComponent } from './movie-list/movie-list.component';
+import { UserReviewComponent } from './user-review/user-review.component';
+import { PasswordFormComponent } from './password-form/password-form.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'movie-list', component: MovieListComponent },
+  { path: 'user-review', component: UserReviewComponent },
+  { path: 'password-form', component: PasswordFormComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
