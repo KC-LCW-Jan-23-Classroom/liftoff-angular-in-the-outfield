@@ -12,7 +12,7 @@ import { BrowseOptionComponent } from './browse-option/browse-option.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent
+    SidebarComponent,
     MovieListComponent,
     MovieItemComponent,
     BrowseOptionComponent
