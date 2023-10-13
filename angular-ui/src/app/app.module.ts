@@ -7,17 +7,17 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieItemComponent } from './movie-list/movie-item/movie-item.component';
+import { BrowseOptionComponent } from './browse-option/browse-option.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-
     NavbarComponent, // Declare NavbarComponent in the declarations array
-
     SidebarComponent,
     MovieListComponent,
-    MovieItemComponent
+    MovieItemComponent,
+    BrowseOptionComponent
   ],
   imports: [
     BrowserModule,
