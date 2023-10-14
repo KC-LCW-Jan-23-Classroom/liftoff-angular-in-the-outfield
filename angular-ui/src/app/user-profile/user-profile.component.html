@@ -1,9 +1,12 @@
+
 <ul class="nav justify-content-end">
-    <li class="nav-item">
-        <a class="nav-link active" [routerLink]="['/user-review']" aria-current=" page" href="#">User Reviews</a>
+<li class="nav-item">
+    <a class="nav-link active" [routerLink]="[]" aria-current=" page" href="#">Edit Profile</a>
     </li>
 
     <li class="nav-item">
+        <a class="nav-link active" [routerLink]="['/user-review']" aria-current=" page" href="#">User Reviews</a>
+        </li>
 
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">My
@@ -16,6 +19,7 @@
 
             <!-- TODO: Make Array of User Likes -->
             <li><a class="dropdown-item" href="#">Likes</a></li>
+
 
             <!-- Needs watch later button but would present watch later array -->
             <li><a class="dropdown-item" href="#">Watch Later</a></li>
@@ -33,4 +37,5 @@
     <li class="nav-item">
         <a class="nav-link disabled" aria-disabled="true">placeholder for Username</a>
     </li>
+
 </ul>
