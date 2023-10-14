@@ -37,8 +37,10 @@
                     Profile
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Profile Information</a></li>
-                    <li><a class="dropdown-item" href="#">Change Password</a></li>
+                    <li><a class="dropdown-item" [routerLink]="['/user-profile']" href="#">Profile Information</a></li>
+                    <li class="nav-item">
+                        <a class="dropdown-item" [routerLink]="['/password-form']" href="#">Change Password</a>
+                    </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
