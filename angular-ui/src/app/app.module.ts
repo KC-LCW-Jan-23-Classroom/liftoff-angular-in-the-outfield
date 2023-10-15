@@ -8,6 +8,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieItemComponent } from './movie-list/movie-item/movie-item.component';
 import { BrowseOptionComponent } from './browse-option/browse-option.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { BrowseOptionComponent } from './browse-option/browse-option.component';
     SidebarComponent,
     MovieListComponent,
     MovieItemComponent,
-    BrowseOptionComponent
+    BrowseOptionComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
