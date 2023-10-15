@@ -3,7 +3,6 @@
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <h5 class="card-title">{{ movieItem.title }}</h5>
-      <p>{{ movieItem.rating }}</p>
     </div>
     <div class="d-flex justify-content-between">
       <p>{{ movieItem.releaseYear }}</p>
@@ -14,29 +13,16 @@
         {{ genre }}
       </p>
     </div>
-    <div class="d-flex justify-content-between flex-wrap">
-      <span *ngFor="let source of movieItem.streamingSources">
-        <img
-          src="/assets/images/streaming/prime.svg"
-          [alt]="source"
-          *ngIf="source === 'Prime'"
-        />
-        <img
-          src="/assets/images/streaming/netflix.svg"
-          [alt]="source"
-          *ngIf="source === 'Netflix'"
-        />
-        <img
-          src="/assets/images/streaming/hulu.svg"
-          [alt]="source"
-          *ngIf="source === 'Hulu'"
-        />
-        <img
-          src="/assets/images/streaming/apple-tv.svg"
-          [alt]="source"
-          *ngIf="source === 'Apple TV'"
-        />
-      </span>
+    <div
+      *ngIf="movieItem.streamingSources; else elseNoStreaming"
+      class="d-flex justify-content-start flex-wrap gap-1"
+    >
+      <img
+        *ngFor="let source of movieItem.streamingSources"
+        [src]="source"
+        alt=""
+        class="stream-logo rounded"
+      />
     </div>
     <div class="d-flex justify-content-between">
       <a
@@ -58,10 +44,18 @@
       <p><span class="fw-bold">Director: </span>{{ movieItem.director }}</p>
       <p>
         <span class="fw-bold">Cast: </span>
-        <span *ngFor="let star of movieItem.stars">{{ star }}, </span>
+        <ng-container *ngFor="let actor of movieItem.cast; let last = last">
+          {{ actor }}
+          <span *ngIf="!last">, </span>
+        </ng-container>
       </p>
       <p>{{ movieItem.plot }}</p>
-      <!-- <a target="_blank" href="https://icons8.com/icon/EHtqS186HLz5/amazon-prime">Amazon Prime</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
     </div>
   </div>
 </div>
+
+<ng-template #elseNoStreaming
+  ><p class="fst-italic no-streaming">
+    Not available on subscription streaming. May be available to buy or rent.
+  </p></ng-template
+>
