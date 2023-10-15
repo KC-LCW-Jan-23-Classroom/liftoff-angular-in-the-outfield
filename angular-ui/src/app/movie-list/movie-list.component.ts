@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Movie } from './movie.model';
 import { MoviesService } from './movies.service';
+import { apiMovie } from './apiMovie.model';
 
 @Component({
   selector: 'app-movie-list',
@@ -8,11 +8,20 @@ import { MoviesService } from './movies.service';
   styleUrls: ['./movie-list.component.css'],
 })
 export class MovieListComponent implements OnInit {
-  movieList!: Movie[];
+  movieList!: apiMovie[];
 
-  constructor(private moviesService: MoviesService){}
+  constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
-    this.movieList = this.moviesService.getMovies();
+    this.moviesService.fetchTrendingMovies().subscribe((trendingMovies) => {
+      let movieIds: number[] = trendingMovies;
+
+      this.moviesService
+        .fetchMovieListDetails(movieIds)
+        .subscribe((movieListDetails) => {
+          this.movieList = movieListDetails;
+          console.log(movieListDetails);
+        });
+    });
   }
 }

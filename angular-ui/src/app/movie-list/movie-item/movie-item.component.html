@@ -1,42 +1,32 @@
 <div class="card m-2" style="width: 18rem">
-  <img [src]="movieItem.poster" class="card-img-top" [alt]="movieItem.title" />
+  <img
+    src="assets/images/posters/barbie.png"
+    class="card-img-top"
+    [alt]="movieItem.title"
+  />
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <h5 class="card-title">{{ movieItem.title }}</h5>
-      <p>{{ movieItem.rating }}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p>{{ movieItem.releaseYear }}</p>
-      <p>{{ movieItem.runtimeMinutes }} minutes</p>
+      <p>{{ movieItem.release_date }}</p>
+      <p>{{ movieItem.runtime }} minutes</p>
     </div>
     <div class="d-flex justify-content-between flex-wrap">
       <p class="genre-list" *ngFor="let genre of movieItem.genres">
-        {{ genre }}
+        {{ genre.name }}
       </p>
     </div>
-    <div class="d-flex justify-content-between flex-wrap">
-      <span *ngFor="let source of movieItem.streamingSources">
-        <img
-          src="/assets/images/streaming/prime.svg"
-          [alt]="source"
-          *ngIf="source === 'Prime'"
-        />
-        <img
-          src="/assets/images/streaming/netflix.svg"
-          [alt]="source"
-          *ngIf="source === 'Netflix'"
-        />
-        <img
-          src="/assets/images/streaming/hulu.svg"
-          [alt]="source"
-          *ngIf="source === 'Hulu'"
-        />
-        <img
-          src="/assets/images/streaming/apple-tv.svg"
-          [alt]="source"
-          *ngIf="source === 'Apple TV'"
-        />
-      </span>
+    <div
+      *ngIf="movieItem['watch/providers'].results.US.flatrate"
+      class="d-flex justify-content-between flex-wrap"
+    >
+      <p
+        *ngFor="let source of movieItem['watch/providers'].results.US.flatrate"
+      >
+        <!-- <img [src]="source.logo_path" alt=""> -->
+        {{ source.provider_name }}
+      </p>
     </div>
     <div class="d-flex justify-content-between">
       <a
@@ -55,12 +45,12 @@
   </div>
   <div class="collapse" [id]="'movie' + movieItem.id">
     <div class="card-body">
-      <p><span class="fw-bold">Director: </span>{{ movieItem.director }}</p>
+      <!-- <p><span class="fw-bold">Director: </span>{{ movieItem.director }}</p> -->
       <p>
-        <span class="fw-bold">Cast: </span>
-        <span *ngFor="let star of movieItem.stars">{{ star }}, </span>
+        <!-- <span class="fw-bold">Cast: </span> -->
+        <!-- <span *ngFor="let star of movieItem.stars">{{ star }}, </span> -->
       </p>
-      <p>{{ movieItem.plot }}</p>
+      <p>{{ movieItem.overview }}</p>
       <!-- <a target="_blank" href="https://icons8.com/icon/EHtqS186HLz5/amazon-prime">Amazon Prime</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
     </div>
   </div>
