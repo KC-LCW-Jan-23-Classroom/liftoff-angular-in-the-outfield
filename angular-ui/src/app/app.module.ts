@@ -8,7 +8,6 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieItemComponent } from './movie-list/movie-item/movie-item.component';
 import { BrowseOptionComponent } from './browse-option/browse-option.component';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
@@ -20,15 +19,13 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MovieListComponent,
     MovieItemComponent,
     BrowseOptionComponent,
-    EditProfileComponent,
     UserProfileComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
-
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
-}),
+})
 export class AppModule {};
