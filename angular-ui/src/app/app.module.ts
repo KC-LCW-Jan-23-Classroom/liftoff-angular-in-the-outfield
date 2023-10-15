@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component'; // Import the NavbarComponent here
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -10,7 +11,7 @@ import { MovieItemComponent } from './movie-list/movie-item/movie-item.component
 import { WatchHistoryComponent } from './watch-history/watch-history.component';
 import { FooterComponent } from './footer/footer.component';
 import { BrowseOptionComponent } from './browse-option/browse-option.component';
-
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -19,17 +20,14 @@ import { BrowseOptionComponent } from './browse-option/browse-option.component';
     SidebarComponent,
     MovieListComponent,
     MovieItemComponent,
+    BrowseOptionComponent,
     WatchHistoryComponent,
     FooterComponent,
     BrowseOptionComponent,
-
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
 
-  ],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule,],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
-export class AppModule {};
+export class AppModule {}
