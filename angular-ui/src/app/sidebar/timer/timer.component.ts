@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class TimerComponent {
 
+  timesUp: boolean = false;
+
+  startTimer() {
+    
+  }
+
 }
