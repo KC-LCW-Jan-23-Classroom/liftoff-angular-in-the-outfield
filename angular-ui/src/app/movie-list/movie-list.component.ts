@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesService } from './movies.service';
-import { apiMovie } from './apiMovie.model';
+import { Movie } from './movie.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-movie-list',
@@ -8,19 +9,22 @@ import { apiMovie } from './apiMovie.model';
   styleUrls: ['./movie-list.component.css'],
 })
 export class MovieListComponent implements OnInit {
-  movieList!: apiMovie[];
+  movieList!: Movie[];
+  formattedDate: string | null;
 
-  constructor(private moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService, private datePipe: DatePipe) {
+    const today = new Date();
+    this.formattedDate = this.datePipe.transform(today, 'MMMM d, y');
+  }
 
   ngOnInit(): void {
-    this.moviesService.fetchTrendingMovies().subscribe((trendingMovies) => {
+    this.moviesService.fetchTrendingMoviesIds().subscribe((trendingMovies) => {
       let movieIds: number[] = trendingMovies;
 
       this.moviesService
         .fetchMovieListDetails(movieIds)
         .subscribe((movieListDetails) => {
           this.movieList = movieListDetails;
-          console.log(movieListDetails);
         });
     });
   }

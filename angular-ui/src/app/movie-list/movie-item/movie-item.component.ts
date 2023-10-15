@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Movie } from '../movie.model';
-import { apiMovie } from '../apiMovie.model';
 
 @Component({
   selector: 'app-movie-item',
@@ -8,5 +7,5 @@ import { apiMovie } from '../apiMovie.model';
   styleUrls: ['./movie-item.component.css'],
 })
 export class MovieItemComponent {
-  @Input() movieItem!: apiMovie;
+  @Input() movieItem!: Movie;
 }

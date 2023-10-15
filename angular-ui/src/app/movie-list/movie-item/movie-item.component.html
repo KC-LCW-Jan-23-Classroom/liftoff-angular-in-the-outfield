@@ -1,32 +1,28 @@
 <div class="card m-2" style="width: 18rem">
-  <img
-    src="assets/images/posters/barbie.png"
-    class="card-img-top"
-    [alt]="movieItem.title"
-  />
+  <img [src]="movieItem.poster" class="card-img-top" [alt]="movieItem.title" />
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <h5 class="card-title">{{ movieItem.title }}</h5>
     </div>
     <div class="d-flex justify-content-between">
-      <p>{{ movieItem.release_date }}</p>
-      <p>{{ movieItem.runtime }} minutes</p>
+      <p>{{ movieItem.releaseYear }}</p>
+      <p>{{ movieItem.runtimeMinutes }} minutes</p>
     </div>
     <div class="d-flex justify-content-between flex-wrap">
       <p class="genre-list" *ngFor="let genre of movieItem.genres">
-        {{ genre.name }}
+        {{ genre }}
       </p>
     </div>
     <div
-      *ngIf="movieItem['watch/providers'].results.US.flatrate"
-      class="d-flex justify-content-between flex-wrap"
+      *ngIf="movieItem.streamingSources; else elseNoStreaming"
+      class="d-flex justify-content-start flex-wrap gap-1"
     >
-      <p
-        *ngFor="let source of movieItem['watch/providers'].results.US.flatrate"
-      >
-        <!-- <img [src]="source.logo_path" alt=""> -->
-        {{ source.provider_name }}
-      </p>
+      <img
+        *ngFor="let source of movieItem.streamingSources"
+        [src]="source"
+        alt=""
+        class="stream-logo rounded"
+      />
     </div>
     <div class="d-flex justify-content-between">
       <a
@@ -45,13 +41,21 @@
   </div>
   <div class="collapse" [id]="'movie' + movieItem.id">
     <div class="card-body">
-      <!-- <p><span class="fw-bold">Director: </span>{{ movieItem.director }}</p> -->
+      <p><span class="fw-bold">Director: </span>{{ movieItem.director }}</p>
       <p>
-        <!-- <span class="fw-bold">Cast: </span> -->
-        <!-- <span *ngFor="let star of movieItem.stars">{{ star }}, </span> -->
+        <span class="fw-bold">Cast: </span>
+        <ng-container *ngFor="let actor of movieItem.cast; let last = last">
+          {{ actor }}
+          <span *ngIf="!last">, </span>
+        </ng-container>
       </p>
-      <p>{{ movieItem.overview }}</p>
-      <!-- <a target="_blank" href="https://icons8.com/icon/EHtqS186HLz5/amazon-prime">Amazon Prime</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
+      <p>{{ movieItem.plot }}</p>
     </div>
   </div>
 </div>
+
+<ng-template #elseNoStreaming
+  ><p class="fst-italic no-streaming">
+    Not available on subscription streaming. May be available to buy or rent.
+  </p></ng-template
+>

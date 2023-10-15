@@ -9,6 +9,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieItemComponent } from './movie-list/movie-item/movie-item.component';
 import { BrowseOptionComponent } from './browse-option/browse-option.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -19,8 +20,8 @@ import { BrowseOptionComponent } from './browse-option/browse-option.component';
     MovieItemComponent,
     BrowseOptionComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule,],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
