@@ -1,11 +1,6 @@
 .sidebar {
-    float: right;
-    width: 30vw;
-    height: 100%;
-    background-color: #e4e4e4;
-    padding: 15px;
+    background-color: #eaeaea;
     text-align: center;
-}
-.clear {
-    clear:both;
+    padding: 15px;
+    height: 100%;
 }
