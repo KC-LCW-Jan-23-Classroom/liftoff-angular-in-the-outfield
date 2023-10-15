@@ -25,7 +25,12 @@ export class TimerComponent {
   );
 
   startTimer() {
-    setTimeout(()=> {this.timesUp=true;}, 1000);
+    setTimeout(()=> {this.timesUp=true;}, 3000);
+  }
+  restartTimer() {
+    this.timesUp= false;
+    console.log("restart is running");
+    this.startTimer();
   }
 
 }
