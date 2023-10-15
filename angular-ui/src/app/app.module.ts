@@ -8,18 +8,21 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieItemComponent } from './movie-list/movie-item/movie-item.component';
 import { WatchHistoryComponent } from './watch-history/watch-history.component';
+import { FooterComponent } from './footer/footer.component';
+import { BrowseOptionComponent } from './browse-option/browse-option.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-
     NavbarComponent, // Declare NavbarComponent in the declarations array
-
     SidebarComponent,
     MovieListComponent,
     MovieItemComponent,
-    WatchHistoryComponent
+    WatchHistoryComponent,
+    FooterComponent,
+    BrowseOptionComponent,
+
   ],
   imports: [
     BrowserModule,
