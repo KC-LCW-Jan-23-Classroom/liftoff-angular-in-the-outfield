@@ -27,7 +27,7 @@ import { DatePipe } from '@angular/common';
     MovieItemComponent,
     BrowseOptionComponent,
 
-    TimerComponent
+    TimerComponent,
 
     WatchHistoryComponent,
     FooterComponent,
