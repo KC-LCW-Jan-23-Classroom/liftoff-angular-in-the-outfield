@@ -2,11 +2,11 @@
 <div>
   <h1>{{ user.name }}</h1>
   <p>{{ user.email }}</p>
-  <button (click)="editProfile()">Edit Profile</button>
+  <a href="#" class="btn btn-link">Edit Profile</a>
   <div *ngif="editingProfile">
     <form (ngsubmit)="saveChanges()">
       <!-- Form fields for editing profile -->
-      <button type="submit">Save Changes</button>
+      <a href="#" class="btn btn-link">Save Changes</a>
     </form>
   </div>
 </div>
