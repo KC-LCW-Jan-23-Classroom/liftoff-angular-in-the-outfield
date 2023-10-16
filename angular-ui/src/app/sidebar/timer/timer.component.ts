@@ -24,6 +24,8 @@ export class TimerComponent {
     ['Prime']
   );
 
+  movieListOptions : Movie[] =[];
+
 
   startTimer() {
     setTimeout(()=> {this.timesUp=true;}, 3000);
