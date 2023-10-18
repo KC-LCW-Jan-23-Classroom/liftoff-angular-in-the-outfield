@@ -28,13 +28,11 @@ import { DatePipe } from '@angular/common';
     MovieListComponent,
     MovieItemComponent,
     BrowseOptionComponent,
-    UserProfileComponent
+    UserProfileComponent,
     PasswordFormComponent,
     TimerComponent, 
     FooterComponent,
-    WatchHistoryComponent
-  ],
- 
+    WatchHistoryComponent,
   ],
 
   imports: [BrowserModule, AppRoutingModule, HttpClientModule,],
