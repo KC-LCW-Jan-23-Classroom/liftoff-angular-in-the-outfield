@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MovieListComponent } from '../movie-list/movie-list.component';
 
 import { UserProfileComponent } from './user-profile.component';
 
@@ -8,7 +9,7 @@ describe('UserProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UserProfileComponent]
+      declarations: [UserProfileComponent],
     });
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
