@@ -4,17 +4,16 @@ import { Movie } from '../../movie-list/movie.model';
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.css']
+  styleUrls: ['./timer.component.css'],
 })
 export class TimerComponent {
-
   timesUp: boolean = false;
 
   randomMovie: Movie = new Movie(
     1,
     'Peter Pan',
     ['Adventure', 'Family', 'Fantasy', 'Romance'],
-    'PG',
+    // 'PG',
     2003,
     113,
     '/assets/images/posters/peter-pan.png',
@@ -25,12 +24,13 @@ export class TimerComponent {
   );
 
   startTimer() {
-    setTimeout(()=> {this.timesUp=true;}, 3000);
+    setTimeout(() => {
+      this.timesUp = true;
+    }, 3000);
   }
   restartTimer() {
-    this.timesUp= false;
-    console.log("restart is running");
+    this.timesUp = false;
+    console.log('restart is running');
     this.startTimer();
   }
-
 }

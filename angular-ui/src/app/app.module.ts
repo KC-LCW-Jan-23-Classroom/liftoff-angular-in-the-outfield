@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component'; // Import the NavbarComponent here
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -19,9 +20,7 @@ import { BrowseOptionComponent } from './browse-option/browse-option.component';
 
 import { TimerComponent } from './sidebar/timer/timer.component';
 
-
 import { DatePipe } from '@angular/common';
-
 
 @NgModule({
   declarations: [
@@ -34,21 +33,14 @@ import { DatePipe } from '@angular/common';
     UserProfileComponent,
     UserReviewComponent,
     PasswordFormComponent,
-  ],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [],
 
-    BrowseOptionComponent,
-
-    TimerComponent
+    TimerComponent,
 
     WatchHistoryComponent,
     FooterComponent,
     BrowseOptionComponent,
-
   ],
-
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule,],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [DatePipe],
 
   bootstrap: [AppComponent],
