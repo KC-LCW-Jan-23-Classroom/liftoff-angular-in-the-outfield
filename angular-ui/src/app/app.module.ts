@@ -28,26 +28,18 @@ import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent, // Declare NavbarComponent in the declarations array
+    NavbarComponent, 
     SidebarComponent,
     MovieListComponent,
     MovieItemComponent,
-
-    UserProfileComponent,
-    UserReviewComponent,
-    PasswordFormComponent,
-  ],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [],
-
     BrowseOptionComponent,
     UserProfileComponent,
+    UserReviewComponent,
     PasswordFormComponent,
     TimerComponent, 
     FooterComponent,
     WatchHistoryComponent,
   ],
-
   imports: [BrowserModule, AppRoutingModule, HttpClientModule,],
   providers: [DatePipe],
 
