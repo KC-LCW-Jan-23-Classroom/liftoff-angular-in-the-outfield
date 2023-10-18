@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../movie-list/movie.model';
 import { MoviesService } from '../../movie-list/movies.service';
 
@@ -7,7 +7,7 @@ import { MoviesService } from '../../movie-list/movies.service';
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css']
 })
-export class TimerComponent {
+export class TimerComponent implements OnInit{
 
   timesUp: boolean = false;
 
@@ -24,24 +24,43 @@ export class TimerComponent {
     ['Prime']
   );
 
-  movieListOptions : Movie[] =[];
+  movieListOptions: Movie[] =[];
+
+
+  constructor(private moviesService: MoviesService) {
+
+  }
+
+  ngOnInit(): void {
+    this.moviesService.fetchTrendingMoviesIds().subscribe((trendingMovies) => {
+      let movieIds: number[] = trendingMovies;
+
+      this.moviesService
+        .fetchMovieListDetails(movieIds)
+        .subscribe((movieListDetails) => {
+          this.movieListOptions = movieListDetails;
+        });
+    });
+    
+  }
 
 
   startTimer() {
+    this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     setTimeout(()=> {this.timesUp=true;}, 3000);
   }
   restartTimer() {
     this.timesUp= false;
-    console.log("restart is running");
+    this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     this.startTimer();
   }
 
-  chooseRandomMovie(movieLists: [Movie[]]) {
-    // Randomize list choice
-    let randomNum: number = Math.floor(Math.random()*movieLists.length);
-    let selectedList = movieLists[randomNum];
-    this.randomMovie = this.randomizeMovieSelection(selectedList);
-  }
+  // chooseRandomMovie(movieLists: [Movie[]]) {
+  //   // Randomize list choice
+  //   let randomNum: number = Math.floor(Math.random()*movieLists.length);
+  //   let selectedList = movieLists[randomNum];
+  //   this.randomMovie = this.randomizeMovieSelection(selectedList);
+  // }
 
   randomizeMovieSelection(movies: Movie[]) : Movie {
     let randomNum: number = Math.floor(Math.random()*movies.length);
