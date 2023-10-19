@@ -8,19 +8,13 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieItemComponent } from './movie-list/movie-item/movie-item.component';
-
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserReviewComponent } from './user-review/user-review.component';
 import { PasswordFormComponent } from './password-form/password-form.component';
-
 import { WatchHistoryComponent } from './watch-history/watch-history.component';
 import { FooterComponent } from './footer/footer.component';
 import { BrowseOptionComponent } from './browse-option/browse-option.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { PasswordFormComponent } from './password-form/password-form.component';
-
 import { TimerComponent } from './sidebar/timer/timer.component';
-
 
 import { DatePipe } from '@angular/common';
 
