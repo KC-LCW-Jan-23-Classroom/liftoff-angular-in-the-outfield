@@ -14,7 +14,6 @@ export class TimerComponent {
     1,
     'Peter Pan',
     ['Adventure', 'Family', 'Fantasy', 'Romance'],
-    'PG',
     2003,
     113,
     '/assets/images/posters/peter-pan.png',

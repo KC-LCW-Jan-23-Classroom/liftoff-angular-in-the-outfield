@@ -22,7 +22,3 @@ export class UserProfileComponent {
   }
 }
 
-  styleUrls: ['./user-profile.component.css'],
-})
-export class UserProfileComponent {}
-
