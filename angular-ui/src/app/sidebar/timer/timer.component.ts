@@ -8,7 +8,6 @@ import { MoviesService } from '../../movie-list/movies.service';
   styleUrls: ['./timer.component.css'],
 })
 
-// export class TimerComponent {
 export class TimerComponent implements OnInit {
   timesUp: boolean = false;
 
