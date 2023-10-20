@@ -5,9 +5,13 @@ import { MoviesService } from '../../movie-list/movies.service';
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.css']
+  styleUrls: ['./timer.component.css'],
 })
+
+export class TimerComponent {
+
 export class TimerComponent implements OnInit{
+
 
   timesUp: boolean = false;
 
@@ -15,6 +19,10 @@ export class TimerComponent implements OnInit{
     1,
     'Peter Pan',
     ['Adventure', 'Family', 'Fantasy', 'Romance'],
+
+    // 'PG',
+
+
     2003,
     113,
     '/assets/images/posters/peter-pan.png',
@@ -46,6 +54,17 @@ export class TimerComponent implements OnInit{
 
 
   startTimer() {
+
+    setTimeout(() => {
+      this.timesUp = true;
+    }, 3000);
+  }
+  restartTimer() {
+    this.timesUp = false;
+    console.log('restart is running');
+    this.startTimer();
+  }
+
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     setTimeout(()=> {this.timesUp=true;}, 3000);
   }
@@ -66,6 +85,7 @@ export class TimerComponent implements OnInit{
     let randomNum: number = Math.floor(Math.random()*movies.length);
     return movies[randomNum];
   }
+
 
 
 }
