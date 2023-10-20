@@ -19,6 +19,8 @@ public class User {
     @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
     private String password;
 
+
+
     public int getId() {
         return id;
     }
