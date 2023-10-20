@@ -22,7 +22,7 @@ import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent, 
+    NavbarComponent,
     SidebarComponent,
     MovieListComponent,
     MovieItemComponent,
@@ -30,24 +30,13 @@ import { DatePipe } from '@angular/common';
     UserProfileComponent,
     UserReviewComponent,
     PasswordFormComponent,
-
-
     TimerComponent,
-
     WatchHistoryComponent,
     FooterComponent,
     BrowseOptionComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
-
-    TimerComponent, 
-    FooterComponent,
-    WatchHistoryComponent,
-  ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule,],
-
   providers: [DatePipe],
-
   bootstrap: [AppComponent],
 })
 export class AppModule {}
