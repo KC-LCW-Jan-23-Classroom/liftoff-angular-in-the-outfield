@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Movie } from '../../movie-list/movie.model';
-import { MoviesService } from '../../movie-list/movies.service';
+import { Movie } from 'src/app/shared/movie.model';
+import { MoviesService } from 'src/app/shared/movies.service';
 
 @Component({
   selector: 'app-timer',
@@ -48,17 +48,6 @@ export class TimerComponent implements OnInit{
 
 
   startTimer() {
-
-    setTimeout(() => {
-      this.timesUp = true;
-    }, 3000);
-  }
-  restartTimer() {
-    this.timesUp = false;
-    console.log('restart is running');
-    this.startTimer();
-  }
-
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     setTimeout(()=> {this.timesUp=true;}, 3000);
   }
@@ -68,16 +57,11 @@ export class TimerComponent implements OnInit{
     this.startTimer();
   }
 
-  // chooseRandomMovie(movieLists: [Movie[]]) {
-  //   // Randomize list choice
-  //   let randomNum: number = Math.floor(Math.random()*movieLists.length);
-  //   let selectedList = movieLists[randomNum];
-  //   this.randomMovie = this.randomizeMovieSelection(selectedList);
-  // }
-
-  randomizeMovieSelection(movies: Movie[]) : Movie {
-    let randomNum: number = Math.floor(Math.random()*movies.length);
-    return movies[randomNum];
+    randomizeMovieSelection(movies: Movie[]) : Movie {
+      let randomNum: number = Math.floor(Math.random()*movies.length);
+      return movies[randomNum];
+    }
   }
+  
 
-}
+
