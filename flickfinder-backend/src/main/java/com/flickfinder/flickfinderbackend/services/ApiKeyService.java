@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 public class ApiKeyService {
 
     @Value("${api.key}")
-    private static String apiKey;
+    private String apiKey;
 
-    public static String getApiKey() {
+    public String getApiKey() {
         return apiKey;
     }
 }
