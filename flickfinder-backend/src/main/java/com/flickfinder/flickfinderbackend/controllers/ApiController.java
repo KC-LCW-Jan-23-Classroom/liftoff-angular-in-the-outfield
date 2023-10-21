@@ -1,5 +1,6 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
+import com.flickfinder.flickfinderbackend.services.ApiKeyService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,6 @@ public class ApiController {
     @GetMapping("get-api-key")
     public String getApiKey() {
 
-        return getApiKey();
+        return ApiKeyService.getApiKey();
     }
 }
