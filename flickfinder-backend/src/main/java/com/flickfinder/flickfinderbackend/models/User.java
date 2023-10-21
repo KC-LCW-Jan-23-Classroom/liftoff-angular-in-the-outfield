@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -19,7 +21,7 @@ public class User {
     @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
     private String password;
 
-    private WatchedMovie[] watchHistory;
+    private List<WatchedMovie> watchHistory = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -41,11 +43,23 @@ public class User {
         this.password = password;
     }
 
-    public WatchedMovie[] getWatchHistory() {
+    public List<WatchedMovie> getWatchHistory() {
         return watchHistory;
     }
 
-    public void setWatchHistory(WatchedMovie[] watchHistory) {
+    public void setWatchHistory(List<WatchedMovie> watchHistory) {
         this.watchHistory = watchHistory;
+    }
+
+    public void addToWatchHistory(WatchedMovie newMovie) {
+        this.watchHistory.add(newMovie);
+    }
+
+    public void removeFromWatchHistory(WatchedMovie movieToRemove) {
+        this.watchHistory.remove(movieToRemove);
+    }
+
+    public boolean containsMovie(WatchedMovie aMovie) {
+        return this.watchHistory.contains(aMovie);
     }
 }
