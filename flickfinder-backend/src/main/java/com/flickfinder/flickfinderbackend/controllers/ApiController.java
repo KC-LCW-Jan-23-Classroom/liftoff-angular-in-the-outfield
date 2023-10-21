@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -16,8 +19,9 @@ public class ApiController {
     private ApiKeyService apiKeyService;
 
     @GetMapping("get-api-key")
-    public String getApiKey() {
-        System.out.println(apiKeyService.getApiKey());
-        return apiKeyService.getApiKey();
+    public Map<String, String> getApiKey() {
+        Map<String, String> apiKeyMap = new HashMap<>();
+        apiKeyMap.put("apiKey", apiKeyService.getApiKey());
+        return apiKeyMap;
     }
 }
