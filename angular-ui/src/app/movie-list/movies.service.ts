@@ -8,10 +8,12 @@ import { Movie } from './movie.model';
 })
 export class MoviesService {
   private apiUrl: string = 'https://api.themoviedb.org/3/';
-  private apiKey: string = '6b1a4418de436636a649a2bdf791394e';
+  private apiKey!: string;
   private options = { params: new HttpParams().set('api_key', this.apiKey) };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.http.get<string>('http://localhost:8080/api/get-api-key').subscribe((data) => this.apiKey = data)
+  }
 
   fetchTrendingMoviesIds(): Observable<number[]> {
     // Make the API request to get trending movies with a limit of 20
