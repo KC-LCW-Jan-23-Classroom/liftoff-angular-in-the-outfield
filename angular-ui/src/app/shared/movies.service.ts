@@ -12,7 +12,11 @@ export class MoviesService {
   private options = { params: new HttpParams().set('api_key', this.apiKey) };
 
   constructor(private http: HttpClient) {
-    this.http.get<string>('http://localhost:8080/api/get-api-key').subscribe((data) => this.apiKey = data)
+    this.http
+      .get<{ apiKey: string }>('http://localhost:8080/api/get-api-key')
+      .subscribe((data) => {
+        this.apiKey = data.apiKey;
+      });
   }
 
   fetchTrendingMoviesIds(): Observable<number[]> {
@@ -27,26 +31,33 @@ export class MoviesService {
   }
 
   fetchMovieListDetails(movieIds: number[]): Observable<Movie[]> {
-    const movieObservables = movieIds.map(movieId => {
+    const movieObservables = movieIds.map((movieId) => {
       const movieUrl = `${this.apiUrl}/movie/${movieId}?append_to_response=watch%2Fproviders&language=en-US&api_key=${this.apiKey}`;
       const directorAndCast$ = this.getDirectorAndCast(movieId);
-  
+
       return forkJoin([this.http.get<any>(movieUrl), directorAndCast$]).pipe(
         map((responses: any[]) => {
           const movieResponse = responses[0];
           const directorAndCast = responses[1];
-  
+
           let streamingSources: string[] | undefined;
-  
-          if (movieResponse['watch/providers'] && movieResponse['watch/providers'].results && movieResponse['watch/providers'].results.US) {
-            const flatrate = movieResponse['watch/providers'].results.US.flatrate;
+
+          if (
+            movieResponse['watch/providers'] &&
+            movieResponse['watch/providers'].results &&
+            movieResponse['watch/providers'].results.US
+          ) {
+            const flatrate =
+              movieResponse['watch/providers'].results.US.flatrate;
             if (flatrate) {
-              streamingSources = flatrate.map((source: any) => this.getLogoPath(source.logo_path));
+              streamingSources = flatrate.map((source: any) =>
+                this.getLogoPath(source.logo_path)
+              );
             }
           }
-  
+
           const posterPath = this.getImagePath(movieResponse.poster_path);
-  
+
           return new Movie(
             movieResponse.id,
             movieResponse.title,
@@ -57,16 +68,16 @@ export class MoviesService {
             movieResponse.overview,
             directorAndCast.director,
             directorAndCast.cast,
-            streamingSources && streamingSources.length > 0 ? streamingSources : undefined,
-            
+            streamingSources && streamingSources.length > 0
+              ? streamingSources
+              : undefined
           );
         })
       );
     });
-  
+
     return forkJoin(movieObservables);
   }
-  
 
   getImagePath(posterPath: string | null): string | null {
     if (posterPath) {
@@ -82,17 +93,21 @@ export class MoviesService {
     return null;
   }
 
-  getDirectorAndCast(movieId: number): Observable<{ director: string, cast: string[] }> {
+  getDirectorAndCast(
+    movieId: number
+  ): Observable<{ director: string; cast: string[] }> {
     const creditsUrl = `${this.apiUrl}/movie/${movieId}/credits`;
 
     return this.http.get<any>(creditsUrl, this.options).pipe(
-      map(response => {
-        const director = response.crew.find((member: any) => member.job === 'Director');
+      map((response) => {
+        const director = response.crew.find(
+          (member: any) => member.job === 'Director'
+        );
         const cast = response.cast.slice(0, 5).map((actor: any) => actor.name);
 
         return {
           director: director ? director.name : 'N/A',
-          cast
+          cast,
         };
       })
     );
