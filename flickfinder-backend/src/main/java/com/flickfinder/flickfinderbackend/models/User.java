@@ -19,7 +19,7 @@ public class User {
     @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
     private String password;
 
-
+    private WatchedMovie[] watchHistory;
 
     public int getId() {
         return id;
@@ -39,5 +39,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public WatchedMovie[] getWatchHistory() {
+        return watchHistory;
+    }
+
+    public void setWatchHistory(WatchedMovie[] watchHistory) {
+        this.watchHistory = watchHistory;
     }
 }
