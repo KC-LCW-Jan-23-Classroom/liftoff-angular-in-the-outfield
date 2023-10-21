@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
-import { Movie } from '../../shared/movie.model';
+
+import { Component, OnInit } from '@angular/core';
+import { Movie } from '../../movie-list/movie.model';
+import { MoviesService } from '../../movie-list/movies.service';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
 })
-export class TimerComponent {
+
+export class TimerComponent implements OnInit{
+
   timesUp: boolean = false;
 
   randomMovie: Movie = new Movie(
@@ -22,7 +26,29 @@ export class TimerComponent {
     ['Prime']
   );
 
+  movieListOptions: Movie[] =[];
+
+
+  constructor(private moviesService: MoviesService) {
+
+  }
+
+  ngOnInit(): void {
+    this.moviesService.fetchTrendingMoviesIds().subscribe((trendingMovies) => {
+      let movieIds: number[] = trendingMovies;
+
+      this.moviesService
+        .fetchMovieListDetails(movieIds)
+        .subscribe((movieListDetails) => {
+          this.movieListOptions = movieListDetails;
+        });
+    });
+    
+  }
+
+
   startTimer() {
+
     setTimeout(() => {
       this.timesUp = true;
     }, 3000);
@@ -32,4 +58,26 @@ export class TimerComponent {
     console.log('restart is running');
     this.startTimer();
   }
+
+    this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
+    setTimeout(()=> {this.timesUp=true;}, 3000);
+  }
+  restartTimer() {
+    this.timesUp= false;
+    this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
+    this.startTimer();
+  }
+
+  // chooseRandomMovie(movieLists: [Movie[]]) {
+  //   // Randomize list choice
+  //   let randomNum: number = Math.floor(Math.random()*movieLists.length);
+  //   let selectedList = movieLists[randomNum];
+  //   this.randomMovie = this.randomizeMovieSelection(selectedList);
+  // }
+
+  randomizeMovieSelection(movies: Movie[]) : Movie {
+    let randomNum: number = Math.floor(Math.random()*movies.length);
+    return movies[randomNum];
+  }
+
 }
