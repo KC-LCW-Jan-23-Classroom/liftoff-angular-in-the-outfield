@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Movie } from 'src/app/shared/movie.model';
 import { MoviesService } from 'src/app/shared/movies.service';
-import { SearchService } from './search.service';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-search-by-text',
@@ -16,6 +16,6 @@ export class SearchByTextComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    this.searchService.setResponseMovies(this.searchInput, 1)
+    this.searchService.setResponseMovies(this.searchInput, 1);
   }
 }

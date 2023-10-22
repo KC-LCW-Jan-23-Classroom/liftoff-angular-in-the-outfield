@@ -61,6 +61,6 @@ export class SearchService {
   }
 
   getResponseMovies() {
-    return this.responseMovies$;
+    this.responseMovies$
   }
 }
