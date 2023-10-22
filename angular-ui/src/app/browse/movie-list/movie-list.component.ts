@@ -13,6 +13,7 @@ export class MovieListComponent implements OnInit {
   movieList!: Movie[];
   formattedDate: string | null;
   totalPages!: number;
+  currentPage!: number;
 
   constructor(
     private moviesService: MoviesService,
@@ -41,9 +42,15 @@ export class MovieListComponent implements OnInit {
     this.searchService.getResponseMovies().subscribe((movieListDetails) => {
       this.movieList = movieListDetails;
     });
+
+    this.searchService.currentPage$.subscribe(currentPage => this.currentPage = currentPage)
   }
 
   getRange(total: number): number[] {
     return new Array(total);
+  }
+
+  changePage(page: number) {
+
   }
 }

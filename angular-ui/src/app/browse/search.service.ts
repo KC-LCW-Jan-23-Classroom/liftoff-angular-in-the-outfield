@@ -15,7 +15,8 @@ export class SearchService {
   private responseMoviesSubject = new BehaviorSubject<Movie[]>([]);
   responseMovies$ = this.responseMoviesSubject.asObservable();
 
-  private currentPage: number = 1;
+  private currentPageSubject = new BehaviorSubject<number>(0);
+  currentPage$ = this.currentPageSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -26,7 +27,7 @@ export class SearchService {
   searchMoviesBySearchTerm(searchTerm: string, page: number): void {
     this.apiKeyService.getApiKey().pipe(
       switchMap((apiKey) => {
-        this.currentPage = page;
+        this.currentPageSubject.next(page);
         return this.fetchMovieIds(apiKey, searchTerm, page);
       })
     ).subscribe((response) => {
