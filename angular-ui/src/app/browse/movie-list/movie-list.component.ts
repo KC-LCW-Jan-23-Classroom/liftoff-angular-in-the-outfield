@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MoviesService } from '../shared/movies.service';
-import { Movie } from '../shared/movie.model';
+import { MoviesService } from '../../shared/movies.service';
+import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
