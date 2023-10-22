@@ -39,9 +39,7 @@ import { SearchByTextComponent } from './browse/search-by-text/search-by-text.co
     SearchByTextComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
-
   providers: [DatePipe],
-
   bootstrap: [AppComponent],
 })
 export class AppModule {}
