@@ -1,22 +1,22 @@
+
 import { Component, OnInit } from '@angular/core';
-import { Movie } from '../../movie-list/movie.model';
-import { MoviesService } from '../../movie-list/movies.service';
+import { Movie } from 'src/app/shared/movie.model';
+import { MoviesService } from 'src/app/shared/movies.service';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
 })
+
 export class TimerComponent implements OnInit {
+
   timesUp: boolean = false;
 
   randomMovie: Movie = new Movie(
     1,
     'Peter Pan',
     ['Adventure', 'Family', 'Fantasy', 'Romance'],
-
-    // 'PG',
-
     2003,
     113,
     '/assets/images/posters/peter-pan.png',
@@ -44,19 +44,17 @@ export class TimerComponent implements OnInit {
 
   startTimer() {
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
-    setTimeout(() => {
-      this.timesUp = true;
-    }, 3000);
+    setTimeout(()=> {this.timesUp=true;}, 3000);
   }
-
+  
   restartTimer() {
     this.timesUp = false;
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     this.startTimer();
   }
 
-  randomizeMovieSelection(movies: Movie[]): Movie {
-    let randomNum: number = Math.floor(Math.random() * movies.length);
-    return movies[randomNum];
+    randomizeMovieSelection(movies: Movie[]) : Movie {
+      let randomNum: number = Math.floor(Math.random()*movies.length);
+      return movies[randomNum];
+    }
   }
-}
