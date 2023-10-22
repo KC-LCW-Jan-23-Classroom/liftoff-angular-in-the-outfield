@@ -19,6 +19,7 @@ import { TimerComponent } from './sidebar/timer/timer.component';
 
 import { DatePipe } from '@angular/common';
 import { BrowseComponent } from './browse/browse.component';
+import { SearchByTextComponent } from './browse/search-by-text/search-by-text.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { BrowseComponent } from './browse/browse.component';
     WatchHistoryComponent,
     FooterComponent,
     BrowseComponent,
+    SearchByTextComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
 
