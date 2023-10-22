@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MoviesService } from '../../shared/movies.service';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
+import { SearchService } from '../search-by-text/search.service';
 
 @Component({
   selector: 'app-movie-list',
@@ -11,10 +12,12 @@ import { DatePipe } from '@angular/common';
 export class MovieListComponent implements OnInit {
   movieList!: Movie[];
   formattedDate: string | null;
+  totalPages!: number;
 
   constructor(
     private moviesService: MoviesService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private searchService: SearchService
   ) {
     const today = new Date();
     this.formattedDate = this.datePipe.transform(today, 'MMMM d, y');

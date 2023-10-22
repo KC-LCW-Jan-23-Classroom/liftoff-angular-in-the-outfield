@@ -21,11 +21,13 @@ export class MoviesService {
     return this.apiKeyService.getApiKey().pipe(
       switchMap((apiKey) => {
         const url = `${this.apiUrl}/trending/movie/day?language=en-US&page=1&total_results=20&api_key=${apiKey}`;
-        return this.http.get<any>(url).pipe(
-          map((response) =>
-            response.results.slice(0, 20).map((movie: any) => movie.id)
-          )
-        );
+        return this.http
+          .get<any>(url)
+          .pipe(
+            map((response) =>
+              response.results.slice(0, 20).map((movie: any) => movie.id)
+            )
+          );
       })
     );
   }
@@ -120,5 +122,9 @@ export class MoviesService {
         );
       })
     );
+  }
+
+  getApiUrl() {
+    return this.apiUrl;
   }
 }
