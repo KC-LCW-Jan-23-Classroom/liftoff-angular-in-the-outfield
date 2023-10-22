@@ -9,7 +9,7 @@ import { MoviesService } from 'src/app/shared/movies.service';
   styleUrls: ['./timer.component.css'],
 })
 
-export class TimerComponent implements OnInit{
+export class TimerComponent implements OnInit {
 
   timesUp: boolean = false;
 
@@ -26,12 +26,9 @@ export class TimerComponent implements OnInit{
     ['Prime']
   );
 
-  movieListOptions: Movie[] =[];
+  movieListOptions: Movie[] = [];
 
-
-  constructor(private moviesService: MoviesService) {
-
-  }
+  constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
     this.moviesService.fetchTrendingMoviesIds().subscribe((trendingMovies) => {
@@ -43,14 +40,13 @@ export class TimerComponent implements OnInit{
           this.movieListOptions = movieListDetails;
         });
     });
-    
   }
-
 
   startTimer() {
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     setTimeout(()=> {this.timesUp=true;}, 3000);
   }
+  
   restartTimer() {
     this.timesUp= false;
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
@@ -63,5 +59,3 @@ export class TimerComponent implements OnInit{
     }
   }
   
-
-
