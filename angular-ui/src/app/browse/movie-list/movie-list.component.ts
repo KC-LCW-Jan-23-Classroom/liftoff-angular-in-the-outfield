@@ -33,5 +33,17 @@ export class MovieListComponent implements OnInit {
           this.movieList = movieListDetails;
         });
     });
+
+    this.searchService.totalPages$.subscribe((totalPages) => {
+      this.totalPages = totalPages;
+    });
+
+    this.searchService.getResponseMovies().subscribe((movieListDetails) => {
+      this.movieList = movieListDetails;
+    });
+  }
+
+  getRange(total: number): number[] {
+    return new Array(total);
   }
 }

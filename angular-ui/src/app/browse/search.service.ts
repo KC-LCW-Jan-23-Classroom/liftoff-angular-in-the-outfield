@@ -23,13 +23,19 @@ export class SearchService {
     private moviesService: MoviesService
   ) {}
 
-  searchMoviesBySearchTerm(searchTerm: string, page: number): Observable<number[]> {
-    return this.apiKeyService.getApiKey().pipe(
+  searchMoviesBySearchTerm(searchTerm: string, page: number): void {
+    this.apiKeyService.getApiKey().pipe(
       switchMap((apiKey) => {
         this.currentPage = page;
         return this.fetchMovieIds(apiKey, searchTerm, page);
       })
-    );
+    ).subscribe((response) => {
+      const movieIds: number[] = response;
+
+      this.moviesService.fetchMovieListDetails(movieIds).subscribe((movieListDetails) => {
+        this.responseMoviesSubject.next(movieListDetails);
+      });
+    });
   }
 
   private fetchMovieIds(apiKey: string, searchTerm: string, page: number): Observable<number[]> {
@@ -50,17 +56,7 @@ export class SearchService {
     );
   }
 
-  setResponseMovies(searchTerm: string, page: number) {
-    this.searchMoviesBySearchTerm(searchTerm, page).subscribe((response) => {
-      let movieIds: number[] = response;
-
-      this.moviesService.fetchMovieListDetails(movieIds).subscribe((movieListDetails) => {
-        this.responseMoviesSubject.next(movieListDetails);
-      });
-    });
-  }
-
-  getResponseMovies() {
-    this.responseMovies$
+  getResponseMovies(): Observable<Movie[]> {
+    return this.responseMovies$;
   }
 }
