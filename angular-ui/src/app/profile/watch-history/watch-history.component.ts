@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Movie } from '../shared/movie.model';
+import { Movie } from '../../shared/movie.model';
 
 @Component({
   selector: 'app-watch-history',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserProfileComponent } from '../user-profile/user-profile.component';
+import { UserProfileComponent } from '../profile/edit-user-profile/edit-user-profile.component';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
