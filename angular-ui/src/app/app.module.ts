@@ -16,6 +16,7 @@ import { TimerComponent } from './sidebar/timer/timer.component';
 
 
 import { DatePipe } from '@angular/common';
+import { RecommendationsComponent } from './recommendations/recommendations.component';
 
 
 @NgModule({
@@ -32,6 +33,12 @@ import { DatePipe } from '@angular/common';
     WatchHistoryComponent,
     FooterComponent,
     BrowseOptionComponent,
+<<<<<<< Updated upstream
+=======
+    RecommendationsComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+>>>>>>> Stashed changes
 
   ],
 
