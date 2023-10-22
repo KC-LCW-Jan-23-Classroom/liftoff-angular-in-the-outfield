@@ -1,0 +1,11 @@
+<form (ngSubmit)="submitForm()">
+    <div class="mb-3">
+<label for="movieName" class="form-label">Movie</label>
+<input type="text" class="form-control" id="movieName" [(ngModel)]="movieName" name="movieName" required />
+</div>
+<div class="mb-3">
+        <label for="reviewText" class="form-label">My Review</label>
+        <textarea class="form-control" id="reviewText" rows="3" [(ngModel)]="reviewText" name="reviewText" required></textarea>
+        </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>

@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<div>
+  <h1>{{ user.name }}</h1>
+  <p>{{ user.email }}</p>
+  <a href="#" class="btn btn-link">Edit Profile</a>
+  <div *ngif="editingProfile">
+    <form (ngsubmit)="saveChanges()">
+      <!-- Form fields for editing profile -->
+      <a href="#" class="btn btn-link">Save Changes</a>
+    </form>
+  </div>
+</div>
+<ul class="nav justify-content-end">
+<li class="nav-item">
+    <a class="nav-link active" [routerLink]="[]" aria-current=" page" href="#">Edit Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" [routerLink]="['/user-review']" aria-current=" page" href="#">User Reviews</a>
+        </li>
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">My
+            Picks</a>
+        <ul class="dropdown-menu">
+            <!-- the routerLink can be changed for proper component for each once made -->
+
+            <!-- TODO: Make this into a component comprised of an array of user movies {movie cover and user review?} -->
+            <li><a class="dropdown-item" [routerLink]="['/movie-list']" href="#">My Movies</a></li>
+
+            <!-- TODO: Make Array of User Likes -->
+            <li><a class="dropdown-item" href="#">Likes</a></li>
+
+
+            <!-- Needs watch later button but would present watch later array -->
+            <li><a class="dropdown-item" href="#">Watch Later</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+
+            <li><a class="dropdown-item" href="#">Popcorn Timer</a></li>
+        </ul>
+    </li>
+    <!-- replace movie-list with proper component when it is time -->
+    <!-- <a class="nav-link" [routerLink]="['/movie-list']" href="#">My Picks</a> -->
+
+
+    <li class="nav-item">
+        <a class="nav-link disabled" aria-disabled="true">placeholder for Username</a>
+    </li>
+
+</ul>
