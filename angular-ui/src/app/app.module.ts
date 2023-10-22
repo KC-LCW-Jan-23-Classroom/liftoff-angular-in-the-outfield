@@ -14,37 +14,29 @@ import { UserReviewComponent } from './user-review/user-review.component';
 import { PasswordFormComponent } from './password-form/password-form.component';
 import { WatchHistoryComponent } from './watch-history/watch-history.component';
 import { FooterComponent } from './footer/footer.component';
-import { BrowseOptionComponent } from './browse-option/browse-option.component';
+import { FilterOptionsComponent } from './browse/filter-options/filter-options.component';
 import { TimerComponent } from './sidebar/timer/timer.component';
 
 import { DatePipe } from '@angular/common';
+import { BrowseComponent } from './browse/browse.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent, 
+    NavbarComponent,
     SidebarComponent,
     MovieListComponent,
     MovieItemComponent,
-    BrowseOptionComponent,
+    FilterOptionsComponent,
     UserProfileComponent,
     UserReviewComponent,
     PasswordFormComponent,
-
-
     TimerComponent,
-
     WatchHistoryComponent,
     FooterComponent,
-    BrowseOptionComponent,
+    BrowseComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
-
-    TimerComponent, 
-    FooterComponent,
-    WatchHistoryComponent,
-  ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule,],
 
   providers: [DatePipe],
 
