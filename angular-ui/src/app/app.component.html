@@ -1,27 +1,13 @@
 <!DOCTYPE html>
 
-<div>
+
   <app-navbar></app-navbar>
-  <div class="container">
-      <router-outlet></router-outlet>
-  </div>
-</div>
+
 <div class="d-flex flex-row">
-  <app-movie-list></app-movie-list>
+  <router-outlet></router-outlet>
   <app-sidebar></app-sidebar>
 </div>
-
-
-
-
-<!-- <app-user-profile></app-user-profile> -->
-<!-- <router-outlet></router-outlet> -->
-<!-- 
-<app-movie-list></app-movie-list> -->
-
-<app-movie-list></app-movie-list>
-<app-sidebar></app-sidebar>
-<app-watch-history></app-watch-history>
+<app-footer></app-footer>
 
 
 

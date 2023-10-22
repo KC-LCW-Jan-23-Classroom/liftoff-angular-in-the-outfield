@@ -7,12 +7,7 @@ import { MoviesService } from '../../movie-list/movies.service';
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
 })
-
-export class TimerComponent {
-
-export class TimerComponent implements OnInit{
-
-
+export class TimerComponent implements OnInit {
   timesUp: boolean = false;
 
   randomMovie: Movie = new Movie(
@@ -21,7 +16,6 @@ export class TimerComponent implements OnInit{
     ['Adventure', 'Family', 'Fantasy', 'Romance'],
 
     // 'PG',
-
 
     2003,
     113,
@@ -32,12 +26,9 @@ export class TimerComponent implements OnInit{
     ['Prime']
   );
 
-  movieListOptions: Movie[] =[];
+  movieListOptions: Movie[] = [];
 
-
-  constructor(private moviesService: MoviesService) {
-
-  }
+  constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
     this.moviesService.fetchTrendingMoviesIds().subscribe((trendingMovies) => {
@@ -49,43 +40,23 @@ export class TimerComponent implements OnInit{
           this.movieListOptions = movieListDetails;
         });
     });
-    
   }
 
-
   startTimer() {
-
+    this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     setTimeout(() => {
       this.timesUp = true;
     }, 3000);
   }
+
   restartTimer() {
     this.timesUp = false;
-    console.log('restart is running');
-    this.startTimer();
-  }
-
-    this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
-    setTimeout(()=> {this.timesUp=true;}, 3000);
-  }
-  restartTimer() {
-    this.timesUp= false;
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     this.startTimer();
   }
 
-  // chooseRandomMovie(movieLists: [Movie[]]) {
-  //   // Randomize list choice
-  //   let randomNum: number = Math.floor(Math.random()*movieLists.length);
-  //   let selectedList = movieLists[randomNum];
-  //   this.randomMovie = this.randomizeMovieSelection(selectedList);
-  // }
-
-  randomizeMovieSelection(movies: Movie[]) : Movie {
-    let randomNum: number = Math.floor(Math.random()*movies.length);
+  randomizeMovieSelection(movies: Movie[]): Movie {
+    let randomNum: number = Math.floor(Math.random() * movies.length);
     return movies[randomNum];
   }
-
-
-
 }
