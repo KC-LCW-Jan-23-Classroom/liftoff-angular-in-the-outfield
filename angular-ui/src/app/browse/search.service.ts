@@ -53,7 +53,8 @@ export class SearchService {
       .set('api_key', apiKey)
       .set('query', searchTerm)
       .set('language', 'en-US')
-      .set('page', page.toString());
+      .set('page', page.toString())
+      .set('include_adult', false);
 
     return this.http.get<any>(url, { params }).pipe(
       map((response) => {

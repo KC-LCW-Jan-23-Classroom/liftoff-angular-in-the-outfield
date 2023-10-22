@@ -20,7 +20,7 @@ export class MoviesService {
   fetchTrendingMoviesIds(): Observable<number[]> {
     return this.apiKeyService.getApiKey().pipe(
       switchMap((apiKey) => {
-        const url = `${this.apiUrl}/trending/movie/day?language=en-US&page=1&total_results=20&api_key=${apiKey}`;
+        const url = `${this.apiUrl}/trending/movie/day?language=en-US&page=1&total_results=20&api_key=${apiKey}&include_adult=false`;
         return this.http
           .get<any>(url)
           .pipe(
@@ -36,7 +36,7 @@ export class MoviesService {
     return this.apiKeyService.getApiKey().pipe(
       switchMap((apiKey) => {
         const movieObservables = movieIds.map((movieId) => {
-          const movieUrl = `${this.apiUrl}/movie/${movieId}?append_to_response=watch%2Fproviders&language=en-US&api_key=${apiKey}`;
+          const movieUrl = `${this.apiUrl}/movie/${movieId}?append_to_response=watch%2Fproviders&language=en-US&api_key=${apiKey}&include_adult=false`;
           const directorAndCast$ = this.getDirectorAndCast(movieId);
 
           return zip(
