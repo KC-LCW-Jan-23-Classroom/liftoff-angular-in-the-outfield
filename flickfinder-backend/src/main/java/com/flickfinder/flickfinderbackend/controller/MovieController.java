@@ -1,6 +1,10 @@
 package com.flickfinder.flickfinderbackend.controller;
-public class MovieController {
-}
+
+import com.flickfinder.flickfinderbackend.models.Movie;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class MovieController {
@@ -9,10 +13,6 @@ public class MovieController {
         // Return a list of available movies
     }
 
-    // @PostMapping("/rate")
-    // public void rateMovie(@RequestBody Rating rating) {
-    //     // Store user movie ratings
-    // }
 
     @PostMapping("/recommendations")
     public List<Movie> getRecommendations(@RequestBody Movie movie) {
