@@ -48,7 +48,7 @@ export class TimerComponent implements OnInit {
   }
   
   restartTimer() {
-    this.timesUp= false;
+    this.timesUp = false;
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     this.startTimer();
   }
@@ -58,4 +58,3 @@ export class TimerComponent implements OnInit {
       return movies[randomNum];
     }
   }
-  
