@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./search-by-text.component.css']
 })
 export class SearchByTextComponent {
+  searchInput: string = '';
 
+  onSubmit() {
+    console.log(this.searchInput)
+  }
 }
