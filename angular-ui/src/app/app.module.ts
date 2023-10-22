@@ -33,7 +33,6 @@ import { DatePipe } from '@angular/common';
     TimerComponent,
     WatchHistoryComponent,
     FooterComponent,
-    BrowseOptionComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [DatePipe],
