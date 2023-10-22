@@ -1,17 +1,16 @@
 package com.flickfinder.flickfinderbackend.models;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 @Entity
 public class User {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @NotBlank
     private String username;
@@ -19,7 +18,10 @@ public class User {
     @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
     private String password;
 
-    public int getId() {
+    public User() {
+    }
+
+    public Integer getId() {
         return id;
     }
 
