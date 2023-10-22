@@ -14,6 +14,7 @@ export class MovieListComponent implements OnInit {
   formattedDate: string | null;
   totalPages!: number;
   currentPage!: number;
+  searchInput!: string;
 
   constructor(
     private moviesService: MoviesService,
@@ -43,14 +44,23 @@ export class MovieListComponent implements OnInit {
       this.movieList = movieListDetails;
     });
 
-    this.searchService.currentPage$.subscribe(currentPage => this.currentPage = currentPage)
+    this.searchService.currentPage$.subscribe(
+      (currentPage) => (this.currentPage = currentPage)
+    );
+
+    this.searchService.searchInput$.subscribe(
+      (searchInput) => (this.searchInput = searchInput)
+    );
   }
 
   getRange(total: number): number[] {
     return new Array(total);
   }
 
-  changePage(page: number) {
+  changePage(searchInput: string, page: number) {
+    console.log(searchInput)
+    console.log(page)
 
+    this.searchService.searchMoviesBySearchTerm(searchInput, page);
   }
 }

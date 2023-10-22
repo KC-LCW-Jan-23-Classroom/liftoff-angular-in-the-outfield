@@ -18,11 +18,18 @@ export class SearchService {
   private currentPageSubject = new BehaviorSubject<number>(0);
   currentPage$ = this.currentPageSubject.asObservable();
 
+  private searchInputSubject = new BehaviorSubject<string>('');
+  searchInput$ = this.searchInputSubject.asObservable();
+
   constructor(
     private http: HttpClient,
     private apiKeyService: ApikeyService,
     private moviesService: MoviesService
   ) {}
+
+  setSearchInput(searchInput: string) {
+    this.searchInputSubject.next(searchInput);
+  }
 
   searchMoviesBySearchTerm(searchTerm: string, page: number): void {
     this.apiKeyService.getApiKey().pipe(
