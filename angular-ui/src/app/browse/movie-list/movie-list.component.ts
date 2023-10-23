@@ -39,6 +39,7 @@ export class MovieListComponent implements OnInit {
 
     this.searchService.totalPages$.subscribe((totalPages) => {
       this.totalPages = totalPages;
+      this.visiblePageRange = this.calculateVisiblePageRange(this.currentPage, this.totalPages);
     });
 
     this.searchService.getResponseMovies().subscribe((movieListDetails) => {
@@ -52,10 +53,9 @@ export class MovieListComponent implements OnInit {
     this.searchService.searchInput$.subscribe(
       (searchInput) => (this.searchInput = searchInput)
     );
-  }
 
-  getRange(total: number): number[] {
-    return new Array(total);
+    
+
   }
 
   changePage(searchInput: string, page: number) {
@@ -78,31 +78,6 @@ export class MovieListComponent implements OnInit {
     }
   
     const range: number[] = [];
-    for (let i = start; i <= end; i++) {
-      range.push(i);
-    }
-  
-    return range;
-  }
-
-  getVisiblePageRange(totalPages: number): number[] {
-    const visiblePageCount = 10; // Set the number of visible pages
-    const range = [];
-    const half = Math.floor(visiblePageCount / 2);
-    
-    let start = Math.max(1, this.currentPage - half);
-    let end = start + visiblePageCount - 1;
-  
-    if (end > totalPages) {
-      end = totalPages;
-      start = Math.max(1, end - visiblePageCount + 1);
-    }
-  
-    // If current page is near the end, adjust the start
-    if (this.currentPage + half > totalPages) {
-      start = Math.max(1, totalPages - visiblePageCount + 1);
-    }
-  
     for (let i = start; i <= end; i++) {
       range.push(i);
     }
