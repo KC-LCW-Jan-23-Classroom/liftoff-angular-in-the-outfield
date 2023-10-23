@@ -1,7 +1,7 @@
 <h2>Watch History</h2>
 <div class="d-flex flex-wrap">
-    <h3 *ngIf="watchedList.length < 1; else moiveDisplay">Nothing to see here! You haven't marked any movies as watched yet.</h3>
+    <h3 *ngIf="watchedList.length  1; else moiveDisplay">Nothing to see here! You haven't marked any movies as watched yet.</h3>
 </div>
-<ng-template #moiveDisplay>
+<ng-template #movieDisplay>
     <app-movie-item *ngFor="let movie of watchedList" [movieItem]="movie"></app-movie-item>
-</ng-template>
+</ng-template> -->
