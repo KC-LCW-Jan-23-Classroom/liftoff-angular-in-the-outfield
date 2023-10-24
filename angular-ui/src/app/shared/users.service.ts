@@ -18,6 +18,8 @@ export class UsersService {
   private backendUrl = 'http://localhost:8080/'
   private currentUserId: number =1;
 
+  //TODO in login method, set currentUserId
+
 
   constructor(private http: HttpClient) { }
 
