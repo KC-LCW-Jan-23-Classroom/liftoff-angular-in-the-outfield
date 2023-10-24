@@ -21,6 +21,7 @@ import { DatePipe } from '@angular/common';
 import { BrowseComponent } from './browse/browse.component';
 import { SearchByTextComponent } from './browse/search-by-text/search-by-text.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileViewComponent } from './profile-view/profile-view.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ProfileComponent } from './profile/profile.component';
     BrowseComponent,
     SearchByTextComponent,
     ProfileComponent,
+    ProfileViewComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [DatePipe],
