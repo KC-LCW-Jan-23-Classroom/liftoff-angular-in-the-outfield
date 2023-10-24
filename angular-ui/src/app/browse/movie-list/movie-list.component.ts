@@ -10,12 +10,11 @@ import { SearchService } from '../search.service';
   styleUrls: ['./movie-list.component.css'],
 })
 export class MovieListComponent implements OnInit {
-  movieList!: Movie[];
+  movieList: Movie[] = [];
   formattedDate: string | null;
   totalPages!: number;
   currentPage!: number;
   searchInput!: string;
-  visiblePageRange!: number[];
 
   constructor(
     private moviesService: MoviesService,
@@ -39,59 +38,23 @@ export class MovieListComponent implements OnInit {
 
     this.searchService.totalPages$.subscribe((totalPages) => {
       this.totalPages = totalPages;
-      this.visiblePageRange = this.calculateVisiblePageRange(
-        this.currentPage,
-        this.totalPages
-      );
     });
 
     this.searchService.getResponseMovies().subscribe((movieListDetails) => {
       this.movieList = movieListDetails;
     });
 
-    this.searchService.currentPage$.subscribe(
-      (currentPage) => (this.currentPage = currentPage)
-    );
+    this.searchService.currentPage$.subscribe((currentPage) => {
+      this.currentPage = currentPage;
+    })
 
     this.searchService.searchInput$.subscribe(
       (searchInput) => (this.searchInput = searchInput)
     );
   }
 
-  changePage(searchInput: string, page: number, direction?: string) {
-    this.currentPage = page; // Update the current page
-    this.visiblePageRange = this.calculateVisiblePageRange(
-      this.currentPage,
-      this.totalPages,
-      direction
-    );
+  changePage(searchInput: string, page: number) {
+    console.log(page)
     this.searchService.searchMoviesBySearchTerm(searchInput, page);
-  }
-
-  // works for next button, struggling with previous
-  calculateVisiblePageRange(currentPage: number, totalPages: number, direction?: string): number[] {
-    let start = currentPage >=  10 ? currentPage - 9 : 1;
-    let end = currentPage >= 10 ? currentPage : 10;
-
-    if (direction === 'next') {
-      start = currentPage >=  10 ? currentPage - 9 : 1;
-      end = currentPage >= 10 ? currentPage : 10;
-    } else if (direction === 'previous') {
-
-    }
-
-    if (end > totalPages) {
-      end = totalPages;
-      start = totalPages - 9;
-    }
-
-    const range: number[] = [];
-    for (let i = start; i <= end; i++) {
-      range.push(i);
-    }
-
-    console.log(range)
-
-    return range;
   }
 }

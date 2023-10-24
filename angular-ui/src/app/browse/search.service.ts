@@ -15,7 +15,7 @@ export class SearchService {
   private responseMoviesSubject = new BehaviorSubject<Movie[]>([]);
   responseMovies$ = this.responseMoviesSubject.asObservable();
 
-  private currentPageSubject = new BehaviorSubject<number>(0);
+  private currentPageSubject = new BehaviorSubject<number>(1);
   currentPage$ = this.currentPageSubject.asObservable();
 
   private searchInputSubject = new BehaviorSubject<string>('');
@@ -34,14 +34,15 @@ export class SearchService {
   searchMoviesBySearchTerm(searchTerm: string, page: number): void {
     this.apiKeyService.getApiKey().pipe(
       switchMap((apiKey) => {
-        this.currentPageSubject.next(page);
+        
         return this.fetchMovieIds(apiKey, searchTerm, page);
       })
     ).subscribe((response) => {
       const movieIds: number[] = response;
 
       this.moviesService.fetchMovieListDetails(movieIds).subscribe((movieListDetails) => {
-        this.responseMoviesSubject.next(movieListDetails);
+        this.responseMoviesSubject.next([...this.responseMoviesSubject.value, ...movieListDetails])
+        this.currentPageSubject.next(this.currentPageSubject.value + 1);
       });
     });
   }

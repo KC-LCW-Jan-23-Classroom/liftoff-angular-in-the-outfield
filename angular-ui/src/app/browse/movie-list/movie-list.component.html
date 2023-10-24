@@ -1,5 +1,5 @@
 <h1 class="text-center" *ngIf="!totalPages; else searchResults">Top 20 Trending Movies for {{formattedDate}}</h1>
-<ul class="pagination m-2" *ngIf="totalPages">
+<!-- <ul class="pagination m-2" *ngIf="totalPages">
     <li class="page-item" [class.disabled]="currentPage === 1">
         <a class="page-link" (click)="changePage(searchInput, currentPage - 1, 'previous')" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
@@ -13,10 +13,12 @@
             <span aria-hidden="true">&raquo;</span>
         </a>
     </li>
-</ul>
+</ul> -->
 <div class="d-flex flex-wrap">
     <app-movie-item *ngFor="let movie of movieList" [movieItem]="movie"></app-movie-item>
 </div>
+
+<div class="text-center" *ngIf="totalPages"><button (click)="changePage(searchInput, currentPage)" class="btn btn-secondary btn-lg m-5">More Results</button></div>
 
 <ng-template #searchResults><h1 class="m-2">Search Results:</h1></ng-template>
 
