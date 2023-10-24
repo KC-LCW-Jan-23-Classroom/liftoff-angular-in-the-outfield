@@ -39,7 +39,10 @@ export class MovieListComponent implements OnInit {
 
     this.searchService.totalPages$.subscribe((totalPages) => {
       this.totalPages = totalPages;
-      this.visiblePageRange = this.calculateVisiblePageRange(this.currentPage, this.totalPages);
+      this.visiblePageRange = this.calculateVisiblePageRange(
+        this.currentPage,
+        this.totalPages
+      );
     });
 
     this.searchService.getResponseMovies().subscribe((movieListDetails) => {
@@ -53,35 +56,42 @@ export class MovieListComponent implements OnInit {
     this.searchService.searchInput$.subscribe(
       (searchInput) => (this.searchInput = searchInput)
     );
-
-    
-
   }
 
-  changePage(searchInput: string, page: number) {
+  changePage(searchInput: string, page: number, direction?: string) {
     this.currentPage = page; // Update the current page
-    this.visiblePageRange = this.calculateVisiblePageRange(this.currentPage, this.totalPages);
+    this.visiblePageRange = this.calculateVisiblePageRange(
+      this.currentPage,
+      this.totalPages,
+      direction
+    );
     this.searchService.searchMoviesBySearchTerm(searchInput, page);
   }
-  
-  calculateVisiblePageRange(currentPage: number, totalPages: number, visiblePageCount: number = 10): number[] {
-    const half = Math.floor(visiblePageCount / 2);
-    let start = Math.max(1, currentPage - half);
-    let end = Math.min(start + visiblePageCount - 1, totalPages);
-  
-    while (end - start + 1 < visiblePageCount && start > 1) {
-      start--;
+
+  // works for next button, struggling with previous
+  calculateVisiblePageRange(currentPage: number, totalPages: number, direction?: string): number[] {
+    let start = currentPage >=  10 ? currentPage - 9 : 1;
+    let end = currentPage >= 10 ? currentPage : 10;
+
+    if (direction === 'next') {
+      start = currentPage >=  10 ? currentPage - 9 : 1;
+      end = currentPage >= 10 ? currentPage : 10;
+    } else if (direction === 'previous') {
+
     }
-  
-    while (end - start + 1 < visiblePageCount && end < totalPages) {
-      end++;
+
+    if (end > totalPages) {
+      end = totalPages;
+      start = totalPages - 9;
     }
-  
+
     const range: number[] = [];
     for (let i = start; i <= end; i++) {
       range.push(i);
     }
-  
+
+    console.log(range)
+
     return range;
   }
 }

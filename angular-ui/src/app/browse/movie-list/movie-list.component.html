@@ -1,7 +1,7 @@
 <h1 class="text-center" *ngIf="!totalPages; else searchResults">Top 20 Trending Movies for {{formattedDate}}</h1>
 <ul class="pagination m-2" *ngIf="totalPages">
     <li class="page-item" [class.disabled]="currentPage === 1">
-        <a class="page-link" (click)="changePage(searchInput, currentPage - 1)" aria-label="Previous">
+        <a class="page-link" (click)="changePage(searchInput, currentPage - 1, 'previous')" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
         </a>
     </li>
@@ -9,7 +9,7 @@
         <a class="page-link" (click)="changePage(searchInput, page)" [class.active]="currentPage === page">{{ page }}</a>
     </li>
     <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <a class="page-link" (click)="changePage(searchInput, currentPage + 1)" aria-label="Next">
+        <a class="page-link" (click)="changePage(searchInput, currentPage + 1, 'next')" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
         </a>
     </li>
@@ -19,6 +19,4 @@
 </div>
 
 <ng-template #searchResults><h1 class="m-2">Search Results:</h1></ng-template>
-
-<!-- only update range when at end of 10 -->
 
