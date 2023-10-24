@@ -11,6 +11,10 @@ public abstract class AbstractMovie {
     @GeneratedValue
     private int movieId;
 
+    private int apiMovieId;
+
+    private String userReview;
+
     public AbstractMovie() {
     }
 
@@ -20,6 +24,22 @@ public abstract class AbstractMovie {
 
     public int getMovieId() {
         return movieId;
+    }
+
+    public int getApiMovieId() {
+        return apiMovieId;
+    }
+
+    public String getUserReview() {
+        return userReview;
+    }
+
+    public void setUserReview(String userReview) {
+        this.userReview = userReview;
+    }
+
+    public void setApiMovieId(int apiMovieId) {
+        this.apiMovieId = apiMovieId;
     }
 
     @Override
