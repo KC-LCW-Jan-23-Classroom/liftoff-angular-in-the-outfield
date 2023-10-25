@@ -1,14 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-search-by-text',
   templateUrl: './search-by-text.component.html',
-  styleUrls: ['./search-by-text.component.css']
+  styleUrls: ['./search-by-text.component.css'],
 })
-export class SearchByTextComponent {
-  searchInput: string = '';
+export class SearchByTextComponent implements OnInit {
+  searchInput!: string;
+
+  constructor(private searchService: SearchService) {}
+
+  ngOnInit(): void {}
 
   onSubmit() {
-    console.log(this.searchInput)
+    this.searchService.searchMoviesBySearchTerm(this.searchInput, 1);
+    this.searchService.setSearchInput(this.searchInput);
   }
 }
