@@ -2,9 +2,7 @@ package com.flickfinder.flickfinderbackend.models;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +19,7 @@ public class User {
     @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
     private String password;
 
+    @OneToMany
     private List<WatchedMovie> watchHistory = new ArrayList<>();
 
     public int getId() {

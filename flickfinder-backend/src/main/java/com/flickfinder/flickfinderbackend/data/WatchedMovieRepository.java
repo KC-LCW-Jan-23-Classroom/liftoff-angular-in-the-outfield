@@ -1,4 +1,4 @@
-package com.flickfinder.flickfinderbackend.models.data;
+package com.flickfinder.flickfinderbackend.data;
 
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import org.springframework.data.repository.CrudRepository;

@@ -2,7 +2,7 @@ package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
-import com.flickfinder.flickfinderbackend.models.data.WatchedMovieRepository;
+import com.flickfinder.flickfinderbackend.data.WatchedMovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
