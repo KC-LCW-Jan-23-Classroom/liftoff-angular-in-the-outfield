@@ -1,4 +1,4 @@
-package com.flickfinder.flickfinderbackend.controller;
+package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.Movie;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +10,7 @@ import java.util.List;
 public class MovieController {
     @GetMapping("/movies")
     public List<Movie> getMovies() {
+        return;
         // Return a list of available movies
     }
 

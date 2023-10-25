@@ -9,7 +9,7 @@ export interface Movie {
 }
 
 @Component({
-  selector: 'app-movie-list',
+  selector: 'app-recommendations',
   templateUrl: './recommendations.component.html',
   styleUrls: ['./recommendations.component.css']
 })
