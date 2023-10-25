@@ -21,6 +21,7 @@ import { DatePipe } from '@angular/common';
 import { BrowseComponent } from './browse/browse.component';
 import { SearchByTextComponent } from './browse/search-by-text/search-by-text.component';
 import { ProfileComponent } from './profile/profile.component';
+import { RecommendationsComponent } from './recommendations/recommendations.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +40,12 @@ import { ProfileComponent } from './profile/profile.component';
     BrowseComponent,
     SearchByTextComponent,
     ProfileComponent,
-  ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
-  providers: [DatePipe],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+    RecommendationsComponent,
+     ],
+      imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+      providers: [DatePipe],
+      bootstrap: [AppComponent],
+    })
+    export class AppModule {}
+
+
