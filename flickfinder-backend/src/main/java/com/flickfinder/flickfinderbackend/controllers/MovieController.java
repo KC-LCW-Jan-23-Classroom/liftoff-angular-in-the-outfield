@@ -21,8 +21,15 @@ public class MovieController {
 
     @PostMapping("{userId}/watch-history")
     public ResponseEntity<List<WatchedMovie>> displayWatchList(@PathVariable int userId) {
+
+        Iterable<WatchedMovie> allWatchedMovies = watchHistoryRepository.findAll();
+        for (WatchedMovie movie : allWatchedMovies) {
+            if (movie.getUser().getId() == userId) {
+
+            }
+        }
         User currentUser = new User(); // This should eventually be userRepository.findById(userId)
-        List<WatchedMovie> watchHistory = currentUser.getWatchHistory();
+//        List<WatchedMovie> watchHistory = currentUser.getWatchHistory();
         return ResponseEntity.status(HttpStatus.CREATED).body(watchHistory);
     }
 

@@ -2,7 +2,7 @@ package com.flickfinder.flickfinderbackend.models;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class User {
     private String password;
 
     @OneToMany
-    private List<WatchedMovie> watchHistory = new ArrayList<>();
+    private List<WatchedMovie> watchedMovies = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -43,22 +43,22 @@ public class User {
     }
 
     public List<WatchedMovie> getWatchHistory() {
-        return watchHistory;
+        return watchedMovies;
     }
 
     public void setWatchHistory(List<WatchedMovie> watchHistory) {
-        this.watchHistory = watchHistory;
+        this.watchedMovies = watchHistory;
     }
 
     public void addToWatchHistory(WatchedMovie newMovie) {
-        this.watchHistory.add(newMovie);
+        this.watchedMovies.add(newMovie);
     }
 
     public void removeFromWatchHistory(WatchedMovie movieToRemove) {
-        this.watchHistory.remove(movieToRemove);
+        this.watchedMovies.remove(movieToRemove);
     }
 
     public boolean containsMovie(WatchedMovie aMovie) {
-        return this.watchHistory.contains(aMovie);
+        return this.watchedMovies.contains(aMovie);
     }
 }

@@ -2,23 +2,23 @@ package com.flickfinder.flickfinderbackend.models;
 
 import jakarta.validation.constraints.NotBlank;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class WatchedMovie extends AbstractMovie {
 
     @NotBlank
     @ManyToOne
-    private int userId;
+    private User user;
 
     public WatchedMovie() {}
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
