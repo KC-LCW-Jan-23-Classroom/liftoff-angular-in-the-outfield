@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-export interface Movie {
-  id: number;
-  title: string;
-  director: string;
-  releaseYear: number;
-  genre: string;
-}
+import { Movie } from '../shared/movie.model';
+
 
 @Component({
   selector: 'app-recommendations',
