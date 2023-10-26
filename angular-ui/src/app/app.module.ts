@@ -44,7 +44,7 @@ import { RecommendationsComponent } from './recommendations/recommendations.comp
     BrowseComponent,
     SearchByTextComponent,
     ProfileComponent,
-
+    RecommendationsComponent,
     ProfileViewComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
@@ -52,14 +52,6 @@ import { RecommendationsComponent } from './recommendations/recommendations.comp
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-    RecommendationsComponent,
-     ],
-      imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
-      providers: [DatePipe],
-      bootstrap: [AppComponent],
-    })
-    export class AppModule {}
 
 
 
