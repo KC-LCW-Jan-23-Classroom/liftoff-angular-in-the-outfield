@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Size;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 @Entity
 public class User {
@@ -21,6 +24,9 @@ public class User {
 
     @OneToMany
     private List<WatchedMovie> watchedMovies = new ArrayList<>();
+
+    public User() {
+    }
 
     public int getId() {
         return id;

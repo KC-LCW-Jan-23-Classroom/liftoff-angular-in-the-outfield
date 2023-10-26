@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface WatchedMovie {
@@ -13,7 +13,7 @@ export interface WatchedMovie {
   providedIn: 'root'
 })
 
-export class UsersService {
+export class UsersService implements OnInit {
 
   private backendUrl = 'http://localhost:8080/'
   private currentUserId: number =1;
@@ -22,6 +22,10 @@ export class UsersService {
 
 
   constructor(private http: HttpClient) { }
+
+  ngOnInit(): void {
+    this.fetchWatchHistory();
+  }
 
   fetchWatchHistory(): Observable<WatchedMovie[]> {
     return this.http.get<WatchedMovie[]>(this.backendUrl+"/"+this.currentUserId+"watch-history")

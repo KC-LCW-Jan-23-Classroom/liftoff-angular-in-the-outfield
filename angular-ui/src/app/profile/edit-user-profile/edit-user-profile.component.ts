@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
+  selector: 'app-edit-user-profile',
+  templateUrl: './edit-user-profile.component.html',
 
-  styleUrls: ['./user-profile.component.css']
+  styleUrls: ['./edit-user-profile.component.css']
 })
 export class UserProfileComponent {
   user: any = {}; // Initialize the user object with the current user's data

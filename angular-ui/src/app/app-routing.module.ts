@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MovieListComponent } from './movie-list/movie-list.component';
-import { UserReviewComponent } from './user-review/user-review.component';
-import { PasswordFormComponent } from './password-form/password-form.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserReviewComponent } from './profile/user-review/user-review.component';
+import { PasswordFormComponent } from './profile/password-form/password-form.component';
+import { UserProfileComponent } from './profile/edit-user-profile/edit-user-profile.component';
+import { BrowseComponent } from './browse/browse.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
-  { path: 'movie-list', component: MovieListComponent },
+  { path: '', redirectTo: 'browse', pathMatch: 'full' },
+  { path: 'browse', component: BrowseComponent },
   { path: 'user-review', component: UserReviewComponent },
   { path: 'password-form', component: PasswordFormComponent },
-  { path: 'user-profile', component: UserProfileComponent },
+  { path: 'profile', component: ProfileComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
