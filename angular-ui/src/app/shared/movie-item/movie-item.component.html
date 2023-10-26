@@ -1,4 +1,4 @@
-<div class="card m-2" style="width: 15rem">
+<div [@fadeIn] class="card m-2" style="width: 15rem">
   <img *ngIf="movieItem.poster; else defaultImage" [src]="movieItem.poster" class="card-img-top" [alt]="movieItem.title" />
   <ng-template #defaultImage><img src="assets/images/img-not-available.jpeg" class="card-img-top" [alt]="movieItem.title" /></ng-template>
   <div class="card-body">
