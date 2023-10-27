@@ -27,9 +27,10 @@ export class UsersService implements OnInit {
     this.fetchWatchHistory();
   }
 
-  fetchWatchHistory(): Observable<Number[]> {
-    return this.http.get<Number[]>(this.backendUrl+"/"+this.currentUserId+"watch-history");
+  fetchWatchHistory(): Observable<number[]> {
+    return this.http.get<number[]>(this.backendUrl+"watch_history");
   }
+  //TODO research get vs post when connecting front and back
 
 
 }
