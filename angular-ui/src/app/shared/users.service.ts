@@ -27,8 +27,8 @@ export class UsersService implements OnInit {
     this.fetchWatchHistory();
   }
 
-  fetchWatchHistory(): Observable<WatchedMovie[]> {
-    return this.http.get<WatchedMovie[]>(this.backendUrl+"/"+this.currentUserId+"watch-history")
+  fetchWatchHistory(): Observable<Number[]> {
+    return this.http.get<Number[]>(this.backendUrl+"/"+this.currentUserId+"watch-history");
   }
 
 
