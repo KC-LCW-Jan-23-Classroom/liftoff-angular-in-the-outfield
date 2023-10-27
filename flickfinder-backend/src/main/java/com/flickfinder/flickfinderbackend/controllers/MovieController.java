@@ -25,7 +25,7 @@ public class MovieController {
 
     //TODO post watch list based on user logged in
 
-    @PostMapping("watch_history")
+    @RequestMapping("watch_history")
     public ResponseEntity<List<Integer>> displayWatchHistory () {
 //        @PathVariable int userId
 //        Optional<User> currentUser = userRepository.findById(userId);
