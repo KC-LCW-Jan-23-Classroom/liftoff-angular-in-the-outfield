@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("movies")
+@RequestMapping("/")
 public class MovieController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class MovieController {
 
     //TODO post watch list based on user logged in
 
-    @PostMapping("{userId}/watch-history")
+    @PostMapping("{userId}/watchhistory")
     public ResponseEntity<List<WatchedMovie>> displayWatchList(@PathVariable int userId) {
         Optional<User> currentUser = userRepository.findById(userId);
 //        if (currentUser.isEmpty()) {
