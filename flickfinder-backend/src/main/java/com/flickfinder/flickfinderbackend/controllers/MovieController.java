@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,14 +25,18 @@ public class MovieController {
 
     //TODO post watch list based on user logged in
 
-    @PostMapping("{userId}/watchhistory")
-    public ResponseEntity<List<WatchedMovie>> displayWatchList(@PathVariable int userId) {
+    @PostMapping("{userId}/watch_history")
+    public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
         Optional<User> currentUser = userRepository.findById(userId);
 //        if (currentUser.isEmpty()) {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST);
 //        }
+        List<Integer> watchedMovieIds = new ArrayList<>();
         List<WatchedMovie> watchHistory = currentUser.get().getWatchHistory();
-        return ResponseEntity.status(HttpStatus.CREATED).body(watchHistory);
+        for (WatchedMovie movie : watchHistory) {
+            watchedMovieIds.add(movie.getApiMovieId());
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(watchedMovieIds);
     }
 
     //TODO get new movie to add to watch list
