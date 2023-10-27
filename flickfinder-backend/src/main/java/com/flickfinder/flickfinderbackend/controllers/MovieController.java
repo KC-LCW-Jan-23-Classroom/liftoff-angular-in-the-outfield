@@ -25,17 +25,22 @@ public class MovieController {
 
     //TODO post watch list based on user logged in
 
-    @PostMapping("{userId}/watch_history")
-    public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
-        Optional<User> currentUser = userRepository.findById(userId);
+    @PostMapping("watch_history")
+    public ResponseEntity<List<Integer>> displayWatchHistory () {
+//        @PathVariable int userId
+//        Optional<User> currentUser = userRepository.findById(userId);
 //        if (currentUser.isEmpty()) {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST);
 //        }
+//        Optional<User> currentUser = userRepository.findById(1);
+//        System.out.println(currentUser);
+//        List<Integer> watchedMovieIds = new ArrayList<>();
+//        List<WatchedMovie> watchHistory = currentUser.get().getWatchHistory();
+//        for (WatchedMovie movie : watchHistory) {
+//            watchedMovieIds.add(movie.getApiMovieId());
+//        }
         List<Integer> watchedMovieIds = new ArrayList<>();
-        List<WatchedMovie> watchHistory = currentUser.get().getWatchHistory();
-        for (WatchedMovie movie : watchHistory) {
-            watchedMovieIds.add(movie.getApiMovieId());
-        }
+        watchedMovieIds.add(4935);
         return ResponseEntity.status(HttpStatus.CREATED).body(watchedMovieIds);
     }
 
