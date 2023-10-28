@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MoviesService } from '../../shared/movies.service';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
@@ -15,6 +15,8 @@ export class MovieListComponent implements OnInit {
   totalPages!: number;
   currentPage!: number;
   searchInput!: string;
+
+  loading: boolean = false;
 
   constructor(
     private moviesService: MoviesService,
@@ -53,8 +55,24 @@ export class MovieListComponent implements OnInit {
     );
   }
 
-  changePage(searchInput: string, page: number) {
-    console.log(page)
-    this.searchService.searchMoviesBySearchTerm(searchInput, page);
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event): void {
+    if (this.shouldLoadMore() && !this.loading) {
+      this.loadMore();
+    }
+  }
+
+  shouldLoadMore(): boolean {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const bodyHeight = document.body.clientHeight;
+    return scrollY + windowHeight >= bodyHeight - 200; // Adjust the threshold as needed
+  }
+
+  loadMore() {
+    this.loading = true;
+    const nextPage = this.currentPage + 1;
+    this.searchService.searchMoviesBySearchTerm(this.searchInput, nextPage);
+    this.loading = false;
   }
 }

@@ -18,7 +18,5 @@
     <app-movie-item *ngFor="let movie of movieList" [movieItem]="movie"></app-movie-item>
 </div>
 
-<div class="text-center" *ngIf="totalPages"><button (click)="changePage(searchInput, currentPage)" class="btn btn-secondary btn-lg m-5">More Results</button></div>
-
 <ng-template #searchResults><h1 class="m-2">Search Results:</h1></ng-template>
 

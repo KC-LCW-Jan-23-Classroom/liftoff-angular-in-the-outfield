@@ -14,8 +14,8 @@ export class SearchByTextComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    this.searchService.searchMoviesBySearchTerm(this.searchInput, 1);
+    this.searchService.clearResponseMovies()
     this.searchService.setSearchInput(this.searchInput);
-    console.log(this.searchInput)
+    this.searchService.searchMoviesBySearchTerm(this.searchInput, 1);
   }
 }

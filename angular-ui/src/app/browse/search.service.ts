@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject, switchMap, map } from 'rxjs';
+import { Observable, BehaviorSubject, switchMap, map, first } from 'rxjs';
 import { ApikeyService } from 'src/app/shared/apikey.service';
 import { Movie } from 'src/app/shared/movie.model';
 import { MoviesService } from 'src/app/shared/movies.service';
@@ -21,6 +21,10 @@ export class SearchService {
   private searchInputSubject = new BehaviorSubject<string>('');
   searchInput$ = this.searchInputSubject.asObservable();
 
+  private loadedPages: number[] = [];
+
+  public loadingMovies: boolean = false;
+
   constructor(
     private http: HttpClient,
     private apiKeyService: ApikeyService,
@@ -32,22 +36,60 @@ export class SearchService {
   }
 
   searchMoviesBySearchTerm(searchTerm: string, page: number): void {
-    this.apiKeyService.getApiKey().pipe(
-      switchMap((apiKey) => {
-        
-        return this.fetchMovieIds(apiKey, searchTerm, page);
-      })
-    ).subscribe((response) => {
-      const movieIds: number[] = response;
+    this.loadingMovies = true; // Set loading flag to true
+    this.currentPageSubject.next(1);
+    this.loadedPages = [];
+    
 
-      this.moviesService.fetchMovieListDetails(movieIds).subscribe((movieListDetails) => {
-        this.responseMoviesSubject.next([...this.responseMoviesSubject.value, ...movieListDetails])
-        this.currentPageSubject.next(this.currentPageSubject.value + 1);
+    if (this.loadedPages.includes(page)) {
+      this.loadingMovies = false; // Reset loading flag
+      return; // Page already loaded, skip loading it again
+    }
+
+    this.apiKeyService
+      .getApiKey()
+      .pipe(
+        switchMap((apiKey) => {
+          return this.fetchMovieIds(apiKey, searchTerm, page);
+        })
+      )
+      .subscribe((response) => {
+        const movieIds: number[] = response;
+
+        // Filter out movieIds that have already been added to responseMoviesSubject
+        const currentMovies = this.responseMoviesSubject.value;
+        const newMovies = movieIds.filter(
+          (id) => !currentMovies.some((movie) => movie.id === id)
+        );
+
+        if (newMovies.length > 0) {
+          // Append new results to the existing ones
+          this.moviesService
+            .fetchMovieListDetails(newMovies)
+            .subscribe((movieListDetails) => {
+              this.responseMoviesSubject.next([
+                ...currentMovies,
+                ...movieListDetails,
+              ]);
+            });
+        }
+
+        this.totalPages$.pipe(first()).subscribe((totalPages) => {
+          if (page < totalPages) {
+            this.currentPageSubject.next(page + 1); // Load the next page
+          }
+        });
       });
-    });
+
+    this.loadedPages.push(page);
+    this.loadingMovies = false; // Reset loading flag
   }
 
-  private fetchMovieIds(apiKey: string, searchTerm: string, page: number): Observable<number[]> {
+  private fetchMovieIds(
+    apiKey: string,
+    searchTerm: string,
+    page: number
+  ): Observable<number[]> {
     const pageSize = 20;
     const url = `${this.moviesService.getApiUrl()}/search/movie`;
     const params = new HttpParams()
@@ -60,7 +102,9 @@ export class SearchService {
     return this.http.get<any>(url, { params }).pipe(
       map((response) => {
         const movieIds = response.results.map((movie: any) => movie.id);
-        this.totalPagesSubject.next(Math.ceil(response.total_results / pageSize));
+        this.totalPagesSubject.next(
+          Math.ceil(response.total_results / pageSize)
+        );
         return movieIds;
       })
     );
@@ -68,5 +112,10 @@ export class SearchService {
 
   getResponseMovies(): Observable<Movie[]> {
     return this.responseMovies$;
+  }
+
+  clearResponseMovies() {
+    this.responseMoviesSubject.next([]);
+    this.currentPageSubject.next(0);
   }
 }
