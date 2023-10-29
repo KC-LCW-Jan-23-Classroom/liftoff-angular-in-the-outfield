@@ -27,6 +27,7 @@ import { ProfileViewComponent } from './profile-view/profile-view.component';
 
 import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.compo
     RecommendationsComponent,
     ProfileViewComponent,
     ScrollToTopComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [DatePipe],
