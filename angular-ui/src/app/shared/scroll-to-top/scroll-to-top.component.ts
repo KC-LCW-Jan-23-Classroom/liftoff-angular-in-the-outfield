@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener } from '@angular/core';
 
 @Component({
