@@ -37,11 +37,12 @@ export class MovieListComponent implements OnInit {
   ngOnInit(): void {
     this.moviesService.fetchTrendingMoviesIds().subscribe((trendingMovies) => {
       let movieIds: number[] = trendingMovies;
-
+      this.loading = true;
       this.moviesService
         .fetchMovieListDetails(movieIds)
         .subscribe((movieListDetails) => {
           this.movieList = movieListDetails;
+          this.loading = false
         });
     });
 

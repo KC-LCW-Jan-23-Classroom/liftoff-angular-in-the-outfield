@@ -7,7 +7,7 @@
     [movieItem]="movie"
   ></app-movie-item>
 </div>
-<div *ngIf="showLoadingSpinner" style="text-align: center">
+<div *ngIf="showLoadingSpinner || loading" style="text-align: center">
   <app-loading-spinner></app-loading-spinner>
 </div>
 <app-scroll-to-top></app-scroll-to-top>
