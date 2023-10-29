@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 export interface WatchedMovie {
   movieId: number;
   apiMovieId: number;
-  userReview: String;
   userId: number;
 }
 
@@ -30,7 +29,9 @@ export class UsersService implements OnInit {
   fetchWatchHistory(): Observable<number[]> {
     return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUserId);
   }
-  //TODO research get vs post when connecting front and back
+  addWatchedMovie(movieId: number): void {
+    // this.http.post<movieId>(this.backendUrl+"api/watch_history/"+this.currentUserId+"/add")
+  }
 
 
 }

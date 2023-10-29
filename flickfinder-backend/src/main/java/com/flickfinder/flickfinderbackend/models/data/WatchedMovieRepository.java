@@ -1,4 +1,4 @@
-package com.flickfinder.flickfinderbackend.data;
+package com.flickfinder.flickfinderbackend.models.data;
 
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import org.springframework.data.repository.CrudRepository;
@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface WatchedMovieRepository extends CrudRepository<WatchedMovie, Integer> {
-    public List<WatchedMovie> findAllByUserId();
+    public List<WatchedMovie> findAllByUserId(int userId);
 }

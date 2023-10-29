@@ -13,7 +13,7 @@ public abstract class AbstractMovie {
 
     private int apiMovieId;
 
-    private String userReview;
+    private int userReviewId;
 
     public AbstractMovie() {
     }
@@ -30,12 +30,12 @@ public abstract class AbstractMovie {
         return apiMovieId;
     }
 
-    public String getUserReview() {
-        return userReview;
+    public int getUserReviewId() {
+        return userReviewId;
     }
 
-    public void setUserReview(String userReview) {
-        this.userReview = userReview;
+    public void setUserReviewId(int userReviewId) {
+        this.userReviewId = userReviewId;
     }
 
     public void setApiMovieId(int apiMovieId) {
