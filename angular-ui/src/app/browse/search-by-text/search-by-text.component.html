@@ -7,5 +7,10 @@
     [(ngModel)]="searchInput"
     name="searchInput"
   />
+  <select name="searchType" class="form-select me-2" aria-label="search by">
+    <option selected>Search By...</option>
+    <option value="title">Title</option>
+    <option value="person">Person</option>
+  </select>
   <button class="btn btn-outline-success" type="submit">Search</button>
 </form>

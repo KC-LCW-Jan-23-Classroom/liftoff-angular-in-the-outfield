@@ -21,6 +21,9 @@ export class SearchService {
   private searchInputSubject = new BehaviorSubject<string>('');
   searchInput$ = this.searchInputSubject.asObservable();
 
+  private searchTypeSubject = new BehaviorSubject<string>('');
+  searchType$ = this.searchTypeSubject.asObservable();
+
   private loadedPages: number[] = [];
 
   public loadingMovies: boolean = false;
@@ -35,11 +38,12 @@ export class SearchService {
     this.searchInputSubject.next(searchInput);
   }
 
-  searchMoviesBySearchTerm(searchTerm: string, page: number): void {
+  searchMoviesBySearchTerm(searchTerm: string, page: number, searchType: string): void {
     this.loadingMovies = true; // Set loading flag to true
     this.currentPageSubject.next(1);
     this.loadedPages = [];
     
+    this.searchTypeSubject.next(searchType)
 
     if (this.loadedPages.includes(page)) {
       this.loadingMovies = false; // Reset loading flag
@@ -50,7 +54,13 @@ export class SearchService {
       .getApiKey()
       .pipe(
         switchMap((apiKey) => {
-          return this.fetchMovieIds(apiKey, searchTerm, page);
+          if (searchType === 'person') {
+            // Search for a person
+            return this.fetchPersonIds(apiKey, searchTerm, page);
+          } else {
+            // Search for a movie
+            return this.fetchMovieIds(apiKey, searchTerm, page);
+          }
         })
       )
       .subscribe((response) => {
@@ -109,6 +119,16 @@ export class SearchService {
       })
     );
   }
+
+  private fetchPersonIds(
+    apiKey: string,
+    searchTerm: string,
+    page: number
+  ): Observable<number[]> {
+    // Implement the logic to search for a person and return their IDs.
+    // You'll need to query the appropriate API endpoint for people search.
+  }
+
 
   getResponseMovies(): Observable<Movie[]> {
     return this.responseMovies$;

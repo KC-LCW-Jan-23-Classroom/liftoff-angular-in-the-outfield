@@ -8,6 +8,7 @@ import { SearchService } from '../search.service';
 })
 export class SearchByTextComponent implements OnInit {
   searchInput!: string;
+  searchType!: string;
 
   constructor(private searchService: SearchService) {}
 
@@ -16,6 +17,6 @@ export class SearchByTextComponent implements OnInit {
   onSubmit() {
     this.searchService.clearResponseMovies()
     this.searchService.setSearchInput(this.searchInput);
-    this.searchService.searchMoviesBySearchTerm(this.searchInput, 1);
+    this.searchService.searchMoviesBySearchTerm(this.searchInput, 1, this.searchType);
   }
 }

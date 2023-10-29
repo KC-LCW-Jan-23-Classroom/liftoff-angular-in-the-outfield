@@ -15,6 +15,7 @@ export class MovieListComponent implements OnInit {
   totalPages!: number;
   currentPage!: number;
   searchInput!: string;
+  searchType!: string;
 
   loading: boolean = false;
   loadingRequested: boolean = false;
@@ -49,10 +50,14 @@ export class MovieListComponent implements OnInit {
 
     this.searchService.currentPage$.subscribe((currentPage) => {
       this.currentPage = currentPage;
-    })
+    });
 
     this.searchService.searchInput$.subscribe(
       (searchInput) => (this.searchInput = searchInput)
+    );
+
+    this.searchService.searchType$.subscribe(
+      (searchType) => (this.searchType = searchType)
     );
   }
 
@@ -74,7 +79,7 @@ export class MovieListComponent implements OnInit {
   loadMore() {
     this.loading = true;
     const nextPage = this.currentPage + 1;
-    this.searchService.searchMoviesBySearchTerm(this.searchInput, nextPage);
+    this.searchService.searchMoviesBySearchTerm(this.searchInput, nextPage, this.searchType);
     this.loading = false;
     this.loadingRequested = false;
   }
