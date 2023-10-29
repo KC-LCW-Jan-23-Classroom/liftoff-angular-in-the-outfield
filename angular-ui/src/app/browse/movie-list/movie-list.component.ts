@@ -17,6 +17,7 @@ export class MovieListComponent implements OnInit {
   searchInput!: string;
 
   loading: boolean = false;
+  loadingRequested: boolean = false;
 
   constructor(
     private moviesService: MoviesService,
@@ -57,7 +58,8 @@ export class MovieListComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event): void {
-    if (this.shouldLoadMore() && !this.loading) {
+    if (this.shouldLoadMore() && !this.loading && !this.loadingRequested) {
+      this.loadingRequested = true;
       this.loadMore();
     }
   }
@@ -66,7 +68,7 @@ export class MovieListComponent implements OnInit {
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
     const bodyHeight = document.body.clientHeight;
-    return scrollY + windowHeight >= bodyHeight - 200; // Adjust the threshold as needed
+    return scrollY + windowHeight >= bodyHeight - 350; // Adjust the threshold as needed
   }
 
   loadMore() {
@@ -74,5 +76,6 @@ export class MovieListComponent implements OnInit {
     const nextPage = this.currentPage + 1;
     this.searchService.searchMoviesBySearchTerm(this.searchInput, nextPage);
     this.loading = false;
+    this.loadingRequested = false;
   }
 }
