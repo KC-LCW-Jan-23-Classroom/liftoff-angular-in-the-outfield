@@ -18,6 +18,7 @@ export class MovieListComponent implements OnInit {
   currentPage!: number;
   searchInput!: string;
   searchType!: string;
+  showLoadingSpinner!: boolean;
 
   loading: boolean = false;
   loadingRequested: boolean = false;
@@ -62,6 +63,10 @@ export class MovieListComponent implements OnInit {
 
     this.searchService.searchType$.subscribe(
       (searchType) => (this.searchType = searchType)
+    );
+
+    this.searchService.loadingMovies$.subscribe(
+      (loadingMovies) => (this.showLoadingSpinner = loadingMovies)
     );
 
     this.scrollSubject.pipe(debounceTime(500)).subscribe(() => {

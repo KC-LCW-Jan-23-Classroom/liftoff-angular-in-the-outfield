@@ -34,7 +34,8 @@ export class SearchService {
 
   private loadedPages: number[] = [];
 
-  public loadingMovies: boolean = false;
+  private loadingMoviesSubject = new BehaviorSubject<boolean>(false);
+  loadingMovies$ = this.loadingMoviesSubject.asObservable();
 
   private personMovieIds: number[] = [];
   private start: number = 0;
@@ -74,7 +75,7 @@ export class SearchService {
   }
 
   searchMoviesByPerson(searchTerm: string): void {
-    this.loadingMovies = true; // Set loading flag to true
+    this.loadingMoviesSubject.next(true); // Set loading flag to true
     this.searchTypeSubject.next('person');
 
     this.apiKeyService
@@ -92,26 +93,26 @@ export class SearchService {
   }
 
   displayNextBatch(): void {
-    this.loadingMovies = true;
+    this.loadingMoviesSubject.next(true);
 
     // Determine the range of movies to load in the current batch
     const batchSize = 20;
     const startIndex = this.start;
     let endIndex = startIndex + batchSize;
-  
+
     // Ensure endIndex does not exceed the length of personMovieIds
     if (endIndex > this.personMovieIds.length) {
       endIndex = this.personMovieIds.length;
     }
-  
+
     const nextMovieIds = this.personMovieIds.slice(startIndex, endIndex);
-  
+
     // Filter out movieIds that have already been added to responseMoviesSubject
     const currentMovies = this.responseMoviesSubject.value;
     const newMovies = nextMovieIds.filter(
       (id: number) => !currentMovies.some((movie) => movie.id === id)
     );
-  
+
     if (newMovies.length > 0) {
       // Append new results to the existing ones
       this.moviesService
@@ -121,23 +122,23 @@ export class SearchService {
             ...currentMovies,
             ...movieListDetails,
           ]);
-          this.loadingMovies = false;
+          this.loadingMoviesSubject.next(false);
         });
     }
-  
+
     // Update the start index for the next batch
     this.start = endIndex;
-  }  
+  }
 
   searchMoviesByTitle(searchTerm: string, page: number): void {
-    this.loadingMovies = true; // Set loading flag to true
+    this.loadingMoviesSubject.next(true); // Set loading flag to true
     this.currentPageSubject.next(1);
     this.loadedPages = [];
 
     this.searchTypeSubject.next('movie');
 
     if (this.loadedPages.includes(page)) {
-      this.loadingMovies = false; // Reset loading flag
+      this.loadingMoviesSubject.next(false); // Reset loading flag
       return; // Page already loaded, skip loading it again
     }
 
@@ -166,6 +167,8 @@ export class SearchService {
                 ...currentMovies,
                 ...movieListDetails,
               ]);
+
+              this.loadingMoviesSubject.next(false);
             });
         }
 
@@ -177,7 +180,6 @@ export class SearchService {
       });
 
     this.loadedPages.push(page);
-    this.loadingMovies = false; // Reset loading flag
   }
 
   private fetchMovieIds(
