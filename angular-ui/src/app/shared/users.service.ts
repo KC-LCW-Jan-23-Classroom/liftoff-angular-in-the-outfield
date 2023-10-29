@@ -16,7 +16,7 @@ export interface WatchedMovie {
 export class UsersService implements OnInit {
 
   private backendUrl = 'http://localhost:8080/'
-  private currentUserId: number =1;
+  private currentUserId: number = 1;
 
   //TODO in login method, set currentUserId
 
@@ -28,7 +28,7 @@ export class UsersService implements OnInit {
   }
 
   fetchWatchHistory(): Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"watch_history");
+    return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUserId);
   }
   //TODO research get vs post when connecting front and back
 

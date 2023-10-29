@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../shared/movie.model';
-import { UsersService } from 'src/app/shared/users.service';
+import { UsersService } from '../../shared/users.service';
 import { MoviesService } from 'src/app/shared/movies.service';
 
 @Component({
