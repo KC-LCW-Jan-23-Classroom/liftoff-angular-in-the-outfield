@@ -1,5 +1,7 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
+import com.flickfinder.flickfinderbackend.models.Movie;
+import org.springframework.web.bind.annotation.*;
 import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import com.flickfinder.flickfinderbackend.data.WatchedMovieRepository;
@@ -14,15 +16,26 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class MovieController {
-
     @Autowired
     WatchedMovieRepository watchHistoryRepository;
 
     @Autowired
     UserRepository userRepository;
+  
+    @GetMapping("/movies")
+    public List<Movie> getMovies() {
+        return;
+        // Return a list of available movies
+    }
 
+
+    @PostMapping("/recommendations")
+    public List<Movie> getRecommendations(@RequestBody Movie movie) {
+        // Implement recommendation algorithm and return recommended movies
+    }
+  
     //TODO post watch list based on user logged in
 
     @RequestMapping("watch_history")
@@ -45,7 +58,4 @@ public class MovieController {
     }
 
     //TODO get new movie to add to watch list
-
-
-
 }

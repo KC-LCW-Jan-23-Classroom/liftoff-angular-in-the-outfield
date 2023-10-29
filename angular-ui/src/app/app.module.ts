@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component'; // Import the NavbarComponent here
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -22,6 +23,11 @@ import { BrowseComponent } from './browse/browse.component';
 import { SearchByTextComponent } from './browse/search-by-text/search-by-text.component';
 import { ProfileComponent } from './profile/profile.component';
 
+import { ProfileViewComponent } from './profile-view/profile-view.component';
+
+import { RecommendationsComponent } from './recommendations/recommendations.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,9 +45,14 @@ import { ProfileComponent } from './profile/profile.component';
     BrowseComponent,
     SearchByTextComponent,
     ProfileComponent,
+    RecommendationsComponent,
+    ProfileViewComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+
+
