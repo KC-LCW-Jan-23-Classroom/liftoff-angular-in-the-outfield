@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MoviesService } from '../../shared/movies.service';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
@@ -9,12 +9,16 @@ import { SearchService } from '../search.service';
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css'],
 })
-export class MovieListComponent implements OnInit {
+export class MovieListComponent implements OnInit, OnDestroy {
   movieList: Movie[] = [];
   formattedDate: string | null;
   totalPages!: number;
   currentPage!: number;
   searchInput!: string;
+  searchType!: string;
+
+  loading: boolean = false;
+  loadingRequested: boolean = false;
 
   constructor(
     private moviesService: MoviesService,
@@ -46,15 +50,46 @@ export class MovieListComponent implements OnInit {
 
     this.searchService.currentPage$.subscribe((currentPage) => {
       this.currentPage = currentPage;
-    })
+    });
 
     this.searchService.searchInput$.subscribe(
       (searchInput) => (this.searchInput = searchInput)
     );
+
+    this.searchService.searchType$.subscribe(
+      (searchType) => (this.searchType = searchType)
+    );
   }
 
-  changePage(searchInput: string, page: number) {
-    console.log(page)
-    this.searchService.searchMoviesBySearchTerm(searchInput, page);
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event): void {
+    if (this.shouldLoadMore() && !this.loading && !this.loadingRequested) {
+      this.loadingRequested = true;
+      this.loadMore();
+    }
+  }
+
+  shouldLoadMore(): boolean {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const bodyHeight = document.body.clientHeight;
+    return scrollY + windowHeight >= bodyHeight - 500; // Adjust the threshold as needed
+  }
+
+  loadMore() {
+    this.loading = true;
+    const nextPage = this.currentPage + 1;
+    
+    if (this.searchType === 'person') {
+      this.searchService.searchMoviesByPerson(this.searchInput, 1);
+    } else if (this.searchType === 'movie') {
+      this.searchService.searchMoviesByTitle(this.searchInput, nextPage);
+    }
+    this.loading = false;
+    this.loadingRequested = false;
+  }
+
+  ngOnDestroy(): void {
+    // this.searchService.totalPages$.unsubscribe()
   }
 }

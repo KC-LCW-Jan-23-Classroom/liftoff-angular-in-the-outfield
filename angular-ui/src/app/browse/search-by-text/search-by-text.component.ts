@@ -8,13 +8,19 @@ import { SearchService } from '../search.service';
 })
 export class SearchByTextComponent implements OnInit {
   searchInput!: string;
+  searchType!: string;
 
   constructor(private searchService: SearchService) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
-    this.searchService.searchMoviesBySearchTerm(this.searchInput, 1);
+    this.searchService.clearResponseMovies()
     this.searchService.setSearchInput(this.searchInput);
+    if (this.searchType === 'person') {
+      this.searchService.searchMoviesByPerson(this.searchInput, 1);
+    } else if (this.searchType === 'movie') {
+      this.searchService.searchMoviesByTitle(this.searchInput, 1);
+    }
   }
 }
