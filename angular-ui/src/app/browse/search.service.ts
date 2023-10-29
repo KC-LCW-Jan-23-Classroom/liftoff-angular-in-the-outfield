@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject, switchMap, map, first, of } from 'rxjs';
+import { Observable, BehaviorSubject, switchMap, map, first, of, forkJoin } from 'rxjs';
 import { ApikeyService } from 'src/app/shared/apikey.service';
 import { Movie } from 'src/app/shared/movie.model';
 import { MoviesService } from 'src/app/shared/movies.service';
@@ -38,40 +38,47 @@ export class SearchService {
     this.searchInputSubject.next(searchInput);
   }
 
-  searchMoviesByPerson(searchTerm: string,
-    page: number,
-  ): void {
+  searchMoviesByPerson(searchTerm: string, page: number): void {
     this.loadingMovies = true; // Set loading flag to true
     this.currentPageSubject.next(1);
     this.loadedPages = [];
-
+  
     this.searchTypeSubject.next('person');
-
+  
     if (this.loadedPages.includes(page)) {
       this.loadingMovies = false; // Reset loading flag
       return; // Page already loaded, skip loading it again
     }
-
+  
     this.apiKeyService
       .getApiKey()
       .pipe(
         switchMap((apiKey) => {
-            return this.fetchPeopleIds(apiKey, searchTerm, page).pipe(
-              switchMap((peopleIds) => {
-                // Fetch movie IDs for people
-                return this.fetchMovieIdsForPeople(apiKey, peopleIds);
-              }))
+          return this.fetchPeopleIds(apiKey, searchTerm, page).pipe(
+            switchMap((peopleIds) => {
+              // Load movie IDs in batches, e.g., 20 at a time
+              const batchSize = 20;
+              const observables = [];
+              for (let i = 0; i < peopleIds.length; i += batchSize) {
+                const batch = peopleIds.slice(i, i + batchSize);
+                observables.push(this.fetchMovieIdsForPeople(apiKey, batch));
+              }
+  
+              // Use forkJoin to load movie IDs in batches
+              return forkJoin(observables);
+            })
+          );
         })
       )
-      .subscribe((response) => {
-        const movieIds: number[] = response;
-
+      .subscribe((responses) => {
+        const movieIds: number[] = responses.flat(); // Flatten the arrays
+  
         // Filter out movieIds that have already been added to responseMoviesSubject
         const currentMovies = this.responseMoviesSubject.value;
         const newMovies = movieIds.filter(
           (id) => !currentMovies.some((movie) => movie.id === id)
         );
-
+  
         if (newMovies.length > 0) {
           // Append new results to the existing ones
           this.moviesService
@@ -83,17 +90,18 @@ export class SearchService {
               ]);
             });
         }
-
+  
         this.totalPages$.pipe(first()).subscribe((totalPages) => {
           if (page < totalPages) {
             this.currentPageSubject.next(page + 1); // Load the next page
           }
         });
       });
-
+  
     this.loadedPages.push(page);
     this.loadingMovies = false; // Reset loading flag
   }
+  
 
   searchMoviesByTitle(
     searchTerm: string,
@@ -234,8 +242,8 @@ export class SearchService {
 
   // Function to fetch movie IDs for all people in the array
   private fetchMovieIdsForPeople(apiKey: string, peopleIds: number[]): Observable<number[]> {
-    // Create an array to store all movie IDs
-    const allMovieIds: number[] = [];
+    // Create a Set to store unique movie IDs
+    const allMovieIds: Set<number> = new Set();
 
     // Recursive function to process each person ID
     const processPerson = (index: number): Observable<number[]> => {
@@ -243,21 +251,23 @@ export class SearchService {
         const personId = peopleIds[index];
         return this.fetchMovieIdsForPerson(apiKey, personId).pipe(
           switchMap((movieIds) => {
-            allMovieIds.push(...movieIds);
+            // Add unique movie IDs to the Set
+            movieIds.forEach((id) => allMovieIds.add(id));
 
             // Process the next person ID
             return processPerson(index + 1);
           })
         );
       } else {
-        // All people have been processed, return the combined movie IDs
-        return of(allMovieIds);
+        // Convert the Set to an array and return the combined movie IDs
+        return of(Array.from(allMovieIds));
       }
     };
 
     // Start processing the first person ID
     return processPerson(0);
-  }
+}
+
 
   getResponseMovies(): Observable<Movie[]> {
     return this.responseMovies$;
