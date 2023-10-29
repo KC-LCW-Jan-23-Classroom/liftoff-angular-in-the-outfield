@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MoviesService } from '../../shared/movies.service';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
@@ -9,7 +9,7 @@ import { SearchService } from '../search.service';
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css'],
 })
-export class MovieListComponent implements OnInit {
+export class MovieListComponent implements OnInit, OnDestroy {
   movieList: Movie[] = [];
   formattedDate: string | null;
   totalPages!: number;
@@ -73,14 +73,23 @@ export class MovieListComponent implements OnInit {
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
     const bodyHeight = document.body.clientHeight;
-    return scrollY + windowHeight >= bodyHeight - 350; // Adjust the threshold as needed
+    return scrollY + windowHeight >= bodyHeight - 500; // Adjust the threshold as needed
   }
 
   loadMore() {
     this.loading = true;
     const nextPage = this.currentPage + 1;
-    this.searchService.searchMoviesBySearchTerm(this.searchInput, nextPage, this.searchType);
+    
+    if (this.searchType === 'person') {
+      this.searchService.searchMoviesByPerson(this.searchInput, 1);
+    } else if (this.searchType === 'movie') {
+      this.searchService.searchMoviesByTitle(this.searchInput, nextPage);
+    }
     this.loading = false;
     this.loadingRequested = false;
+  }
+
+  ngOnDestroy(): void {
+    // this.searchService.totalPages$.unsubscribe()
   }
 }

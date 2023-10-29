@@ -17,6 +17,10 @@ export class SearchByTextComponent implements OnInit {
   onSubmit() {
     this.searchService.clearResponseMovies()
     this.searchService.setSearchInput(this.searchInput);
-    this.searchService.searchMoviesBySearchTerm(this.searchInput, 1, this.searchType);
+    if (this.searchType === 'person') {
+      this.searchService.searchMoviesByPerson(this.searchInput, 1);
+    } else if (this.searchType === 'movie') {
+      this.searchService.searchMoviesByTitle(this.searchInput, 1);
+    }
   }
 }
