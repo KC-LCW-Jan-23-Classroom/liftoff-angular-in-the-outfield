@@ -1,12 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface WatchedMovie {
-  movieId: number;
-  apiMovieId: number;
-  userId: number;
-}
+import { WatchedMovie } from './watched-movie.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +25,7 @@ export class UsersService implements OnInit {
     return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUserId);
   }
   addWatchedMovie(newWatchedMovie: WatchedMovie): Observable<WatchedMovie> {
-    const url = `${this.backendUrl}/api/watch_history/${newWatchedMovie.movieId}/add`;
+    const url = `${this.backendUrl}/api/watch_history/${this.currentUserId}/add`;
     return this.http.post<WatchedMovie>(url, newWatchedMovie);
   }
 

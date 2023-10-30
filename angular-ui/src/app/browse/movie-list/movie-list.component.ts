@@ -4,6 +4,7 @@ import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
 import { SearchService } from '../search.service';
 import { UsersService } from 'src/app/shared/users.service';
+import { WatchedMovie } from 'src/app/shared/watched-movie.model';
 
 @Component({
   selector: 'app-movie-list',
@@ -61,7 +62,8 @@ export class MovieListComponent implements OnInit {
   }
 
   addToWatchHistory(movie : Movie) {
-    
+    // newWatchedMovie: WatchedMovie = new WatchedMovie(movie.id, this.usersService.)
+
     this.usersService.addWatchedMovie
 
   }
