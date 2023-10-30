@@ -60,4 +60,10 @@ public class MovieController {
 
     }
 
+    //TODO check if the movie is already in the users watch history
+    @GetMapping("/watch_history/{userId}/{movieId}")
+    public void checkIfWatched(@PathVariable int userId,) {
+
+    }
+
 }

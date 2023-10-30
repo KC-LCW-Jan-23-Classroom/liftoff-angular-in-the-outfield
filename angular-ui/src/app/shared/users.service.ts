@@ -29,8 +29,9 @@ export class UsersService implements OnInit {
   fetchWatchHistory(): Observable<number[]> {
     return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUserId);
   }
-  addWatchedMovie(movieId: number): void {
-    // this.http.post<movieId>(this.backendUrl+"api/watch_history/"+this.currentUserId+"/add")
+  addWatchedMovie(newWatchedMovie: WatchedMovie): Observable<WatchedMovie> {
+    const url = `${this.backendUrl}/api/watch_history/${newWatchedMovie.movieId}/add`;
+    return this.http.post<WatchedMovie>(url, newWatchedMovie);
   }
 
 

@@ -3,6 +3,7 @@ import { MoviesService } from '../../shared/movies.service';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
 import { SearchService } from '../search.service';
+import { UsersService } from 'src/app/shared/users.service';
 
 @Component({
   selector: 'app-movie-list',
@@ -19,7 +20,8 @@ export class MovieListComponent implements OnInit {
   constructor(
     private moviesService: MoviesService,
     private datePipe: DatePipe,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private usersService: UsersService
   ) {
     const today = new Date();
     this.formattedDate = this.datePipe.transform(today, 'MMMM d, y');
@@ -56,5 +58,11 @@ export class MovieListComponent implements OnInit {
   changePage(searchInput: string, page: number) {
     console.log(page)
     this.searchService.searchMoviesBySearchTerm(searchInput, page);
+  }
+
+  addToWatchHistory(movie : Movie) {
+    
+    this.usersService.addWatchedMovie
+
   }
 }

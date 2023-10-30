@@ -32,6 +32,4 @@ export class WatchHistoryComponent implements OnInit {
   }
 
 
-  // call API with the list of movie Ids to
-  //
 }
