@@ -1,9 +1,9 @@
 <div>
-  <h2>Recommended for You</h2>
+  <h3>Recommended for You</h3>
 
   <label for="movie">Select a Movie:</label>
   <select (change)="getRecommendations($event)">
     <option *ngFor="let movie of movies" [value]="movie.id">{{ movie.title }}</option>
   </select>
-  <div *ngFor="let movie of recommendedMovies" [@fadeInOut]>{{ movie.title }}</div>
+  <div *ngFor="let movie of recommendedMovies" [@spin]>{{ movie.title }}</div>
 </div>

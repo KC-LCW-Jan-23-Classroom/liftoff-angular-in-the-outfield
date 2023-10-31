@@ -3,20 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { Movie } from '../../shared/movie.model';
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { trigger, style, transition, animate } from '@angular/animations';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-recommendations',
   templateUrl: './recommendations.component.html',
   styleUrls: ['./recommendations.component.css'],
   animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms', style({ opacity: 1 })),
-      ]),
-    ]),
-  ],
+    trigger('spin', [
+      state('void', style({ transform: 'rotate(0)' })),
+      transition('* => *', [
+        animate('1s', keyframes([
+          style({ transform: 'rotate(0)', offset: 0 }),
+          style({ transform: 'rotate(180deg)', offset: 0.5 }),
+          style({ transform: 'rotate(360deg)', offset: 1 })
+        ]))
+      ])
+    ])
+  ]
 })
 export class RecommendationsComponent implements OnInit {
   selectedMovie: Movie | undefined;
