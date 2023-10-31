@@ -3,7 +3,7 @@
   role="search"
   #searchForm="ngForm"
   (ngSubmit)="onSubmit()"
-  
+  ngNativeValidate
 >
   <input
     class="form-control"
@@ -32,9 +32,9 @@
   <button class="btn btn-outline-success" type="submit">Search</button>
 </form>
 
-<div class="alert alert-danger mt-1" *ngIf="searchTerm.invalid && searchForm.submitted">
+<div class="alert alert-danger mt-1" *ngIf="(searchTerm.invalid && searchForm.submitted) || invalid">
   Search term is required.
 </div>
-<div class="alert alert-danger mt-1" *ngIf="type.invalid && searchForm.submitted">
+<div class="alert alert-danger mt-1" *ngIf="(type.invalid && searchForm.submitted) || invalid">
   Search type is required.
 </div>
