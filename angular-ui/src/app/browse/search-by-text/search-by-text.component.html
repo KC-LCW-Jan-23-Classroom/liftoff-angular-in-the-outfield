@@ -1,23 +1,40 @@
-<form class="d-flex" role="search" #searchForm="ngForm" (ngSubmit)="onSubmit()">
+<form
+  class="d-flex align-items-end gap-2"
+  role="search"
+  #searchForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  
+>
   <input
-    class="form-control me-2"
+    class="form-control"
     type="search"
     placeholder="Search"
     aria-label="Search"
     [(ngModel)]="searchInput"
     name="searchInput"
     required
+    #searchTerm="ngModel"
   />
-  <select
-    required
-    [(ngModel)]="searchType"
-    name="searchType"
-    class="form-select me-2"
-    aria-label="search by"
-  >
-    <option selected disabled>Search By...</option>
-    <option value="movie">Title</option>
-    <option value="person">Person</option>
-  </select>
+  <label class="form-label d-flex align-items-end gap-1 text-nowrap m-0">
+    Search By:
+    <select
+      required
+      [(ngModel)]="searchType"
+      name="searchType"
+      class="form-select w-auto"
+      aria-label="search by"
+      #type="ngModel"
+    >
+      <option value="movie">Title</option>
+      <option value="person">Person</option>
+    </select>
+  </label>
   <button class="btn btn-outline-success" type="submit">Search</button>
 </form>
+
+<div class="alert alert-danger mt-1" *ngIf="searchTerm.invalid && searchForm.submitted">
+  Search term is required.
+</div>
+<div class="alert alert-danger mt-1" *ngIf="type.invalid && searchForm.submitted">
+  Search type is required.
+</div>
