@@ -1,7 +1,6 @@
 <div>
-  <h3>Recommended for You</h3>
+  <h2>Recommended Movies</h2>
 
-  <label for="movie">Select a Movie:</label>
   <select (change)="getRecommendations($event)">
     <option *ngFor="let movie of movies" [value]="movie.id">{{ movie.title }}</option>
   </select>

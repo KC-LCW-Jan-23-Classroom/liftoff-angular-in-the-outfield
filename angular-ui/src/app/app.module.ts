@@ -23,6 +23,8 @@ import { SearchByTextComponent } from './browse/search-by-text/search-by-text.co
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { RecommendationsComponent } from './sidebar/recommendations/recommendations.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 @NgModule({
@@ -45,7 +47,7 @@ import { RecommendationsComponent } from './sidebar/recommendations/recommendati
     ProfileViewComponent,
     RecommendationsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule,BrowserAnimationsModule, FormsModule],
   providers: [DatePipe],
   bootstrap: [AppComponent],
 })
