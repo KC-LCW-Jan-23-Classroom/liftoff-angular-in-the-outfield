@@ -1,14 +1,9 @@
-<!-- recommendations.component.html -->
 <div>
-  <h1>MovieMentor: Tailored Recommendations</h1>
+  <h2>Recommended for You</h2>
 
   <label for="movie">Select a Movie:</label>
   <select (change)="getRecommendations($event)">
     <option *ngFor="let movie of movies" [value]="movie.id">{{ movie.title }}</option>
   </select>
-
-  <h2>Recommended Movies:</h2>
-  <ul>
-    <li *ngFor="let movie of recommendedMovies">{{ movie.title }}</li>
-  </ul>
+  <div *ngFor="let movie of recommendedMovies" [@fadeInOut]>{{ movie.title }}</div>
 </div>

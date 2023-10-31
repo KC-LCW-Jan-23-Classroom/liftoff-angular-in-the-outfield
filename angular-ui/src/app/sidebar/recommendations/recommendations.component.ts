@@ -3,12 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Movie } from '../../shared/movie.model';
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { FormsModule } from '@angular/forms';
+import { trigger, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-recommendations',
   templateUrl: './recommendations.component.html',
-  styleUrls: ['./recommendations.component.css']
+  styleUrls: ['./recommendations.component.css'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class RecommendationsComponent implements OnInit {
   selectedMovie: Movie | undefined;
@@ -31,8 +39,9 @@ export class RecommendationsComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  getRecommendations(selectedMovieId: number): void {
-    this.fetchRecommendationsMoviesIds(movieId).subscribe((movieIds) => {
+  getRecommendations(event: any) {
+    const selectedMovieId: number = parseInt(event.target.value, 20);
+    this.fetchRecommendationsMoviesIds(selectedMovieId).subscribe((movieIds) => {
       this.recommendedMovies = this.movies.filter((movie) =>
         movieIds.includes(movie.id)
       );
