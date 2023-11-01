@@ -1,17 +1,29 @@
 package com.flickfinder.flickfinderbackend.models;
+
+import java.util.List;
+
 public class Movie {
     private String title;
     private int id;
-    private String[] genres;
+    private List<String> genres;
     private int releaseYear;
     private int runtimeMinutes;
     private String poster;
     private String plot;
-    private String[] streamingSources;
+    private List<String> streamingSources;
     private String director;
-    private String[] cast;
+    private List<String> cast;
 
-    public Movie(String title, int id, String[] genres, int releaseYear, int runtimeMinutes, String poster, String plot, String[] streamingSources, String director, String[] cast) {
+    public Movie(String title,
+                 int id,
+                 List<String> genres,
+                 int releaseYear,
+                 int runtimeMinutes,
+                 String poster,
+                 String plot,
+                 List<String> streamingSources,
+                 String director,
+                 List<String> cast) {
         this.title = title;
         this.id = id;
         this.genres = genres;
@@ -40,7 +52,7 @@ public class Movie {
         this.id = id;
     }
 
-    public void setGenres(String[] genres) {
+    public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 
@@ -60,7 +72,7 @@ public class Movie {
         this.plot = plot;
     }
 
-    public void setStreamingSources(String[] streamingSources) {
+    public void setStreamingSources(List<String> streamingSources) {
         this.streamingSources = streamingSources;
     }
 
@@ -68,11 +80,11 @@ public class Movie {
         this.director = director;
     }
 
-    public void setCast(String[] cast) {
+    public void setCast(List<String> cast) {
         this.cast = cast;
     }
 
-    public String[] getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
@@ -92,7 +104,7 @@ public class Movie {
         return plot;
     }
 
-    public String[] getStreamingSources() {
+    public List<String> getStreamingSources() {
         return streamingSources;
     }
 
@@ -100,7 +112,7 @@ public class Movie {
         return director;
     }
 
-    public String[] getCast() {
+    public List<String> getCast() {
         return cast;
     }
 }
