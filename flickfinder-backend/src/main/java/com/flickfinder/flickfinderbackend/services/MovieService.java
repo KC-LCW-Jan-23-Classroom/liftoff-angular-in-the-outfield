@@ -50,18 +50,22 @@ public class MovieService {
 
                                 Map<String, Object> providers = (Map<String, Object>) movieResponse.get("watch/providers");
                                 if (providers != null) {
-                                    Map<String, Object> usProviders = (Map<String, Object>) providers.get("US");
-                                    if (usProviders != null) {
-                                        List<Map<String, Object>> flatrate = (List<Map<String, Object>>) usProviders.get("flatrate");
-                                        if (flatrate != null) {
-                                            for (Map<String, Object> source : flatrate) {
-                                                String logoPath = (String) source.get("logo_path");
-                                                String logoUrl = getLogoPath(logoPath);
-                                                streamingSources.add(logoUrl);
+                                    Map<String, Object> results = (Map<String, Object>) providers.get("results");
+                                    if (results != null) {
+                                        Map<String, Object> usProviders = (Map<String, Object>) results.get("US");
+                                        if (usProviders != null) {
+                                            List<Map<String, Object>> flatrate = (List<Map<String, Object>>) usProviders.get("flatrate");
+                                            if (flatrate != null) {
+                                                for (Map<String, Object> source : flatrate) {
+                                                    String logoPath = (String) source.get("logo_path");
+                                                    String logoUrl = getLogoPath(logoPath);
+                                                    streamingSources.add(logoUrl);
+                                                }
                                             }
                                         }
                                     }
                                 }
+
 
                                 String posterPath = this.getPosterPath((String) movieResponse.get("poster_path"));
 
@@ -89,7 +93,6 @@ public class MovieService {
     }
 
     private Mono<Integer[]> getTrendingMoviesIds() {
-        System.out.println(this.APIKEY);
         ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
         return webClient.get()
                 .uri("/trending/movie/day?language=en-US&page=1&total_results=20&api_key={apiKey}&include_adult=false", this.APIKEY)
