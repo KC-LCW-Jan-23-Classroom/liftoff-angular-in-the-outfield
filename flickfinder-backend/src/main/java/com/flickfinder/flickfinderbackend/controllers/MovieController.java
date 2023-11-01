@@ -1,5 +1,7 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import com.flickfinder.flickfinderbackend.models.data.WatchedMovieRepository;
@@ -56,13 +58,13 @@ public class MovieController {
 
     //TODO get new movie to add to watch list
     @PostMapping("/watch_history/{userId}/add")
-    public void addWatchedMovie(@PathVariable int userId, @RequestBody int apiMovieId) {
-
+    public void addWatchedMovie(@PathVariable int userId, @RequestBody WatchedMovie newWatchedMovie) {
+        watchHistoryRepository.save(newWatchedMovie);
     }
 
     //TODO check if the movie is already in the users watch history
     @GetMapping("/watch_history/{userId}/{movieId}")
-    public void checkIfWatched(@PathVariable int userId,) {
+    public void checkIfWatched(@PathVariable int userId, int movieId) {
 
     }
 

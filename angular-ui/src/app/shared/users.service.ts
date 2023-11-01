@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpStatusCode } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WatchedMovie } from './watched-movie.model';
@@ -10,7 +10,7 @@ import { WatchedMovie } from './watched-movie.model';
 export class UsersService implements OnInit {
 
   private backendUrl = 'http://localhost:8080/'
-  private currentUserId: number = 1;
+  public currentUserId: number = 1;
 
   //TODO in login method, set currentUserId
 
