@@ -17,12 +17,11 @@ import java.util.stream.Collectors;
 public class MovieService {
 
     private final WebClient webClient;
+    private final String APIKEY;
 
-    private final ApiKeyService apiKeyService = new ApiKeyService();
-    private final String APIKEY = apiKeyService.getApiKey();
-
-    public MovieService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("\"https://api.themoviedb.org/3\"").build();
+    public MovieService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService) {
+        this.webClient = webClientBuilder.baseUrl("https://api.themoviedb.org/3").build();
+        this.APIKEY = apiKeyService.getApiKey();
     }
 
     public Flux<Movie> getTrendingMovies() {
@@ -90,6 +89,7 @@ public class MovieService {
     }
 
     private Mono<Integer[]> getTrendingMoviesIds() {
+        System.out.println(this.APIKEY);
         ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
         return webClient.get()
                 .uri("/trending/movie/day?language=en-US&page=1&total_results=20&api_key={apiKey}&include_adult=false", this.APIKEY)
