@@ -27,7 +27,7 @@ export class RecommendationsComponent implements OnInit {
   movies: Movie[] = [];
   recommendedMovies: Movie[] = [];
   apiKeyService: any;
-  apiUrl: any;
+  apiUrl: string = 'https://api.themoviedb.org/3/';
 
   constructor(private http: HttpClient, private apiKeyService: ApikeyService) {}
 
