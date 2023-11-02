@@ -38,6 +38,7 @@ public class MovieController {
 
     //TODO post watch list based on user logged in
 
+
     @RequestMapping("/watch_history/{userId}")
     public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
 //        Optional<User> currentUser = userRepository.findById(userId);
@@ -53,13 +54,15 @@ public class MovieController {
             watchedMovieIds.add(movie.getApiMovieId());
             System.out.println(movie.getApiMovieId());
         }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(watchedMovieIds);
+        return ResponseEntity.status(HttpStatus.OK).body(watchedMovieIds);
     }
 
     //TODO get new movie to add to watch list
-    @PostMapping("/watch_history/{userId}/add")
-    public void addWatchedMovie(@PathVariable int userId, @RequestBody WatchedMovie newWatchedMovie) {
+    @PostMapping("/watch_history/add")
+    public ResponseEntity<List<WatchedMovie>> addWatchedMovie(@RequestBody WatchedMovie newWatchedMovie) {
+        System.out.println("got a message");
         watchHistoryRepository.save(newWatchedMovie);
+        return ResponseEntity.status(HttpStatus.CREATED).body();
     }
 
     //TODO check if the movie is already in the users watch history
