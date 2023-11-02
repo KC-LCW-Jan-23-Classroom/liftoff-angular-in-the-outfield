@@ -22,6 +22,7 @@ import { BrowseComponent } from './browse/browse.component';
 import { SearchByTextComponent } from './browse/search-by-text/search-by-text.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { UserRegisterComponent } from './user-register/user-register.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
     SearchByTextComponent,
     ProfileComponent,
     UserLoginComponent,
+    UserRegisterComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [DatePipe],

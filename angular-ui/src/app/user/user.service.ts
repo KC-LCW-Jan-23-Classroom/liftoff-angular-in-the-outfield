@@ -6,16 +6,17 @@ import { User } from './user';
 @Injectable({
   providedIn: 'root',
 })
-export class ReviewsService {
-  private apiUrl = 'http://localhost:8080/api/login'; // Assuming your Spring Boot app runs on port 8080
+export class UserService {
+  
+  private apiUrl = 'http://localhost:8080/auth'; // Assuming your Spring Boot app runs on port 8080
 
   constructor(private http: HttpClient) {}
 
-  getAllReviews(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+  getUser(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/login`);
   }
 
-  addReview(review: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, review);
+  addUser(newUser: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/register`, newUser);
   }
 }

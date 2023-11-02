@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../user/auth.service';
 
-
 @Component({
-  selector: 'app-user-login',
-  templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.css']
+  selector: 'app-user-register',
+  templateUrl: './user-register.component.html',
+  styleUrls: ['./user-register.component.css']
 })
-export class UserLoginComponent implements OnInit {
+export class UserRegisterComponent implements OnInit {
   isLoggedIn = false;
 
   constructor(private authService: AuthService){}
@@ -15,6 +14,4 @@ export class UserLoginComponent implements OnInit {
   ngOnInit(){
     this.authService.popcornLogin();
     };
-  }
-
-
+}
