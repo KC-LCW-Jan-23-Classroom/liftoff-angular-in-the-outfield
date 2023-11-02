@@ -36,7 +36,7 @@ export class MoviesService {
     return this.apiKeyService.getApiKey().pipe(
       switchMap((apiKey) => {
         const movieObservables = movieIds.map((movieId) => {
-          const movieUrl = `${this.apiUrl}/movie/${movieId}?append_to_response=watch%2Fproviders&language=en-US&api_key=${apiKey}&include_adult=false`;
+          const movieUrl = `${this.apiUrl}movie/${movieId}?append_to_response=watch%2Fproviders&language=en-US&api_key=${apiKey}&include_adult=false`;
           const directorAndCast$ = this.getDirectorAndCast(movieId);
 
           return zip(

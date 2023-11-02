@@ -6,6 +6,18 @@
     aria-label="Search"
     [(ngModel)]="searchInput"
     name="searchInput"
+    required
   />
+  <select
+    required
+    [(ngModel)]="searchType"
+    name="searchType"
+    class="form-select me-2"
+    aria-label="search by"
+  >
+    <option selected disabled>Search By...</option>
+    <option value="movie">Title</option>
+    <option value="person">Person</option>
+  </select>
   <button class="btn btn-outline-success" type="submit">Search</button>
 </form>
