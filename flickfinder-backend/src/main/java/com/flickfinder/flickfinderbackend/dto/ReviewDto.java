@@ -1,7 +1,15 @@
 package com.flickfinder.flickfinderbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+
 public class ReviewDto {
+
+    @JsonProperty("movieName")
     private String movieName;
+
+    @JsonProperty("reviewText")
     private String reviewText;
 
     // Constructors, getters, and setters

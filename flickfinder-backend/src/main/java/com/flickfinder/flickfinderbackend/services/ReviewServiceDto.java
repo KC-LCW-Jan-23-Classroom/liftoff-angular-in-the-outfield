@@ -28,6 +28,7 @@ public class ReviewServiceDto {
         UserReview userReview = new UserReview();
         userReview.setMovieName(reviewDto.getMovieName());
         userReview.setReviewText(reviewDto.getReviewText());
+        userReview.setId(1L);
         // Set other properties as needed
         return userReview;
     }
