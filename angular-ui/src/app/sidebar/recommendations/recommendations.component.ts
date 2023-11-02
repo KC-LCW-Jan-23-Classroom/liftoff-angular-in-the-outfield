@@ -29,7 +29,7 @@ export class RecommendationsComponent implements OnInit {
   apiKeyService: any;
   apiUrl: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private apiKeyService: ApikeyService) {}
 
   ngOnInit() {
     this.fetchMovies();
