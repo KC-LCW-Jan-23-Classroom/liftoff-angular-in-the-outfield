@@ -124,6 +124,8 @@ export class SearchService {
           ]);
           this.loadingMoviesSubject.next(false);
         });
+    } else {
+      this.loadingMoviesSubject.next(false);
     }
 
     // Update the start index for the next batch
