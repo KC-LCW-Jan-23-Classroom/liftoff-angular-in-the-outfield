@@ -1,6 +1,8 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.Movie;
+import com.flickfinder.flickfinderbackend.services.ApiKeyService;
+import com.flickfinder.flickfinderbackend.services.MovieService;
 import org.springframework.web.bind.annotation.*;
 import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,21 @@ public class MovieController {
     WatchedMovieRepository watchHistoryRepository;
 
     @Autowired
+    private ApiKeyService apiKeyService;
+
+    @Autowired
     UserRepository userRepository;
+
+    private final MovieService movieService;
+
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
+
+    @GetMapping("trending")
+    public Flux<Movie> getTrendingMovies() {
+        return movieService.getTrendingMovies();
+    }
   
 //    @GetMapping("/movies")
 //    public List<Movie> getMovies() {

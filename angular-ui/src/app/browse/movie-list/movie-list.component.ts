@@ -3,8 +3,10 @@ import { MoviesService } from '../../shared/movies.service';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
 import { SearchService } from '../search.service';
+import { HttpClient } from '@angular/common/http';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-movie-list',
@@ -28,23 +30,22 @@ export class MovieListComponent implements OnInit {
   constructor(
     private moviesService: MoviesService,
     private datePipe: DatePipe,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private http: HttpClient
   ) {
     const today = new Date();
     this.formattedDate = this.datePipe.transform(today, 'MMMM d, y');
   }
 
   ngOnInit(): void {
-    this.moviesService.fetchTrendingMoviesIds().subscribe((trendingMovies) => {
-      let movieIds: number[] = trendingMovies;
-      this.loading = true;
-      this.moviesService
-        .fetchMovieListDetails(movieIds)
-        .subscribe((movieListDetails) => {
-          this.movieList = movieListDetails;
-          this.loading = false
-        });
-    });
+
+    this.loading = true;
+    this.http
+      .get<Movie[]>('http://localhost:8080/api/trending')
+      .subscribe((response) => {
+        this.movieList = response;
+        this.loading = false
+      });
 
     this.searchService.totalPages$.subscribe((totalPages) => {
       this.totalPages = totalPages;
