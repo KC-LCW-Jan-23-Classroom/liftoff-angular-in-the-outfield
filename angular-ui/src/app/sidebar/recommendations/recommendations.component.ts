@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Movie } from '../../shared/movie.model';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Movie } from './../shared/movie.model';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+import { ApikeyService } from './../shared/apikey.service';
 
 @Component({
   selector: 'app-recommendations',
@@ -23,47 +22,38 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
   ]
 })
 export class RecommendationsComponent implements OnInit {
+  constructor(private http: HttpClient, private apiKeyService: ApikeyService) {}
+
   selectedMovie: Movie | undefined;
   movies: Movie[] = [];
   recommendedMovies: Movie[] = [];
-  apiKeyService: any;
-  apiUrl: string = 'https://api.themoviedb.org/3/';
-
-  constructor(private http: HttpClient, private apiKeyService: ApikeyService) {}
+  apiUrl: string = 'api.themoviedb.org/3/movie/recommendations'; // Update with correct API endpoint
 
   ngOnInit() {
-    this.fetchMovies();
+    // Hard-coded movie data for testing purposes
+    this.movies = [
+      {
+        id: 1,
+        title: 'Movie 1',
+        director: 'Director 1',
+        releaseYear: 2020,
+        genres: ['Thriller']
+        director: 'Director 1',
+        releaseYear: 2020,
+        genre: 'Thriller',
+      },
+      // Add more movie data as needed...
+    ];
 
-    this.http.get<Movie[]>('/api/movies').subscribe((data: Movie[]) => {
-      this.movies = data;
-    });
+    this.getRecommendations();
   }
 
-  fetchMovies() {
-    throw new Error('Method not implemented.');
-  }
+  getRecommendations() {
+    if (this.selectedMovie) {
 
-  getRecommendations(event: any) {
-    const selectedMovieId: number = parseInt(event.target.value, 20);
-    this.fetchRecommendationsMoviesIds(selectedMovieId).subscribe((movieIds) => {
-      this.recommendedMovies = this.movies.filter((movie) =>
-        movieIds.includes(movie.id)
-      );
-    });
-  }
-
-  fetchRecommendationsMoviesIds(movieId: number): Observable<number[]> {
-    return this.apiKeyService.getApiKey().pipe(
-      switchMap((apiKey) => {
-        const url = `${this.apiUrl}/movie/${movieId}/recommendations?language=en-US&page=1&total_results=20&api_key=${apiKey}&include_adult=false`;
-        return this.http
-          .get<any>(url)
-          .pipe(
-            map((response) =>
-              response.results.slice(0, 20).map((movie: any) => movie.id)
-            )
-          );
-      })
-    );
+      this.http.post<Movie[]>(this.apiUrl, { movie: this.selectedMovie }).subscribe((data: Movie[]) => {
+        this.recommendedMovies = data;
+      });
+    }
   }
 }
