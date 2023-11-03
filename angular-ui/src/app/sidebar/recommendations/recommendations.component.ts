@@ -50,11 +50,16 @@ export class RecommendationsComponent implements OnInit {
   }
 
   getRecommendations() {
-    if (this.selectedMovie) {
-
-      this.http.post<Movie[]>(this.apiUrl, { movie: this.selectedMovie }).subscribe((data: Movie[]) => {
+    console.log('Selected movie ID:', this.selectedMovie?.id);
+    if (this.selectedMovie?.id) {
+      this.http.get<Movie[]>(this.apiUrl, { params: { movieId: this.selectedMovie.id.toString() } }).subscribe((data: Movie[]) => {
         this.recommendedMovies = data;
       });
     }
   }
 }
+  //     this.http.post<Movie[]>(this.apiUrl, { movie: this.selectedMovie }).subscribe((data: Movie[]) => {
+  //       this.recommendedMovies = data;
+  //     });
+  //   }
+

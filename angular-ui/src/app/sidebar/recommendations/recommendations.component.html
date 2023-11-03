@@ -1,8 +1,12 @@
 <div>
   <h2>Recommended Movies</h2>
 
-  <select (change)="getRecommendations($event)">
-    <option *ngFor="let movie of movies" [value]="movie.id">{{ movie.title }}</option>
-  </select>
-  <div *ngFor="let movie of recommendedMovies" [@spin]>{{ movie.title }}</div>
+  <div *ngFor="let movieItem of recommendedMovies" class="card m-2" style="width: 18rem">
+    <img [src]="movieItem.poster" class="card-img-top" [alt]="movieItem.title" />
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <h5 class="card-title">{{ movieItem.title }}</h5>
+      </div>
+    </div>
+  </div>
 </div>
