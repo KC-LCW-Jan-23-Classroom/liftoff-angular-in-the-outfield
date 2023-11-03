@@ -1,8 +1,9 @@
+import { ApikeyService } from '../../shared/apikey.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Movie } from '../../shared/movie.model';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
-import { ApikeyService } from '../../shared/apikey.service';
+
 
 @Component({
   selector: 'app-recommendations',
@@ -22,12 +23,13 @@ import { ApikeyService } from '../../shared/apikey.service';
   ]
 })
 export class RecommendationsComponent implements OnInit {
+  apiUrl: string =  'https://api.themoviedb.org//3/movie/6/similar?language=en-US&page=1&total_results=20&api_key=${apiKey}&include_adult=false`' + this.apiKeyService.getApiKey();
+
   constructor(private http: HttpClient, private apiKeyService: ApikeyService) {}
 
   selectedMovie: Movie | undefined;
   movies: Movie[] = [];
   recommendedMovies: Movie[] = [];
-  apiUrl: string = 'api.themoviedb.org/3/movie/recommendations'; // Update with correct API endpoint
 
   ngOnInit() {
     // Hard-coded movie data for testing purposes
