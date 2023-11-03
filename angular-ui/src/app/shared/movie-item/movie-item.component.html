@@ -1,5 +1,16 @@
-<div class="card m-2" style="width: 18rem">
-  <img [src]="movieItem.poster" class="card-img-top" [alt]="movieItem.title" />
+<div [@fadeIn] class="card m-2" style="width: 15rem">
+  <img
+    *ngIf="movieItem.poster; else defaultImage"
+    [src]="movieItem.poster"
+    class="card-img-top"
+    [alt]="movieItem.title"
+  />
+  <ng-template #defaultImage
+    ><img
+      src="assets/images/img-not-available.jpeg"
+      class="card-img-top"
+      [alt]="movieItem.title"
+  /></ng-template>
   <div class="card-body">
     <div class="d-flex justify-content-between">
       <h5 class="card-title">{{ movieItem.title }}</h5>
@@ -45,8 +56,7 @@
       <p>
         <span class="fw-bold">Cast: </span>
         <ng-container *ngFor="let actor of movieItem.cast; let last = last">
-          {{ actor }}
-          <span *ngIf="!last">, </span>
+          {{ actor }}<span *ngIf="!last">, </span>
         </ng-container>
       </p>
       <p>{{ movieItem.plot }}</p>
@@ -57,4 +67,5 @@
 <ng-template #elseNoStreaming
   ><p class="fst-italic no-streaming">
     Not available on subscription streaming. May be available to buy or rent.
-  </p></ng-template>
+  </p></ng-template
+>

@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component'; // Import the NavbarComponent here
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -25,6 +26,9 @@ import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { RecommendationsComponent } from './sidebar/recommendations/recommendations.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { RecommendationsComponent } from './recommendations/recommendations.component';
+import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
@@ -44,19 +48,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowseComponent,
     SearchByTextComponent,
     ProfileComponent,
-    ProfileViewComponent,
     RecommendationsComponent,
+    ProfileViewComponent,
+    ScrollToTopComponent,
+    LoadingSpinnerComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule,BrowserAnimationsModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [DatePipe],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-
-}
-
-
-
+export class AppModule {}
 
 
 

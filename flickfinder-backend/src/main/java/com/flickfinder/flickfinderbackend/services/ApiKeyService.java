@@ -9,6 +9,9 @@ public class ApiKeyService {
     @Value("${api.key}")
     private String apiKey;
 
+    public ApiKeyService() {
+    }
+
     public String getApiKey() {
         return apiKey;
     }
