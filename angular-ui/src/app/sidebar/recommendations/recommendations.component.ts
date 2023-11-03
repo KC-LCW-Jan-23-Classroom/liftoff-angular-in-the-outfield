@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Movie } from './../shared/movie.model';
+import { Movie } from '../../shared/movie.model';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
-import { ApikeyService } from './../shared/apikey.service';
+import { ApikeyService } from '../../shared/apikey.service';
 
 @Component({
   selector: 'app-recommendations',
@@ -37,12 +37,13 @@ export class RecommendationsComponent implements OnInit {
         title: 'Movie 1',
         director: 'Director 1',
         releaseYear: 2020,
-        genres: ['Thriller']
-        director: 'Director 1',
-        releaseYear: 2020,
-        genre: 'Thriller',
-      },
-      // Add more movie data as needed...
+        runtimeMinutes: 120,
+        poster: 'https://image.tmdb.org/t/p/w500/8WUVHemHFH2ZIP6NWkwlHWsyrEL.jpg',
+        plot: 'Plot 1',
+        streamingSources: ['Netflix', 'Hulu'],
+        cast: ['Actor 1', 'Actor 2'],
+        genres: ['Thriller'], // Define genres as an array even if it contains a single genre
+      }
     ];
 
     this.getRecommendations();
