@@ -13,8 +13,6 @@ public abstract class AbstractMovie {
 
     private int apiMovieId;
 
-    private int userReviewId;
-
     public AbstractMovie() {
     }
 
@@ -28,14 +26,6 @@ public abstract class AbstractMovie {
 
     public int getApiMovieId() {
         return apiMovieId;
-    }
-
-    public int getUserReviewId() {
-        return userReviewId;
-    }
-
-    public void setUserReviewId(int userReviewId) {
-        this.userReviewId = userReviewId;
     }
 
     public void setApiMovieId(int apiMovieId) {

@@ -12,7 +12,9 @@ public class WatchedMovie extends AbstractMovie {
     @ManyToOne
     private User user;
 
-    public WatchedMovie() {}
+    public WatchedMovie() {
+        super();
+    }
 
     public User getUser() {
         return user;
