@@ -1,0 +1,162 @@
+package com.flickfinder.flickfinderbackend.services;
+import com.flickfinder.flickfinderbackend.models.DirectorAndCastResponse;
+import com.flickfinder.flickfinderbackend.models.Movie;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Service
+public class MovieService {
+
+    private final WebClient webClient;
+    private final String APIKEY;
+
+    public MovieService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService) {
+        this.webClient = webClientBuilder.baseUrl("https://api.themoviedb.org/3").build();
+        this.APIKEY = apiKeyService.getApiKey();
+    }
+
+    public Flux<Movie> getTrendingMovies() {
+        return getTrendingMoviesIds()
+                .flatMapMany(movieIds -> getMovieDetails(Arrays.asList(movieIds)));
+    }
+
+
+    public Flux<Movie> getMovieDetails(List<Integer> movieIds) {
+        return Flux.fromIterable(movieIds)
+                .flatMap(movieId -> {
+                    Mono<DirectorAndCastResponse> directorAndCastMono = getDirectorAndCast(movieId);
+
+                    String movieUrl = String.format("/movie/%d?append_to_response=watch/providers&language=en-US&api_key=%s&include_adult=false", movieId, APIKEY);
+
+                    return webClient.get()
+                            .uri(movieUrl)
+                            .retrieve()
+                            .bodyToMono(Object.class)
+                            .zipWith(directorAndCastMono)
+                            .map(tuple -> {
+                                Map<String, Object> movieResponse = (Map<String, Object>) tuple.getT1();
+                                DirectorAndCastResponse directorAndCast = tuple.getT2();
+
+                                List<String> streamingSources = new ArrayList<>();
+
+                                Map<String, Object> providers = (Map<String, Object>) movieResponse.get("watch/providers");
+                                if (providers != null) {
+                                    Map<String, Object> results = (Map<String, Object>) providers.get("results");
+                                    if (results != null) {
+                                        Map<String, Object> usProviders = (Map<String, Object>) results.get("US");
+                                        if (usProviders != null) {
+                                            List<Map<String, Object>> flatrate = (List<Map<String, Object>>) usProviders.get("flatrate");
+                                            if (flatrate != null) {
+                                                for (Map<String, Object> source : flatrate) {
+                                                    String logoPath = (String) source.get("logo_path");
+                                                    String logoUrl = getLogoPath(logoPath);
+                                                    streamingSources.add(logoUrl);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                                String posterPath = this.getPosterPath((String) movieResponse.get("poster_path"));
+
+                                List<Map<String, Object>> genres = (List<Map<String, Object>>) movieResponse.get("genres");
+                                String genre = genres.stream().map(g -> (String) g.get("name")).collect(Collectors.joining(", "));
+                                int releaseYear = movieResponse.get("release_date") != null ? Integer.parseInt(((String) movieResponse.get("release_date")).substring(0, 4)) : 0;
+
+                                return new Movie(
+                                        (String) movieResponse.get("title"),
+                                        (int) movieResponse.get("id"),
+                                        List.of(genre),
+                                        releaseYear,
+                                        (int) movieResponse.get("runtime"),
+                                        posterPath,
+                                        (String) movieResponse.get("overview"),
+                                        streamingSources.isEmpty() ? null : streamingSources,
+                                        directorAndCast.getDirector(),
+                                        directorAndCast.getCast()
+
+                                );
+                            });
+                })
+                .collectList()
+                .flatMapMany(Flux::fromIterable);
+    }
+
+    private Mono<Integer[]> getTrendingMoviesIds() {
+        ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
+        return webClient.get()
+                .uri("/trending/movie/day?language=en-US&page=1&total_results=20&api_key={apiKey}&include_adult=false", this.APIKEY)
+                .retrieve()
+                .bodyToMono(responseType)
+                .map(response -> {
+                    List<Integer> movieIds = new ArrayList<>();
+                    List<Map<String, Object>> results = (List<Map<String, Object>>) response.get("results");
+                    for (Map<String, Object> movie : results) {
+                        Integer id = (Integer) movie.get("id");
+                        movieIds.add(id);
+                    }
+
+                    return movieIds.toArray(new Integer[0]);
+                });
+
+    }
+
+    private String getPosterPath (String posterPath) {
+        if (posterPath != null) {
+            return "https://image.tmdb.org/t/p/w500" + posterPath;
+        }
+
+        return null;
+    }
+
+    private String getLogoPath (String logoPath) {
+        if (logoPath != null) {
+            return "https://image.tmdb.org/t/p/original" + logoPath;
+        }
+
+        return null;
+    }
+
+    private Mono<DirectorAndCastResponse> getDirectorAndCast(int movieId) {
+        return webClient
+                .get()
+                .uri("/movie/{movieId}/credits?api_key={apiKey}", movieId, this.APIKEY)
+                .retrieve()
+                .bodyToMono(Object.class)
+                .map(response -> {
+                    String director = "";
+                    List<String> cast = new ArrayList<>();
+
+                    if (response instanceof Map) {
+                        Map<String, Object> responseData = (Map<String, Object>) response;
+
+                        // Extract director
+                        List<Map<String, Object>> crew = (List<Map<String, Object>>) responseData.get("crew");
+                        for (Map<String, Object> member : crew) {
+                            if ("Director".equals(member.get("job"))) {
+                                director = (String) member.get("name");
+                                break;
+                            }
+                        }
+
+                        // Extract cast
+                        List<Map<String, Object>> castData = (List<Map<String, Object>>) responseData.get("cast");
+                        for (int i = 0; i < Math.min(5, castData.size()); i++) {
+                            cast.add((String) castData.get(i).get("name"));
+                        }
+                    }
+
+                    return new DirectorAndCastResponse(director, cast);
+                });
+    }
+}

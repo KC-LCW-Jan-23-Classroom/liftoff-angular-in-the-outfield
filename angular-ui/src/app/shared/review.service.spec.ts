@@ -7,7 +7,7 @@ import { UserReview } from './user-review.model';
   providedIn: 'root',
 })
 export class ReviewsService {
-  private apiUrl = '/api/reviews'; // Assuming your backend serves the API at the same origin
+  private apiUrl = 'http://localhost:8080/api/reviews'; // Assuming your Spring Boot app runs on port 8080
 
   constructor(private http: HttpClient) {}
 

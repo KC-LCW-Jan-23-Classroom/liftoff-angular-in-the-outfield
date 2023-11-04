@@ -1,0 +1,12 @@
+<div>
+  <h1>Movie Recommendation System</h1>
+  <label for="movie">Select a Movie:</label>
+  <select [(ngModel)]="selectedMovie" (change)="getRecommendations()">
+    <option *ngFor="let movie of movies" [ngValue]="movie">{{ movie.title }}</option>
+  </select>
+
+  <h2>Recommended Movies:</h2>
+  <ul>
+    <li *ngFor="let movie of recommendedMovies">{{ movie.title }}</li>
+  </ul>
+</div>
