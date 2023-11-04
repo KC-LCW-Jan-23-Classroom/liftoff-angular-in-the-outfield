@@ -1,9 +1,8 @@
-import { ApikeyService } from '../../shared/apikey.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Movie } from '../../shared/movie.model';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
-
+import { ApikeyService } from '../../shared/apikey.service';
 
 @Component({
   selector: 'app-recommendations',
@@ -23,7 +22,7 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
   ]
 })
 export class RecommendationsComponent implements OnInit {
-  apiUrl: string =  'https://api.themoviedb.org//3/movie/6/similar?language=en-US&page=1&total_results=20&api_key=${apiKey}&include_adult=false`' + this.apiKeyService.getApiKey();
+  apiUrl: string = ''; // Initialize apiUrl variable
 
   constructor(private http: HttpClient, private apiKeyService: ApikeyService) {}
 
@@ -32,7 +31,6 @@ export class RecommendationsComponent implements OnInit {
   recommendedMovies: Movie[] = [];
 
   ngOnInit() {
-    // Hard-coded movie data for testing purposes
     this.movies = [
       {
         id: 1,
@@ -46,22 +44,22 @@ export class RecommendationsComponent implements OnInit {
         cast: ['Actor 1', 'Actor 2'],
         genres: ['Thriller'], // Define genres as an array even if it contains a single genre
       }
+      // Add more test movies if needed
     ];
+    this.getRecommendations(),
 
-    this.getRecommendations();
-  }
 
-  getRecommendations() {
-    console.log('Selected movie ID:', this.selectedMovie?.id);
+  this.getRecommendations(); {
     if (this.selectedMovie?.id) {
-      this.http.get<Movie[]>(this.apiUrl, { params: { movieId: this.selectedMovie.id.toString() } }).subscribe((data: Movie[]) => {
+      this.apiUrl = `https://api.themoviedb.org/3/movie/${this.selectedMovie.id}/similar?api_key=${this.apiKeyService.getApiKey()}&language=en-US&page=1&include_adult=false`;
+
+      this.http.get<Movie[]>(this.apiUrl).subscribe((data: Movie[]) => {
         this.recommendedMovies = data;
       });
     }
   }
-}
-  //     this.http.post<Movie[]>(this.apiUrl, { movie: this.selectedMovie }).subscribe((data: Movie[]) => {
-  //       this.recommendedMovies = data;
-  //     });
-  //   }
+}  getRecommendations() {
+    throw new Error('Method not implemented.');
+  }
 
+}
