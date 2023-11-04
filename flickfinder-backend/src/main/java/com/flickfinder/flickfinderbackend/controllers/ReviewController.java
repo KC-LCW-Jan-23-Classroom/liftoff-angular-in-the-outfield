@@ -1,8 +1,8 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
 
-import com.flickfinder.flickfinderbackend.services.ReviewServiceDto;
 import com.flickfinder.flickfinderbackend.dto.ReviewDto;
+import com.flickfinder.flickfinderbackend.services.ReviewServiceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("review")
+@RequestMapping("api/reviews")
 public class ReviewController {
+
 
     private final ReviewServiceDto reviewService;
 
-    @Autowired
     public ReviewController(ReviewServiceDto reviewService) {
         this.reviewService = reviewService;
     }
