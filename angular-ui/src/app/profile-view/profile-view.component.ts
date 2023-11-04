@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReviewsService } from 'src/app/shared/reviews.service';
+import { ReviewsService } from '../shared/review.service.spec';
 import { UserReview } from 'src/app/shared/user-review.model';
 @Component({
   selector: 'app-profile-view',

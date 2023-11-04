@@ -3,11 +3,11 @@
     <form (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="movieName">Movie Name:</label>
-            <input type="text" class="form-control" id="movieName" [(ngModel)]="movieName" required>
+            <input type="text" class="form-control" name="movieName" [(ngModel)]="movieName" required>
         </div>
         <div class="form-group">
             <label for="reviewText">Review:</label>
-            <textarea class="form-control" id="reviewText" [(ngModel)]="reviewText" required></textarea>
+            <textarea class="form-control" name="reviewText" [(ngModel)]="reviewText" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit Review</button>
     </form>
