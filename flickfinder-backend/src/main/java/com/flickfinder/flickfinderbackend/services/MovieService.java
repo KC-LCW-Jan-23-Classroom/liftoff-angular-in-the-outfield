@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 public class MovieService {
 
     private final WebClient webClient;
-    private final String APIKEY;
+    private final String API_KEY;
 
     public MovieService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService) {
         this.webClient = webClientBuilder.baseUrl("https://api.themoviedb.org/3").build();
-        this.APIKEY = apiKeyService.getApiKey();
+        this.API_KEY = apiKeyService.getApiKey();
     }
 
     public Flux<Movie> getTrendingMovies() {
@@ -35,7 +35,7 @@ public class MovieService {
                 .flatMap(movieId -> {
                     Mono<DirectorAndCastResponse> directorAndCastMono = getDirectorAndCast(movieId);
 
-                    String movieUrl = String.format("/movie/%d?append_to_response=watch/providers&language=en-US&api_key=%s&include_adult=false", movieId, APIKEY);
+                    String movieUrl = String.format("/movie/%d?append_to_response=watch/providers&language=en-US&api_key=%s&include_adult=false", movieId, API_KEY);
 
                     return webClient.get()
                             .uri(movieUrl)
@@ -71,7 +71,16 @@ public class MovieService {
 
                                 List<Map<String, Object>> genres = (List<Map<String, Object>>) movieResponse.get("genres");
                                 String genre = genres.stream().map(g -> (String) g.get("name")).collect(Collectors.joining(", "));
-                                int releaseYear = movieResponse.get("release_date") != null ? Integer.parseInt(((String) movieResponse.get("release_date")).substring(0, 4)) : 0;
+                                int releaseYear = 0; // Default value if release_date is missing or empty
+                                Object releaseDateObj = movieResponse.get("release_date");
+                                if (releaseDateObj != null && releaseDateObj instanceof String) {
+                                    String releaseDate = (String) releaseDateObj;
+                                    if (!releaseDate.isEmpty()) {
+                                        // Ensure that releaseDate is not empty before extracting the year
+                                        releaseYear = Integer.parseInt(releaseDate.substring(0, 4));
+                                    }
+                                }
+
 
                                 return new Movie(
                                         (String) movieResponse.get("title"),
@@ -95,7 +104,7 @@ public class MovieService {
     private Mono<Integer[]> getTrendingMoviesIds() {
         ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
         return webClient.get()
-                .uri("/trending/movie/day?language=en-US&page=1&total_results=20&api_key={apiKey}&include_adult=false", this.APIKEY)
+                .uri("/trending/movie/day?language=en-US&page=1&total_results=20&api_key={apiKey}&include_adult=false", this.API_KEY)
                 .retrieve()
                 .bodyToMono(responseType)
                 .map(response -> {
@@ -130,7 +139,7 @@ public class MovieService {
     private Mono<DirectorAndCastResponse> getDirectorAndCast(int movieId) {
         return webClient
                 .get()
-                .uri("/movie/{movieId}/credits?api_key={apiKey}", movieId, this.APIKEY)
+                .uri("/movie/{movieId}/credits?api_key={apiKey}", movieId, this.API_KEY)
                 .retrieve()
                 .bodyToMono(Object.class)
                 .map(response -> {
