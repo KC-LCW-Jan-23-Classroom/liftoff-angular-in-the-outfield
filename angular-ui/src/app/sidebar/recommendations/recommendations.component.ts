@@ -22,7 +22,7 @@ import { ApikeyService } from '../../shared/apikey.service';
   ]
 })
 export class RecommendationsComponent implements OnInit {
-  apiUrl: string = ''; // Initialize apiUrl variable
+  apiUrl: string = 'https://api.themoviedb.org/3/movie/550/similar?api_key=<<api_key>>&language=en-US&page=1';
 
   constructor(private http: HttpClient, private apiKeyService: ApikeyService) {}
 
@@ -44,12 +44,14 @@ export class RecommendationsComponent implements OnInit {
         cast: ['Actor 1', 'Actor 2'],
         genres: ['Thriller'], // Define genres as an array even if it contains a single genre
       }
-      // Add more test movies if needed
+
     ];
-    this.getRecommendations(),
+//logic for get recommendations here
+    this.selectedMovie = this.movies[0];
+    this.getRecommendations();
+  }
 
-
-  this.getRecommendations(); {
+  getRecommendations() {
     if (this.selectedMovie?.id) {
       this.apiUrl = `https://api.themoviedb.org/3/movie/${this.selectedMovie.id}/similar?api_key=${this.apiKeyService.getApiKey()}&language=en-US&page=1&include_adult=false`;
 
@@ -58,8 +60,4 @@ export class RecommendationsComponent implements OnInit {
       });
     }
   }
-}  getRecommendations() {
-    throw new Error('Method not implemented.');
-  }
-
 }
