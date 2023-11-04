@@ -22,7 +22,7 @@ import { ApikeyService } from '../../shared/apikey.service';
   ]
 })
 export class RecommendationsComponent implements OnInit {
-  apiUrl: string = 'https://api.themoviedb.org/3/movie/550/similar?api_key=<<api_key>>&language=en-US&page=1';
+  apiUrl: string = 'https://api.themoviedb.org/3/movie/${this.selectedMovie.id}/similar?api_key=${this.apiKeyService.getApiKey()}&language=en-US&page=1&include_adult=false`;';
 
   constructor(private http: HttpClient, private apiKeyService: ApikeyService) {}
 
