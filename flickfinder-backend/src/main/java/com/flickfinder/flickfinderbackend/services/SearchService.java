@@ -16,7 +16,7 @@ public class SearchService {
     private final String API_KEY;
     private final MovieService movieService;
 
-    private int totalPages;
+    private int totalPages = 0;
 
     public SearchService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService, MovieService movieService) {
         this.webClient = webClientBuilder.baseUrl("https://api.themoviedb.org/3").build();
@@ -25,6 +25,9 @@ public class SearchService {
     }
 
     public Flux<Movie> searchMoviesByTitle(String searchTerm, int page) {
+        if (this.totalPages != 0 && page > this.totalPages) {
+            return null;
+        }
         return getMovieIds(searchTerm, page)
                 .flatMapMany(movieIds -> this.movieService.getMovieDetails(Arrays.asList(movieIds)));
     }

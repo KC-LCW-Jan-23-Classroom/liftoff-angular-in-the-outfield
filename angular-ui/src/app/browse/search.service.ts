@@ -153,7 +153,9 @@ export class SearchService {
         const currentMovies: Movie[] = this.responseMoviesSubject.value;
         const newMovies: Movie[] = response;
 
-        if (newMovies.length > 0) {
+        if (newMovies === null) {
+          this.loadingMoviesSubject.next(false);
+        } else if (newMovies.length > 0) {
           this.responseMoviesSubject.next([...currentMovies, ...newMovies]);
 
           this.loadingMoviesSubject.next(false);
