@@ -133,80 +133,34 @@ export class SearchService {
   }
 
   searchMoviesByTitle(searchTerm: string, page: number): void {
-    this.loadingMoviesSubject.next(true); // Set loading flag to true
-    this.currentPageSubject.next(1);
-    this.loadedPages = [];
+    this.loadingMoviesSubject.next(true);
+    this.currentPageSubject.next(page);
 
     this.searchTypeSubject.next('movie');
 
     if (this.loadedPages.includes(page)) {
-      this.loadingMoviesSubject.next(false); // Reset loading flag
-      return; // Page already loaded, skip loading it again
+      this.loadingMoviesSubject.next(false);
+      return;
     }
 
-    this.apiKeyService
-      .getApiKey()
-      .pipe(
-        switchMap((apiKey) => {
-          return this.fetchMovieIds(apiKey, searchTerm, page);
-        })
-      )
-      .subscribe((response) => {
-        const movieIds: number[] = response;
+    const params = new HttpParams()
+      .set('searchTerm', searchTerm)
+      .set('page', page);
 
-        // Filter out movieIds that have already been added to responseMoviesSubject
-        const currentMovies = this.responseMoviesSubject.value;
-        const newMovies = movieIds.filter(
-          (id) => !currentMovies.some((movie) => movie.id === id)
-        );
+    this.http
+      .get<Movie[]>('http://localhost:8080/search/title', { params })
+      .subscribe((response) => {
+        const currentMovies: Movie[] = this.responseMoviesSubject.value;
+        const newMovies: Movie[] = response;
 
         if (newMovies.length > 0) {
-          // Append new results to the existing ones
-          this.moviesService
-            .fetchMovieListDetails(newMovies)
-            .subscribe((movieListDetails) => {
-              this.responseMoviesSubject.next([
-                ...currentMovies,
-                ...movieListDetails,
-              ]);
+          this.responseMoviesSubject.next([...currentMovies, ...newMovies]);
 
-              this.loadingMoviesSubject.next(false);
-            });
+          this.loadingMoviesSubject.next(false);
         }
-
-        this.totalPages$.pipe(first()).subscribe((totalPages) => {
-          if (page < totalPages) {
-            this.currentPageSubject.next(page + 1); // Load the next page
-          }
-        });
       });
 
     this.loadedPages.push(page);
-  }
-
-  private fetchMovieIds(
-    apiKey: string,
-    searchTerm: string,
-    page: number
-  ): Observable<number[]> {
-    const pageSize = 20;
-    const url = `${this.moviesService.getApiUrl()}/search/movie`;
-    const params = new HttpParams()
-      .set('api_key', apiKey)
-      .set('query', searchTerm)
-      .set('language', 'en-US')
-      .set('page', page.toString())
-      .set('include_adult', false);
-
-    return this.http.get<any>(url, { params }).pipe(
-      map((response) => {
-        const movieIds = response.results.map((movie: any) => movie.id);
-        this.totalPagesSubject.next(
-          Math.ceil(response.total_results / pageSize)
-        );
-        return movieIds;
-      })
-    );
   }
 
   private fetchPeopleIds(
@@ -315,5 +269,6 @@ export class SearchService {
     this.start = 0;
     this.end = 0;
     this.personMovieIds = [];
+    this.loadedPages = [];
   }
 }

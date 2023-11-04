@@ -16,7 +16,6 @@ import { Subject } from 'rxjs';
 export class MovieListComponent implements OnInit {
   movieList: Movie[] = [];
   formattedDate: string | null;
-  totalPages!: number;
   currentPage!: number;
   searchInput!: string;
   searchType!: string;
@@ -46,10 +45,6 @@ export class MovieListComponent implements OnInit {
         this.movieList = response;
         this.loading = false
       });
-
-    this.searchService.totalPages$.subscribe((totalPages) => {
-      this.totalPages = totalPages;
-    });
 
     this.searchService.getResponseMovies().subscribe((movieListDetails) => {
       this.movieList = movieListDetails;
