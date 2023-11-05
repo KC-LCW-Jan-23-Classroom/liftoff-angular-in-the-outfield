@@ -1,6 +1,10 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.dto.MovieDTO;
+import com.flickfinder.flickfinderbackend.requests.CreateMovieInput;
+import jakarta.validation.Valid;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import com.flickfinder.flickfinderbackend.models.User;
@@ -10,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins ="http://localhost:4200/")
 @RequestMapping("/api")
 public class MovieController {
 
@@ -48,16 +54,16 @@ public class MovieController {
         return watchedMovieIds;
     }
     //TODO Make sure we check these methods for errors. Would be great to refactor to a User object to validate
-    private WatchedMovie convertToEntity(MovieDTO savedMovieDTO) {
-        WatchedMovie watchedMovie = new WatchedMovie();
-        Optional<User> result = userRepository.findById(savedMovieDTO.getUserId());
-        if (!result.isEmpty()) {
-            User user = result.get();
-            watchedMovie.setUser(user);
-        }
-        watchedMovie.setApiMovieId(savedMovieDTO.getApiMovieId());
-        return watchedMovie;
-    }
+//    private WatchedMovie convertToEntity(MovieDTO savedMovieDTO) {
+//        WatchedMovie watchedMovie = new WatchedMovie();
+//        Optional<User> result = userRepository.findById(savedMovieDTO.getUserId());
+//        if (!result.isEmpty()) {
+//            User user = result.get();
+//            watchedMovie.setUser(user);
+//        }
+//        watchedMovie.setApiMovieId(savedMovieDTO.getApiMovieId());
+//        return watchedMovie;
+//    }
 
 
     @RequestMapping("/watch_history/{userId}")
@@ -73,13 +79,11 @@ public class MovieController {
 
     //TODO get new movie to add to watch list
     @PostMapping("/watch_history/add")
-    public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody MovieDTO movieDTO) {
-//        System.out.println(movieDTO.getApiMovieId());
-        WatchedMovie newWatchedMovie = this.convertToEntity(movieDTO);
-//        System.out.println(newWatchedMovie.getMovieId());
-        watchHistoryRepository.save(newWatchedMovie);
+    public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody CreateMovieInput createMovieInput) {
+        WatchedMovie createdWatchedMovie = createMovieInput.toWatchedMovie();
+        watchHistoryRepository.save(createdWatchedMovie);
 //        List<Integer> watchHistoryIds = this.getWatchHistoryByUser(newWatchedMovie.getUser().getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(newWatchedMovie);
+        return new ResponseEntity<>(createdWatchedMovie, HttpStatus.CREATED);
 
     }
 
