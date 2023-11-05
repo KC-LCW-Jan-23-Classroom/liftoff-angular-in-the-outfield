@@ -56,7 +56,7 @@ public class UserAuthenticationController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<String> processUserLogin(@Valid @RequestBody LoginFormDTO loginFormDTO, HttpServletRequest request) {
-        String username = loginFormDTO.getUsername();
+        String username = loginFormDTO.getName();
         User user = userRepository.findByUsername(username);
 
         if(user == null){
