@@ -14,3 +14,5 @@ describe('ReviewService', () => {
     expect(service).toBeTruthy();
   });
 });
+
+export { ReviewService };
