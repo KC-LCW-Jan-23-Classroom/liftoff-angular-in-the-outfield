@@ -7,14 +7,18 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private varResponse:boolean;
+  private registerUrl = 'http://localhost:8080/auth/register';
 
   constructor(private http: HttpClient) { 
     this.varResponse = false;
   }
 
+  registerUser(user: any): Observable<any> {
+    return this.http.post(this.registerUrl, user);
+  }
+
 //insert the actual API endpoint for user authentication in java here
   private authUrl = 'http://localhost:8080/auth/login';
-  private registerUrl = 'http://localhost:8080/auth/register';
 
 
 

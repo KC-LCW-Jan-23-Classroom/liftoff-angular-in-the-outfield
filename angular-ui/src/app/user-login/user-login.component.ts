@@ -15,6 +15,10 @@ export class UserLoginComponent implements OnInit {
   ngOnInit(){
     this.authService.popcornLogin();
     };
+
+    onSubmit(){
+//create function for submit
+    };
   }
 
 
