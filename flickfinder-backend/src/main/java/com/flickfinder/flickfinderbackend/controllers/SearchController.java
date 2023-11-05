@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/search")
@@ -22,4 +23,18 @@ public class SearchController {
     public Flux<Movie> searchMoviesByTitle(@RequestParam String searchTerm, @RequestParam int page) {
         return searchService.searchMoviesByTitle(searchTerm, page);
     }
+
+    @GetMapping("person")
+    public Flux<Movie> searchMoviesByPerson(@RequestParam String searchTerm, @RequestParam int index) {
+        if (index == 0) {
+            return searchService.searchMoviesByPerson(searchTerm);
+        } else {
+            return searchService.displayMore(index);
+        }
+    }
+
+//    @GetMapping("test")
+//    public Mono<Integer[]> testPersonSearch(@RequestParam String searchTerm) {
+//        return searchService.loadMovieIdsInBatches(searchTerm);
+//    }
 }

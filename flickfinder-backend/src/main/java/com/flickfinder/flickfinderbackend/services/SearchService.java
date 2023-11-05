@@ -18,6 +18,7 @@ public class SearchService {
     private final WebClient webClient;
     private final String API_KEY;
     private final MovieService movieService;
+    private Integer[] peopleMovieIds;
 
     private int totalPages = 0;
 
@@ -170,4 +171,47 @@ public class SearchService {
                     return allMovieIds.toArray(new Integer[0]);
                 });
     }
+
+    private Mono<Integer[]> loadMovieIdsInBatches(String searchTerm) {
+        return getAllPeopleIds(searchTerm)
+                .flatMapMany(Flux::fromArray)
+                .buffer(20) // Buffer the person IDs into batches of 20
+                .flatMap(batch -> {
+                    Integer[] batchArray = batch.toArray(new Integer[0]);
+                    return getAllMovieIdsForPeople(Mono.just(batchArray));
+                })
+                .collectList()
+                .flatMap(list -> {
+                    Integer[] result = list.stream()
+                            .flatMap(Arrays::stream)
+                            .toArray(Integer[]::new);
+                    return Mono.just(result);
+                });
+    }
+
+
+    public Flux<Movie> searchMoviesByPerson(String searchTerm) {
+        return loadMovieIdsInBatches(searchTerm)
+                .flatMapMany(movieIds -> {
+                    peopleMovieIds = movieIds;
+                    return displayMore(0);
+                });
+    }
+
+
+    public Flux<Movie> displayMore(int index) {
+        if (index > peopleMovieIds.length) {
+            return null;
+        }
+        int end = index + 20;
+
+        if (end > peopleMovieIds.length) {
+            end = peopleMovieIds.length;
+        }
+
+        Integer[] nextMovieIds = Arrays.copyOfRange(peopleMovieIds, index, end);
+
+        return this.movieService.getMovieDetails(Arrays.asList(nextMovieIds));
+    }
+
 }
