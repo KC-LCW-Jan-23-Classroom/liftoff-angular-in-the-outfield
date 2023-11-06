@@ -1,6 +1,5 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
-import com.flickfinder.flickfinderbackend.dto.MovieDTO;
 import com.flickfinder.flickfinderbackend.requests.CreateMovieInput;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
@@ -53,18 +52,6 @@ public class MovieController {
         }
         return watchedMovieIds;
     }
-    //TODO Make sure we check these methods for errors. Would be great to refactor to a User object to validate
-//    private WatchedMovie convertToEntity(MovieDTO savedMovieDTO) {
-//        WatchedMovie watchedMovie = new WatchedMovie();
-//        Optional<User> result = userRepository.findById(savedMovieDTO.getUserId());
-//        if (!result.isEmpty()) {
-//            User user = result.get();
-//            watchedMovie.setUser(user);
-//        }
-//        watchedMovie.setApiMovieId(savedMovieDTO.getApiMovieId());
-//        return watchedMovie;
-//    }
-
 
     @RequestMapping("/watch_history/{userId}")
     public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
@@ -72,7 +59,6 @@ public class MovieController {
 //        if (currentUser.isEmpty()) {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST);
 //        }
-
         List<Integer> watchHistoryIds = this.getWatchHistoryByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(watchHistoryIds);
     }
@@ -83,7 +69,6 @@ public class MovieController {
         WatchedMovie createdWatchedMovie = createMovieInput.toWatchedMovie();
         watchHistoryRepository.save(createdWatchedMovie);
         System.out.println(createdWatchedMovie);
-//        List<Integer> watchHistoryIds = this.getWatchHistoryByUser(newWatchedMovie.getUser().getId());
         return new ResponseEntity<>(createdWatchedMovie, HttpStatus.CREATED);
 
     }
