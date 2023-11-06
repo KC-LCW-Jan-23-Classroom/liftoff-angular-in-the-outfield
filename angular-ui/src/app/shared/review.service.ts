@@ -1,16 +1,21 @@
-import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UserReview } from './user-review.model';
 
-import { ReviewService } from './review.service';
+@Injectable({
+  providedIn: 'root',
+})
+export class ReviewsService {
+  private apiUrl = 'http://localhost:8080/api/reviews'; // Assuming your Spring Boot app runs on port 8080
 
-describe('ReviewService', () => {
-  let service: ReviewService;
+  constructor(private http: HttpClient) {}
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ReviewService);
-  });
+  getAllReviews(): Observable<UserReview[]> {
+    return this.http.get<UserReview[]>(this.apiUrl);
+  }
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  addReview(review: UserReview): Observable<UserReview> {
+    return this.http.post<UserReview>(this.apiUrl, review);
+  }
+}
