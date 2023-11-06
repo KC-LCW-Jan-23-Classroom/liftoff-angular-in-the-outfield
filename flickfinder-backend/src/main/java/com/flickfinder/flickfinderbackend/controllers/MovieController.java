@@ -42,11 +42,11 @@ public class MovieController {
     }
   
 //    @GetMapping("/movies")
-    public List<Movie> getMovies() {
-        return movieService.getMovies();
-
-
-    }
+//    public List<Movie> getMovies() {
+//        return movieService.getMovies();
+//
+//
+//    }
 
 
 //    @PostMapping("/recommendations")
