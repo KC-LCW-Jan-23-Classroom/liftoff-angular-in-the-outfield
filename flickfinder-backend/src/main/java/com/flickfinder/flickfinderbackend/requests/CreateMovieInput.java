@@ -8,6 +8,7 @@ public record CreateMovieInput(int apiMovieId, User user) {
         WatchedMovie newWatchedMovie = new WatchedMovie();
         newWatchedMovie.setApiMovieId(apiMovieId);
         newWatchedMovie.setUser(user);
+//        newWatchedMovie.setMovieId(1);
         return newWatchedMovie;
     }
 }

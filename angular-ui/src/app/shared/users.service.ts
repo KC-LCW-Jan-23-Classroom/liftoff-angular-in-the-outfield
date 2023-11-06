@@ -2,6 +2,8 @@ import { HttpClient, HttpContext, HttpHeaders, HttpStatusCode } from '@angular/c
 import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WatchedMovie } from './watched-movie.model';
+import { Movie } from './movie.model';
+import { User } from './user.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -16,9 +18,9 @@ const httpOptions = {
 export class UsersService implements OnInit {
 
   private backendUrl = 'http://localhost:8080/'
-  public currentUserId: number = 1;
+  public currentUser = new User(1, 'popcorn', 'popcorn');
 
-  //TODO in login method, set currentUserId
+  //TODO in login method, set currentUser
 
 
   constructor(private http: HttpClient) { }
@@ -28,10 +30,11 @@ export class UsersService implements OnInit {
   }
 
   fetchWatchHistory(): Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUserId);
+    return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUser.id);
   }
-  addWatchedMovie(newWatchedMovie: WatchedMovie): Observable<WatchedMovie> {
+  addWatchedMovie(movie : Movie): Observable<WatchedMovie> {
     const url = `${this.backendUrl}api/watch_history/add`;
+    let newWatchedMovie = new WatchedMovie(movie.id, this.currentUser);
     console.log(newWatchedMovie);
     return this.http.post<WatchedMovie>(url, newWatchedMovie, httpOptions);
   }

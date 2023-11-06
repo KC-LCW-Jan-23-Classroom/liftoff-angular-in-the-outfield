@@ -1,30 +1,29 @@
 package com.flickfinder.flickfinderbackend.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
-@Entity
-public class WatchedMovie {
+public class SavedMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer movieId;
-
+    private Integer id;
+    @NotBlank
     private int apiMovieId;
+    @NotBlank
     @ManyToOne
     private User user;
 
-    public WatchedMovie() {
+    public SavedMovie() {
     }
 
-    public Integer getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(Integer movieId) {
-        this.movieId = movieId;
+    public int getId() {
+        return id;
     }
 
     public int getApiMovieId() {
@@ -46,22 +45,12 @@ public class WatchedMovie {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof WatchedMovie that)) return false;
-        return Objects.equals(movieId, that.movieId);
+        if (!(o instanceof SavedMovie that)) return false;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(movieId);
+        return Objects.hash(id);
     }
 }
-
-//Test Json
-//{
-//        "apiMovieId" : 945729,
-//          "user" : {
-//          "id" : 1,
-//              "username" : "popcorn",
-//              "password" : "popcorn"
-//          }
-//        }

@@ -9,7 +9,7 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class AbstractMovie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer movieId;
 
     private int apiMovieId;
@@ -17,13 +17,10 @@ public abstract class AbstractMovie {
     public AbstractMovie() {
     }
 
-    public AbstractMovie(int movieId) {
-        this.movieId = movieId;
-    }
-
     public int getMovieId() {
         return movieId;
     }
+    public void setMovieId(Integer id) {this.movieId = id;}
 
     public int getApiMovieId() {
         return apiMovieId;

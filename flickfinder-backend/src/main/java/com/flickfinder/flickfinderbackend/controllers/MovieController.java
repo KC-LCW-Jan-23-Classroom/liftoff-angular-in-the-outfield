@@ -82,6 +82,7 @@ public class MovieController {
     public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody CreateMovieInput createMovieInput) {
         WatchedMovie createdWatchedMovie = createMovieInput.toWatchedMovie();
         watchHistoryRepository.save(createdWatchedMovie);
+        System.out.println(createdWatchedMovie);
 //        List<Integer> watchHistoryIds = this.getWatchHistoryByUser(newWatchedMovie.getUser().getId());
         return new ResponseEntity<>(createdWatchedMovie, HttpStatus.CREATED);
 

@@ -62,6 +62,6 @@ export class MovieListComponent implements OnInit {
   }
 
   addToWatchHistory(movie : Movie) {
-    this.usersService.addWatchedMovie(new WatchedMovie(movie.id, this.usersService.currentUserId));
+    this.usersService.addWatchedMovie(movie);
   }
 }

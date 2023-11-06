@@ -1,9 +1,11 @@
+import { User } from './user.model';
+
 export class WatchedMovie {
     apiMovieId: number;
-    userId: number;
-    constructor(aApiMovieId: number, aUserId: number) {
+    user : User;
+    constructor(aApiMovieId: number, aUser : User) {
         this.apiMovieId = aApiMovieId;
-        this.userId = aUserId;
+        this.user = aUser;
     }
 
 }
