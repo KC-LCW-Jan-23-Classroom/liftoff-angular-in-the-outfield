@@ -27,4 +27,22 @@ public class MovieFilterService {
                 .retrieve()
                 .bodyToFlux(Movie.class);
     }
+
+    public Flux<Movie> getMoviesByYear(int year) {
+        String apiKey = apiKeyService.getApiKey();
+        return webClient.get()
+                .uri("/movies?release_year={year}&apiKey={apiKey}", year, apiKey)
+                .retrieve()
+                .bodyToFlux(Movie.class);
+    }
+
+    public Flux<Movie> getMoviesByStreamingService(String streamingService) {
+        String apiKey = apiKeyService.getApiKey();
+        return webClient.get()
+                .uri("/movies?streaming_service={streamingService}&apiKey={apiKey}", streamingService, apiKey)
+                .retrieve()
+                .bodyToFlux(Movie.class);
+    }
+
+
 }
