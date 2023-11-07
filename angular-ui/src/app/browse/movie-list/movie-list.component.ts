@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MoviesService } from '../../shared/movies.service';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
 import { SearchService } from '../search.service';
@@ -27,7 +26,6 @@ export class MovieListComponent implements OnInit {
   private scrollSubject = new Subject<Event>();
 
   constructor(
-    private moviesService: MoviesService,
     private datePipe: DatePipe,
     private searchService: SearchService,
     private http: HttpClient
