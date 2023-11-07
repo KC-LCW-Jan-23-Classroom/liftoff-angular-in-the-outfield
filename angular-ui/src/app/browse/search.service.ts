@@ -4,9 +4,7 @@ import {
   Observable,
   BehaviorSubject,
 } from 'rxjs';
-import { ApikeyService } from 'src/app/shared/apikey.service';
 import { Movie } from 'src/app/shared/movie.model';
-import { MoviesService } from 'src/app/shared/movies.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +34,6 @@ export class SearchService {
 
   constructor(
     private http: HttpClient,
-    private apiKeyService: ApikeyService,
-    private moviesService: MoviesService
   ) {}
 
   setSearchInput(searchInput: string) {
