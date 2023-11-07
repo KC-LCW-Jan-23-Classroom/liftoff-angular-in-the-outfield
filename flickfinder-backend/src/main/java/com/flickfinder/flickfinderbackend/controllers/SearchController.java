@@ -32,9 +32,4 @@ public class SearchController {
             return searchService.displayMore(index);
         }
     }
-
-//    @GetMapping("test")
-//    public Mono<Integer[]> testPersonSearch(@RequestParam String searchTerm) {
-//        return searchService.loadMovieIdsInBatches(searchTerm);
-//    }
 }

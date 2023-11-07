@@ -91,7 +91,7 @@ export class MovieListComponent implements OnInit {
     const nextPage = this.currentPage + 1;
 
     if (this.searchType === 'person') {
-      this.searchService.displayNextBatch();
+      this.searchService.searchMoviesByPerson(this.searchInput, this.searchService.getStartIndex());
     } else if (this.searchType === 'movie') {
       this.searchService.searchMoviesByTitle(this.searchInput, nextPage);
     }
