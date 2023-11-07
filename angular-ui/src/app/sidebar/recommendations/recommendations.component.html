@@ -2,5 +2,6 @@
 <!DOCTYPE html>
 <h2>Movie Recommendation</h2>
 <div (click)="startSpin()" style="cursor: pointer;">
-  <app-movie-item *ngFor="let currentMovieIndex of selectedMovie; let i = index" [movieItem]="currentMovieIndex" [@spin]="currentMovieIndex.spinAnimationState"></app-movie-item>
+  <app-movie-item [movieItem]="selectedMovie[currentMovieIndex]" [@spin]="spinAnimationState"></app-movie-item>
 </div>
+

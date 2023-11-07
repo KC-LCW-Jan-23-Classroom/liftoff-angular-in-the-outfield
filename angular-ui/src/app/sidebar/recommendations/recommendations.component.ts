@@ -22,11 +22,10 @@ import { MoviesService } from '../../shared/movies.service';
 export class RecommendationsComponent implements OnInit {
   private apiUrl: string = 'https://api.themoviedb.org/3/';
   recommendedMovies: number[] = [];
-  movieId: number = 626735;
+  movieId: number = 550;
   selectedMovie: Movie[] = [];
-  spinAnimationState: string = 'start';
   currentMovieIndex: number = 0;
-
+  spinAnimationState: string = 'start';
 
   constructor(
     private http: HttpClient,
@@ -41,19 +40,17 @@ export class RecommendationsComponent implements OnInit {
       this.recommendedMovies.forEach((id) => {
         this.movieService.fetchMovieListDetails([id]).subscribe((movies) => {
           this.selectedMovie.push(movies[0]);
-          this.startSpin(); // Trigger animation for each movie
         });
       });
-      console.log(this.recommendedMovies);
     });
   }
 
   startSpin() {
-    this.selectedMovie[this.currentMovieIndex].spinAnimationState = 'end';
+    this.spinAnimationState = 'end';
     setTimeout(() => {
-      this.selectedMovie[this.currentMovieIndex].spinAnimationState = 'start';
+      this.spinAnimationState = 'start';
+      this.showNextMovie();
     }, 1000); // Assuming the animation duration is 1s (1000ms)
-    this.showNextMovie();
   }
 
   showNextMovie() {
