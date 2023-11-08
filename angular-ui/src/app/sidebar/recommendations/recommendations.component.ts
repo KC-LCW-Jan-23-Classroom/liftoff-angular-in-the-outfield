@@ -49,8 +49,13 @@ export class RecommendationsComponent implements OnInit {
     this.spinAnimationState = 'end';
     setTimeout(() => {
       this.spinAnimationState = 'start';
-      this.showNextMovie();
     }, 1000); // Assuming the animation duration is 1s (1000ms)
+  }
+
+  changeAndSpinPoster() {
+    this.startSpin();
+    this.showNextMovie();
+
   }
 
   showNextMovie() {
