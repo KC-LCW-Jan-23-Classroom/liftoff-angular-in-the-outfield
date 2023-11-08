@@ -43,15 +43,19 @@ public class MovieController {
   
 //    @GetMapping("/movies")
 //    public List<Movie> getMovies() {
-//        return;
-//        // Return a list of available movies
+//        return movieService.getMovies();
+//
+//
 //    }
-//
-//
+
+
 //    @PostMapping("/recommendations")
-//    public List<Movie> getRecommendations(@RequestBody Movie movie) {
-//        // Implement recommendation algorithm and return recommended movies
-//    }
+public List<Movie> getRecommendations(@RequestBody Movie movie) {
+        List<Movie> recommendedMovies = new ArrayList<>();
+
+
+        return recommendedMovies;
+    }
   
     //TODO post watch list based on user logged in
 

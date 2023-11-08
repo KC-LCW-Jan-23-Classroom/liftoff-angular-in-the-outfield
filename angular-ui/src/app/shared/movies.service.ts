@@ -10,11 +10,17 @@ import { ApikeyService } from './apikey.service';
 export class MoviesService {
   private apiUrl: string = 'https://api.themoviedb.org/3/';
   private apiKey!: string;
+  private movieId: number = 626735;
+  // getSelectedMovieId: any;
 
   constructor(private http: HttpClient, private apiKeyService: ApikeyService) {
     this.apiKeyService
       .getApiKey()
       .subscribe((apiKey) => (this.apiKey = apiKey));
+  }
+  randomIndexPicker(recommendedMovies: number[]): number {
+    const randomIndex = Math.floor(Math.random() * recommendedMovies.length);
+    return recommendedMovies[randomIndex];
   }
 
   fetchTrendingMoviesIds(): Observable<number[]> {

@@ -20,10 +20,10 @@ import { DatePipe } from '@angular/common';
 import { BrowseComponent } from './browse/browse.component';
 import { SearchByTextComponent } from './browse/search-by-text/search-by-text.component';
 import { ProfileComponent } from './profile/profile.component';
+import { RecommendationsComponent } from './sidebar/recommendations/recommendations.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
-import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
