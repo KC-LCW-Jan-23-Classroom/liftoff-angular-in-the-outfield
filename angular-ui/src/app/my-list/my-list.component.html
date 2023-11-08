@@ -1,7 +1,10 @@
-<h2>My List</h2>
-<div class="d-flex flex-wrap">
-    <h3 *ngIf="myList.length > 1; else movieDisplay">Nothing to see here! You haven't added any movies to the list yet</h3>
+<div class="container my-3">
+    <h2>My List</h2>
+    <div class="d-flex flex-wrap">
+        <h3 *ngIf="!myList.length; else movieDisplay">Nothing to see here! You haven't added any movies to the list yet</h3>
+    </div>
 </div>
+
 <ng-template #movieDisplay>
     <app-movie-item *ngFor="let movie of myList" [movieItem]="movie"></app-movie-item>
 </ng-template>
