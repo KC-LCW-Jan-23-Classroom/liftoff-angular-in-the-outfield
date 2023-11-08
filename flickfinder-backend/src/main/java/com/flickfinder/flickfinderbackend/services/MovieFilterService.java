@@ -16,7 +16,7 @@ public class MovieFilterService {
 
     @Autowired
     public MovieFilterService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService) {
-        this.webClient = webClientBuilder.baseUrl("https://api.watchmode.com/v1").build();
+        this.webClient = webClientBuilder.baseUrl("https://api.themoviedb.org/3").build();
         this.apiKeyService = apiKeyService;
     }
 
