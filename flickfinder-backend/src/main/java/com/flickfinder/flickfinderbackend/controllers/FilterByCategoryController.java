@@ -1,22 +1,25 @@
 //import java.util.List;
 //
 //
+//import com.flickfinder.flickfinderbackend.models.Movie;
+//import com.flickfinder.flickfinderbackend.services.MovieFilterService;
 //import org.springframework.stereotype.Controller;
+//
 //
 //
 //@Controller
 //
-//public class MovieController {
+//public class FilterByCategoryController {
 //    private List<Movie> movies;
 //
-//    public MovieController(List<Movie> movies) {
+//    public FilterByCategoryController(List<Movie> movies) {
 //        this.movies = movies;
 //    }
 //
 //    public List<Movie> filterMovies(String genre, int startYear, int endYear, String streamingService) {
-//        List<Movie> filteredMovies = MovieFilter.filterByGenre(movies, genre);
-//        filteredMovies = MovieFilter.filterByDecade(filteredMovies, startYear, endYear);
-//        filteredMovies = MovieFilter.filterByStreamingService(filteredMovies, streamingService);
+//        List<Movie> filteredMovies = MovieFilterService.filterByGenre(movies, genre);
+//        filteredMovies = MovieFilterService.filterByDecade(filteredMovies, startYear, endYear);
+//        filteredMovies = MovieFilterService.filterByStreamingService(filteredMovies, streamingService);
 //        return filteredMovies;
 //    }
 //}

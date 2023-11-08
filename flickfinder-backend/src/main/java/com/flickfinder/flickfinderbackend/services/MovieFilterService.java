@@ -11,38 +11,39 @@ public class MovieFilterService {
 
 
     private final WebClient webClient;
-    private final ApiKeyService apiKeyService;
+    private final String APIKEY;
 
 
-    @Autowired
+
     public MovieFilterService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService) {
         this.webClient = webClientBuilder.baseUrl("https://api.themoviedb.org/3").build();
-        this.apiKeyService = apiKeyService;
+        this.APIKEY = apiKeyService.getApiKey();
     }
 
     public Flux<Movie> getMoviesByGenre(String genre) {
-        String apiKey = apiKeyService.getApiKey();
         return webClient.get()
-                .uri("/movies?genres={genre}&apiKey={apiKey}", genre, apiKey)
+                .uri("/discover/movie?with_genres={genre}&api_key={apiKey}", genre, APIKEY)
                 .retrieve()
                 .bodyToFlux(Movie.class);
     }
 
-    public Flux<Movie> getMoviesByYear(int year) {
-        String apiKey = apiKeyService.getApiKey();
+    public Flux<Movie> getMoviesByDecade(int decade) {
+        int startYear = decade * 10;
+        int endYear = startYear + 9;
         return webClient.get()
-                .uri("/movies?release_year={year}&apiKey={apiKey}", year, apiKey)
+                .uri("/discover/movie?primary_release_date.gte={startYear}-01-01&primary_release_date.lte={endYear}-12-31&api_key={apiKey}",
+                        startYear, endYear, APIKEY)
                 .retrieve()
                 .bodyToFlux(Movie.class);
     }
 
     public Flux<Movie> getMoviesByStreamingService(String streamingService) {
-        String apiKey = apiKeyService.getApiKey();
+        // Assuming the streaming service is a query parameter in the API endpoint
         return webClient.get()
-                .uri("/movies?streaming_service={streamingService}&apiKey={apiKey}", streamingService, apiKey)
+                .uri("/discover/movie?with_watch_providers={streamingService}&api_key={apiKey}",
+                        streamingService, APIKEY)
                 .retrieve()
                 .bodyToFlux(Movie.class);
     }
-
 
 }
