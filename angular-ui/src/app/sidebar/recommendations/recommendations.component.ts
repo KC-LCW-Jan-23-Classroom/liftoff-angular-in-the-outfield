@@ -49,6 +49,7 @@ export class RecommendationsComponent implements OnInit {
     this.spinAnimationState = 'end';
     setTimeout(() => {
       this.spinAnimationState = 'start';
+
     }, 1000); // Assuming the animation duration is 1s (1000ms)
   }
 
@@ -57,6 +58,7 @@ export class RecommendationsComponent implements OnInit {
     this.showNextMovie();
 
   }
+
 
   showNextMovie() {
     this.currentMovieIndex = (this.currentMovieIndex + 1) % this.selectedMovie.length;
