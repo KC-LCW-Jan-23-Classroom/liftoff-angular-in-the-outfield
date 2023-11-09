@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -40,17 +42,42 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody User user) {
+    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody LoginFormDTO formData) {
+        ResponseEntity<Map<String, String>> response;
+        Map<String,String> responseBody = new HashMap<>();
         // Check if the username is already in use
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already in use");
+        if (userRepository.findByUsername(formData.getName()) != null) {
+            responseBody.put("message","User exists");
+            response = ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(responseBody);
+            return response;
         }
 
-        // Encode the password before saving it
-        user.setPassword(PasswordEncoder.hashPassword(user.getPassword()));
-        userRepository.save(user);
 
-        return ResponseEntity.ok("User registered successfully");
+        User registerNewUser = new User();
+        registerNewUser.setUsername(formData.getName());
+        registerNewUser.setPassword(formData.getPassword());
+
+
+        // Encode the password before saving it
+        registerNewUser.setPassword(PasswordEncoder.hashPassword(formData.getPassword()));
+        userRepository.save(registerNewUser);
+
+
+
+        responseBody.put("message","Successfully added new user ");
+        responseBody.put("id", String.format("%d", registerNewUser.getId()));
+        responseBody.put("name", String.format("%s", registerNewUser.getUsername()));
+
+
+        response = ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(responseBody);
+        return response;
+//        ResponseEntity<String> response;
+//        response = ResponseEntity.status(HttpStatus.CREATED).body( "Successfully created a new user" + registerNewUser);
+
     }
 
     @PostMapping("/login")

@@ -14,7 +14,7 @@ public class LoginFormDTO {
     @JsonProperty("verifyPassword")
     private String verifyPassword;
 
-    public LoginFormDTO(Integer id, String username, String password) {
+    public LoginFormDTO(Integer id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
