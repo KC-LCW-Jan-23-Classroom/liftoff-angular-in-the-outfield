@@ -1,22 +1,30 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
-import com.flickfinder.flickfinderbackend.requests.CreateMovieInput;
 import jakarta.validation.Valid;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
-import com.flickfinder.flickfinderbackend.models.WatchedMovie;
-import com.flickfinder.flickfinderbackend.models.User;
-import com.flickfinder.flickfinderbackend.models.data.WatchedMovieRepository;
-import com.flickfinder.flickfinderbackend.models.data.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.flickfinder.flickfinderbackend.models.WatchedMovie;
+import com.flickfinder.flickfinderbackend.models.User;
+import com.flickfinder.flickfinderbackend.models.data.WatchedMovieRepository;
+import com.flickfinder.flickfinderbackend.models.data.UserRepository;
+import com.flickfinder.flickfinderbackend.models.Movie;
+import com.flickfinder.flickfinderbackend.models.data.UserRepository;
+import com.flickfinder.flickfinderbackend.services.ApiKeyService;
+import com.flickfinder.flickfinderbackend.services.MovieService;
+import com.flickfinder.flickfinderbackend.requests.CreateMovieInput
+
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 @RestController
 //@CrossOrigin(origins ="http://localhost:4200/")
@@ -29,21 +37,6 @@ public class MovieController {
     @Autowired
     UserRepository userRepository;
 
-//    @GetMapping("/movies")
-//    public List<Movie> getMovies() {
-//        return;
-//        // Return a list of available movies
-//    }
-//
-//
-//    @PostMapping("/recommendations")
-//    public List<Movie> getRecommendations(@RequestBody Movie movie) {
-//        // Implement recommendation algorithm and return recommended movies
-//    }
-
-
-    //TODO post watch list based on user logged in
-
     private List<Integer> getWatchHistoryByUser(int userId) {
         List<WatchedMovie> watchHistory = watchHistoryRepository.findAllByUserId(userId);
         List<Integer> watchedMovieIds = new ArrayList<>();
@@ -51,7 +44,33 @@ public class MovieController {
             watchedMovieIds.add(movie.getApiMovieId());
         }
         return watchedMovieIds;
+
+    private ApiKeyService apiKeyService;
+
+    private final MovieService movieService;
+
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
     }
+
+    @GetMapping("trending")
+    public Flux<Movie> getTrendingMovies() {
+        return movieService.getTrendingMovies();
+    }
+  
+//    @GetMapping("/movies")
+//    public List<Movie> getMovies() {
+//        return movieService.getMovies();
+//
+//
+//    }
+
+
+//    @PostMapping("/recommendations")
+// public List<Movie> getRecommendations(@RequestBody Movie movie) {
+//        List<Movie> recommendedMovies = new ArrayList<>();
+//              return recommendedMovies;
+//    }
 
     @RequestMapping("/watch_history/{userId}")
     public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
@@ -76,7 +95,6 @@ public class MovieController {
     //TODO check if the movie is already in the users watch history
     @GetMapping("/watch_history/{userId}/{movieId}")
     public void checkIfWatched(@PathVariable int userId, int movieId) {
-
     }
-
+  
 }

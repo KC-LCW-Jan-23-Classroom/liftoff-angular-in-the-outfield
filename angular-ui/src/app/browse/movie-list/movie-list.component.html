@@ -1,24 +1,12 @@
-<h1 class="text-center" *ngIf="!totalPages; else searchResults">Top 20 Trending Movies for {{formattedDate}}</h1>
-<!-- <ul class="pagination m-2" *ngIf="totalPages">
-    <li class="page-item" [class.disabled]="currentPage === 1">
-        <a class="page-link" (click)="changePage(searchInput, currentPage - 1, 'previous')" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-        </a>
-    </li>
-    <li class="page-item" *ngFor="let page of visiblePageRange">
-        <a class="page-link" (click)="changePage(searchInput, page)" [class.active]="currentPage === page">{{ page }}</a>
-    </li>
-    <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <a class="page-link" (click)="changePage(searchInput, currentPage + 1, 'next')" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-        </a>
-    </li>
-</ul> -->
+<h1 class="text-center" *ngIf="!searchInput; else searchResults">
+  Top 20 Trending Movies for {{ formattedDate }}
+</h1>
 <div class="d-flex flex-wrap">
     <app-movie-item *ngFor="let movie of movieList" [movieItem]="movie" (markWatched)="addToWatchHistory(movie)"></app-movie-item>
 </div>
-
-<div class="text-center" *ngIf="totalPages"><button (click)="changePage(searchInput, currentPage)" class="btn btn-secondary btn-lg m-5">More Results</button></div>
+<div *ngIf="showLoadingSpinner || loading" style="text-align: center">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<app-scroll-to-top></app-scroll-to-top>
 
 <ng-template #searchResults><h1 class="m-2">Search Results:</h1></ng-template>
-

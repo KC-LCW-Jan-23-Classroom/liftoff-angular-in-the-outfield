@@ -1,0 +1,3 @@
+.ng-submitted > .ng-invalid, .ng-submitted > label > .ng-invalid {
+    border: 1px solid red
+}

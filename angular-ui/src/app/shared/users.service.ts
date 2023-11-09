@@ -11,6 +11,13 @@ const httpOptions = {
   })
 };
 
+export interface WatchedMovie {
+  movieId: number;
+  apiMovieId: number;
+  userReview: String;
+  userId: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +28,6 @@ export class UsersService implements OnInit {
   public currentUser = new User(1, 'popcorn', 'popcorn');
 
   //TODO in login method, set currentUser
-
 
   constructor(private http: HttpClient) { }
 
@@ -38,6 +44,4 @@ export class UsersService implements OnInit {
     console.log(newWatchedMovie);
     return this.http.post<WatchedMovie>(url, newWatchedMovie, httpOptions);
   }
-
-
 }

@@ -3,6 +3,7 @@ package com.flickfinder.flickfinderbackend.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.ManyToOne;
 
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ public class WatchedMovie {
     private Integer movieId;
 
     private int apiMovieId;
+  
     @ManyToOne
     private User user;
 
