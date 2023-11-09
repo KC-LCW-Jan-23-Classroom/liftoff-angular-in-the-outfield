@@ -2,10 +2,11 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
 import { SearchService } from '../search.service';
+import { UsersService } from 'src/app/shared/users.service';
+import { WatchedMovie } from 'src/app/shared/watched-movie.model';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
 
 @Component({
   selector: 'app-movie-list',
@@ -28,7 +29,8 @@ export class MovieListComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private searchService: SearchService,
-    private http: HttpClient
+    private usersService: UsersService,
+    private http: HttpClient,
   ) {
     const today = new Date();
     this.formattedDate = this.datePipe.transform(today, 'MMMM d, y');
@@ -97,5 +99,11 @@ export class MovieListComponent implements OnInit {
     // Reset the loading flags
     this.loading = false;
     this.loadingRequested = false;
+  }
+
+  addToWatchHistory(movie : Movie) {
+    this.usersService.addWatchedMovie(movie).subscribe((WatchedMovie=> {
+      
+    }));
   }
 }
