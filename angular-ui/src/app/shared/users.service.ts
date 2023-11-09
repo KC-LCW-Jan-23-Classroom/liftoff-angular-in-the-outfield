@@ -11,13 +11,6 @@ const httpOptions = {
   })
 };
 
-export interface WatchedMovie {
-  movieId: number;
-  apiMovieId: number;
-  userReview: String;
-  userId: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })
