@@ -21,7 +21,7 @@ import com.flickfinder.flickfinderbackend.models.Movie;
 import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.services.ApiKeyService;
 import com.flickfinder.flickfinderbackend.services.MovieService;
-import com.flickfinder.flickfinderbackend.requests.CreateMovieInput
+import com.flickfinder.flickfinderbackend.requests.CreateMovieInput;
 
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -44,6 +44,7 @@ public class MovieController {
             watchedMovieIds.add(movie.getApiMovieId());
         }
         return watchedMovieIds;
+    }
 
     private ApiKeyService apiKeyService;
 
