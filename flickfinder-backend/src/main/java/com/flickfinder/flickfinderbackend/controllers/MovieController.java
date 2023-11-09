@@ -98,10 +98,19 @@ public class MovieController {
         return watchedMovieIds;
     }
 
-    @GetMapping("saved_movies")
-    public ResponseEntity<List<Integer>> displaySavedMovies() {
+    @GetMapping("saved_movies/{userId}")
+    public ResponseEntity<List<Integer>> displaySavedMovies(@PathVariable Integer userId) {
+        List<Integer> savedMovieIds = this.getSavedMoviesByUser(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
+    }
+    @PostMapping("/saved_movies/add")
+    public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody CreateMovieInput createMovieInput) {
+        SavedMovie createdSavedMovie = createMovieInput.toSavedMovie();
+        savedMovieRepository.save(createdSavedMovie);
+        return new ResponseEntity<>(createdSavedMovie, HttpStatus.CREATED);
 
     }
+
     private List<Integer> getSavedMoviesByUser(int userId) {
         List<SavedMovie> savedMovies = savedMovieRepository.findAllByUserId(userId);
         List<Integer> savedMovieIds = new ArrayList<>();
