@@ -25,9 +25,6 @@ import { BrowseComponent } from './browse/browse.component';
 import { SearchByTextComponent } from './browse/search-by-text/search-by-text.component';
 import { ProfileComponent } from './profile/profile.component';
 
-import { ProfileViewComponent } from './profile-view/profile-view.component';
-
-
 import { RecommendationsComponent } from './sidebar/recommendations/recommendations.component';
 
 
