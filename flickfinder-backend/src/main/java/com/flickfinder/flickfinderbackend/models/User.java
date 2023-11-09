@@ -75,12 +75,17 @@ public class User {
         this.watchedMovies.remove(movieToRemove);
     }
 
-    public boolean containsMovie(WatchedMovie aMovie) {
+    public boolean watchHistoryContains(WatchedMovie aMovie) {
         return this.watchedMovies.contains(aMovie);
     }
 
     public void addToSavedMovies(SavedMovie newMovie) {
         this.savedMovies.add(newMovie);
     }
-    public removeFromSavedMovies(Save)
+    public void removeFromSavedMovies(SavedMovie savedMovie) {
+        this.savedMovies.remove(savedMovie);
+    }
+    public boolean savedMoviesContains(SavedMovie aMovie) {
+        return this.savedMovies.contains(aMovie);
+    }
 }

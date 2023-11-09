@@ -1,5 +1,7 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
+import com.flickfinder.flickfinderbackend.models.SavedMovie;
+import com.flickfinder.flickfinderbackend.models.data.SavedMovieRepository;
 import jakarta.validation.Valid;
 import javax.persistence.Entity;
 import java.util.ArrayList;
@@ -37,14 +39,10 @@ public class MovieController {
     @Autowired
     UserRepository userRepository;
 
-    private List<Integer> getWatchHistoryByUser(int userId) {
-        List<WatchedMovie> watchHistory = watchHistoryRepository.findAllByUserId(userId);
-        List<Integer> watchedMovieIds = new ArrayList<>();
-        for (WatchedMovie movie : watchHistory) {
-            watchedMovieIds.add(movie.getApiMovieId());
-        }
-        return watchedMovieIds;
-    }
+    @Autowired
+    SavedMovieRepository savedMovieRepository;
+
+
 
     private ApiKeyService apiKeyService;
 
@@ -88,9 +86,29 @@ public class MovieController {
     public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody CreateMovieInput createMovieInput) {
         WatchedMovie createdWatchedMovie = createMovieInput.toWatchedMovie();
         watchHistoryRepository.save(createdWatchedMovie);
-        System.out.println(createdWatchedMovie);
         return new ResponseEntity<>(createdWatchedMovie, HttpStatus.CREATED);
 
+    }
+    private List<Integer> getWatchHistoryByUser(int userId) {
+        List<WatchedMovie> watchHistory = watchHistoryRepository.findAllByUserId(userId);
+        List<Integer> watchedMovieIds = new ArrayList<>();
+        for (WatchedMovie movie : watchHistory) {
+            watchedMovieIds.add(movie.getApiMovieId());
+        }
+        return watchedMovieIds;
+    }
+
+    @GetMapping("saved_movies")
+    public ResponseEntity<List<Integer>> displaySavedMovies() {
+
+    }
+    private List<Integer> getSavedMoviesByUser(int userId) {
+        List<SavedMovie> savedMovies = savedMovieRepository.findAllByUserId(userId);
+        List<Integer> savedMovieIds = new ArrayList<>();
+        for (SavedMovie movie : savedMovies) {
+            savedMovieIds.add(movie.getApiMovieId());
+        }
+        return savedMovieIds;
     }
 
     //TODO check if the movie is already in the users watch history
