@@ -1,4 +1,12 @@
-<h1 class="text-center">Top 20 Trending Movies for {{formattedDate}}</h1>
+<h1 class="text-center" *ngIf="!searchInput; else searchResults">
+  Top 20 Trending Movies for {{ formattedDate }}
+</h1>
 <div class="d-flex flex-wrap">
-    <app-movie-item *ngFor="let movie of movieList" [movieItem]="movie"></app-movie-item>
+    <app-movie-item *ngFor="let movie of movieList" [movieItem]="movie" (markWatched)="addToWatchHistory(movie)"></app-movie-item>
 </div>
+<div *ngIf="showLoadingSpinner || loading" style="text-align: center">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<app-scroll-to-top></app-scroll-to-top>
+
+<ng-template #searchResults><h1 class="m-2">Search Results:</h1></ng-template>
