@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MoviesService } from '../../shared/movies.service';
 import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
 import { SearchService } from '../search.service';
@@ -16,7 +15,6 @@ import { Subject } from 'rxjs';
 export class MovieListComponent implements OnInit {
   movieList: Movie[] = [];
   formattedDate: string | null;
-  totalPages!: number;
   currentPage!: number;
   searchInput!: string;
   searchType!: string;
@@ -28,7 +26,6 @@ export class MovieListComponent implements OnInit {
   private scrollSubject = new Subject<Event>();
 
   constructor(
-    private moviesService: MoviesService,
     private datePipe: DatePipe,
     private searchService: SearchService,
     private http: HttpClient
@@ -46,10 +43,6 @@ export class MovieListComponent implements OnInit {
         this.movieList = response;
         this.loading = false
       });
-
-    this.searchService.totalPages$.subscribe((totalPages) => {
-      this.totalPages = totalPages;
-    });
 
     this.searchService.getResponseMovies().subscribe((movieListDetails) => {
       this.movieList = movieListDetails;
@@ -96,7 +89,7 @@ export class MovieListComponent implements OnInit {
     const nextPage = this.currentPage + 1;
 
     if (this.searchType === 'person') {
-      this.searchService.displayNextBatch();
+      this.searchService.searchMoviesByPerson(this.searchInput, this.searchService.getStartIndex());
     } else if (this.searchType === 'movie') {
       this.searchService.searchMoviesByTitle(this.searchInput, nextPage);
     }
