@@ -30,12 +30,22 @@
 
         <div class="dropdown-center">
           <button
+          *ngIf = "!isLoggedIn" 
+          [routerLink]="['login']"
+          class="btn btn-secondary"
+          type="button"
+          aria-expanded="false"
+        >
+          Login/Sign Up
+        </button>
+          <button
+          *ngIf = "isLoggedIn"
             class="btn btn-secondary dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            placeholderUserName
+            UserName
           </button>
           <ul class="dropdown-menu">
             <li>

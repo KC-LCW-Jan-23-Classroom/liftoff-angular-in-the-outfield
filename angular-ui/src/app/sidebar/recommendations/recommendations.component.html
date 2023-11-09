@@ -1,6 +1,11 @@
 
 <!DOCTYPE html>
 <h2>Movie Recommendation</h2>
-<div (click)="startSpin()" style="cursor: pointer;">
+
+
+<div>
   <app-movie-item [movieItem]="selectedMovie[currentMovieIndex]" [@spin]="spinAnimationState"></app-movie-item>
 </div>
+<button (click)="changeAndSpinPoster()" style="cursor: pointer;">Next Recommended Movie</button>
+
+
