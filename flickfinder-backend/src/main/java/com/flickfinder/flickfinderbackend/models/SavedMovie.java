@@ -10,6 +10,7 @@ import java.util.Objects;
 public class SavedMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Integer id;
     @NotBlank
     private int apiMovieId;
