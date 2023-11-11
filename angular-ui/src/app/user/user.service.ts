@@ -7,7 +7,6 @@ import { User } from './user';
   providedIn: 'root',
 })
 export class UserService {
-  
   private apiUrl = 'http://localhost:8080/auth'; // Assuming your Spring Boot app runs on port 8080
 
   constructor(private http: HttpClient) {}
