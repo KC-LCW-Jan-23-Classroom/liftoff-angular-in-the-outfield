@@ -2,30 +2,24 @@ package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.SavedMovie;
 import com.flickfinder.flickfinderbackend.models.data.SavedMovieRepository;
-import jakarta.validation.Valid;
-import javax.persistence.Entity;
+import com.flickfinder.flickfinderbackend.services.UserMovieListService;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
-import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.data.WatchedMovieRepository;
 import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.models.Movie;
-import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.services.ApiKeyService;
 import com.flickfinder.flickfinderbackend.services.MovieService;
 import com.flickfinder.flickfinderbackend.requests.CreateMovieInput;
 
-import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 @RestController
@@ -41,14 +35,14 @@ public class MovieController {
 
     @Autowired
     SavedMovieRepository savedMovieRepository;
-
-
+    private final UserMovieListService userMovieListService;
 
     private ApiKeyService apiKeyService;
 
     private final MovieService movieService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(UserMovieListService userMovieListService, MovieService movieService) {
+        this.userMovieListService = userMovieListService;
         this.movieService = movieService;
     }
 
@@ -73,10 +67,11 @@ public class MovieController {
 
     @RequestMapping("/watch_history/{userId}")
     public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
-//        Optional<User> currentUser = userRepository.findById(userId);
-//        if (currentUser.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST);
-//        }
+        if (userMovieListService.getUserById(userId) == null) {
+
+        }
+
+
         List<Integer> watchHistoryIds = this.getWatchHistoryByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(watchHistoryIds);
     }

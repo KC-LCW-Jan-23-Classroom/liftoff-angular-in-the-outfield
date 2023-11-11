@@ -40,7 +40,22 @@ public class UserMovieListService {
         return result.get();
     }
 
-    public boolean addWatchedMovie(int userId) {
+    public boolean addWatchedMovie(WatchedMovie watchedMovie) {
+        try {
+            watchHistoryRepository.save(watchedMovie);
+        } catch (Exception e) {
+            System.out.println("The movie could not be added.");
+            return false;
+        }
+        return true;
+    }
+    public boolean addSavedMovie(SavedMovie savedMovie) {
+        try {
+            savedMovieRepository.save(savedMovie);
+        } catch (Exception e) {
+            System.out.println("The movie could not be added.");
+            return false;
+        }
         return true;
     }
 }
