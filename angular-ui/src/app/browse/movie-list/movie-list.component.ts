@@ -3,7 +3,7 @@ import { Movie } from '../../shared/movie.model';
 import { DatePipe } from '@angular/common';
 import { SearchService } from '../search.service';
 import { UsersService } from 'src/app/shared/users.service';
-import { WatchedMovie } from 'src/app/shared/watched-movie.model';
+import { SavedMovie } from 'src/app/shared/saved-movie.model';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -102,7 +102,7 @@ export class MovieListComponent implements OnInit {
   }
 
   addToWatchHistory(movie : Movie) {
-    this.usersService.addWatchedMovie(movie).subscribe((WatchedMovie=> {
+    this.usersService.addWatchedMovie(movie).subscribe((SavedMovie=> {
       
     }));
   }
