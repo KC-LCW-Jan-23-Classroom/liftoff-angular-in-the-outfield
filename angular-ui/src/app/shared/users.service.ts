@@ -24,6 +24,7 @@ export class UsersService implements OnInit {
 
   constructor(private http: HttpClient) { }
 
+
   ngOnInit(): void {
     this.fetchWatchHistory();
   }
@@ -36,6 +37,10 @@ export class UsersService implements OnInit {
     let newWatchedMovie = new SavedMovie(movie.id, this.currentUserId);
     console.log(newWatchedMovie);
     return this.http.post<SavedMovie>(url, newWatchedMovie, httpOptions);
+  }
+
+  fetchSavedMovies() : Observable<number[]> {
+    return this.http.get<number[]>(this.backendUrl+"api/saved_movies/"+this.currentUserId);
   }
   addSavedMovie(movie : Movie) : Observable<SavedMovie> {
     const url = `${this.backendUrl}api/saved_movies/add`;

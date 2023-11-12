@@ -15,7 +15,15 @@ export class MyListComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    
+    this.usersService.fetchSavedMovies().subscribe((savedMovies)=>{
+      let savedMovieIds: number[] = savedMovies;
+
+      this.moviesService
+      .fetchMovieListDetails(savedMovieIds)
+      .subscribe((movieListDetails) => {
+        this.myList = movieListDetails;
+      });
+    })
   }
   
 
