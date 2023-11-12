@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
     this.userService.getAllReviews().subscribe(
       (reviews) => {
         this.userReviews = reviews;
-        console.log('User Reviews:', this.userReviews);
+        console.log(' :( User Reviews:', this.userReviews);
       },
       (error) => {
         console.error('Error fetching user reviews:', error);

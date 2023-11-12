@@ -1,32 +1,52 @@
-import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-interface UserReview {
-  movieName: string;
-  reviewText: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { ReviewsService } from 'src/app/shared/reviews.service';
+import { UserReview } from 'src/app/shared/user-review.model';
 
 @Component({
   selector: 'app-user-review',
   templateUrl: './user-review.component.html',
   styleUrls: ['./user-review.component.css'],
 })
-export class UserReviewComponent {
-  userReviews: UserReview[] = [];
-  movieName: string = ''; // property to store the movie name
-  reviewText: string = ''; // property to store the review text
+export class UserReviewComponent implements OnInit {
+  movieName: string = '';
+  reviewText: string = '';
+  reviews: UserReview[] = [];
 
-  submitForm() {
-    const newReview: UserReview = {
-      movieName: this.movieName,
-      reviewText: this.reviewText,
-    };
+  constructor(private reviewsService: ReviewsService) {}
 
-    this.userReviews.push(newReview);
+  ngOnInit(): void {
+    this.loadReviews();
+  }
 
+  onSubmit(): void {
+    this.addReview(this.movieName, this.reviewText);
     this.movieName = '';
     this.reviewText = '';
+  }
 
-    console.log(newReview);
+  loadReviews(): void {
+    this.reviewsService.getAllReviews().subscribe(
+      (reviews) => {},
+      (error) => {
+        console.error('Error loading reviews:', error);
+      }
+    );
+  }
+
+  addReview(movieName: string, reviewText: string): void {
+    const newReview: UserReview = {
+      movieName: movieName,
+      reviewText: reviewText,
+    };
+
+    this.reviewsService.addReview(newReview).subscribe(
+      (review: UserReview) => {
+        console.log('Review added successfully:', review);
+      },
+      (error) => {
+        console.error('Error adding review:', error);
+      }
+    );
   }
 }
