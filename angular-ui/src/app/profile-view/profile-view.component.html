@@ -1,3 +1,4 @@
+
 <div class="container">
     <h2>Add Review</h2>
     <form (ngSubmit)="onSubmit()">
@@ -14,6 +15,6 @@
 
     <h2>Reviews</h2>
     <ul>
-        <li *ngFor="let review of reviews">{{ review.movieName }} - {{ review.reviewText }}</li>
+        <li *ngFor="let review of userReviews">{{ review.movieName }} - {{ review.reviewText }}</li>
     </ul>
 </div>

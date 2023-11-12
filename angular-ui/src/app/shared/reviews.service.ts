@@ -7,15 +7,15 @@ import { UserReview } from './user-review.model';
   providedIn: 'root',
 })
 export class ReviewsService {
-  private apiUrl = 'http://localhost:8080/api/reviews'; // Assuming your Spring Boot app runs on port 8080
+  private apiUrl = 'http://localhost:8080/api/reviews/user-reviews';
 
   constructor(private http: HttpClient) {}
 
   getAllReviews(): Observable<UserReview[]> {
-    return this.http.get<UserReview[]>(this.apiUrl);
+    return this.http.get<UserReview[]>(`${this.apiUrl}`);
   }
 
   addReview(review: UserReview): Observable<UserReview> {
-    return this.http.post<UserReview>(this.apiUrl, review);
+    return this.http.post<UserReview>(`${this.apiUrl}`, review);
   }
 }
