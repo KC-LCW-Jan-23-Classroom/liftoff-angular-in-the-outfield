@@ -37,4 +37,9 @@ export class UsersService implements OnInit {
     console.log(newWatchedMovie);
     return this.http.post<WatchedMovie>(url, newWatchedMovie, httpOptions);
   }
+  addSavedMovie(movie : Movie) : Observable<SavedMovie> {
+    const url = `${this.backendUrl}api/saved_movies/add`;
+    let newSavedMoive = new SavedMovie(movie.id, this.currentUser);
+    return this.http.post<SavedMovie>(url, newSavedMoive, httpOptions);
+  }
 }
