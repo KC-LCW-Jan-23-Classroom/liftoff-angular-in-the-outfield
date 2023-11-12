@@ -63,7 +63,7 @@ public class MovieController {
     @PostMapping("/watch_history/add")
     public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
         WatchedMovie createdWatchedMovie = userMovieListService.addWatchedMovie(savedMovieDTO);
-        return new ResponseEntity<>(createdWatchedMovie, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 
@@ -76,7 +76,7 @@ public class MovieController {
     @PostMapping("/saved_movies/add")
     public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
         SavedMovie createdSavedMovie = userMovieListService.addSavedMovie(savedMovieDTO);
-        return new ResponseEntity<>(createdSavedMovie, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }
