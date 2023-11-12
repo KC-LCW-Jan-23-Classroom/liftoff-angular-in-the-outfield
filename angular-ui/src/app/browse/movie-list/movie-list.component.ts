@@ -26,6 +26,9 @@ export class MovieListComponent implements OnInit {
 
   private scrollSubject = new Subject<Event>();
 
+  watchHistory: Movie[] = [];
+  myList : Movie[] = [];
+  
   constructor(
     private datePipe: DatePipe,
     private searchService: SearchService,
