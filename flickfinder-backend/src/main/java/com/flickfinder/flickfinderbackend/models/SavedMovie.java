@@ -12,9 +12,9 @@ public class SavedMovie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Integer id;
-    @NotBlank
+
     private int apiMovieId;
-    @NotBlank
+
     @ManyToOne
     private User user;
 

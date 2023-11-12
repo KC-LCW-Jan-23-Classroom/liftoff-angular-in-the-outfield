@@ -1,24 +1,19 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.SavedMovie;
-import com.flickfinder.flickfinderbackend.models.data.SavedMovieRepository;
+import com.flickfinder.flickfinderbackend.models.dtos.SavedMovieDTO;
 import com.flickfinder.flickfinderbackend.services.UserMovieListService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.flickfinder.flickfinderbackend.models.WatchedMovie;
-import com.flickfinder.flickfinderbackend.models.data.WatchedMovieRepository;
-import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.models.Movie;
 import com.flickfinder.flickfinderbackend.services.ApiKeyService;
 import com.flickfinder.flickfinderbackend.services.MovieService;
-import com.flickfinder.flickfinderbackend.requests.CreateMovieInput;
 
 import reactor.core.publisher.Flux;
 
@@ -27,14 +22,6 @@ import reactor.core.publisher.Flux;
 @RequestMapping("/api")
 public class MovieController {
 
-    @Autowired
-    WatchedMovieRepository watchHistoryRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    SavedMovieRepository savedMovieRepository;
     private final UserMovieListService userMovieListService;
 
     private ApiKeyService apiKeyService;
@@ -67,57 +54,29 @@ public class MovieController {
 
     @RequestMapping("/watch_history/{userId}")
     public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
-        if (userMovieListService.getUserById(userId) == null) {
-
-        }
-
-
-        List<Integer> watchHistoryIds = this.getWatchHistoryByUser(userId);
+        List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(userId);
+        List<Integer> watchHistoryIds = userMovieListService.getWatchedMovieIdsFromList(watchedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(watchHistoryIds);
     }
 
     //TODO get new movie to add to watch list
     @PostMapping("/watch_history/add")
-    public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody CreateMovieInput createMovieInput) {
-        WatchedMovie createdWatchedMovie = createMovieInput.toWatchedMovie();
-        watchHistoryRepository.save(createdWatchedMovie);
+    public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
+        WatchedMovie createdWatchedMovie = userMovieListService.addWatchedMovie(savedMovieDTO);
         return new ResponseEntity<>(createdWatchedMovie, HttpStatus.CREATED);
 
-    }
-    private List<Integer> getWatchHistoryByUser(int userId) {
-        List<WatchedMovie> watchHistory = watchHistoryRepository.findAllByUserId(userId);
-        List<Integer> watchedMovieIds = new ArrayList<>();
-        for (WatchedMovie movie : watchHistory) {
-            watchedMovieIds.add(movie.getApiMovieId());
-        }
-        return watchedMovieIds;
     }
 
     @GetMapping("saved_movies/{userId}")
     public ResponseEntity<List<Integer>> displaySavedMovies(@PathVariable Integer userId) {
-        List<Integer> savedMovieIds = this.getSavedMoviesByUser(userId);
+        List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(userId);
+        List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
     }
     @PostMapping("/saved_movies/add")
-    public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody CreateMovieInput createMovieInput) {
-        SavedMovie createdSavedMovie = createMovieInput.toSavedMovie();
-        savedMovieRepository.save(createdSavedMovie);
+    public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
+        SavedMovie createdSavedMovie = userMovieListService.addSavedMovie(savedMovieDTO);
         return new ResponseEntity<>(createdSavedMovie, HttpStatus.CREATED);
-
     }
 
-    private List<Integer> getSavedMoviesByUser(int userId) {
-        List<SavedMovie> savedMovies = savedMovieRepository.findAllByUserId(userId);
-        List<Integer> savedMovieIds = new ArrayList<>();
-        for (SavedMovie movie : savedMovies) {
-            savedMovieIds.add(movie.getApiMovieId());
-        }
-        return savedMovieIds;
-    }
-
-    //TODO check if the movie is already in the users watch history
-    @GetMapping("/watch_history/{userId}/{movieId}")
-    public void checkIfWatched(@PathVariable int userId, int movieId) {
-    }
-  
 }

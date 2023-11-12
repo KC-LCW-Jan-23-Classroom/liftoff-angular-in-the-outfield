@@ -6,24 +6,30 @@ import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import com.flickfinder.flickfinderbackend.models.data.SavedMovieRepository;
 import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.models.data.WatchedMovieRepository;
+import com.flickfinder.flickfinderbackend.models.dtos.SavedMovieDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserMovieListService {
     @Autowired
-    private WatchedMovieRepository watchHistoryRepository;
+    private final WatchedMovieRepository watchHistoryRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private SavedMovieRepository savedMovieRepository;
+    private final SavedMovieRepository savedMovieRepository;
 
-    UserMovieListService() {}
+    UserMovieListService(WatchedMovieRepository watchHistoryRepository, UserRepository userRepository, SavedMovieRepository savedMovieRepository) {
+        this.watchHistoryRepository = watchHistoryRepository;
+        this.userRepository = userRepository;
+        this.savedMovieRepository = savedMovieRepository;
+    }
 
     public List<WatchedMovie> getWatchedMoviesByUser(int userId) {
         return watchHistoryRepository.findAllByUserId(userId);
@@ -40,22 +46,43 @@ public class UserMovieListService {
         return result.get();
     }
 
-    public boolean addWatchedMovie(WatchedMovie watchedMovie) {
-        try {
-            watchHistoryRepository.save(watchedMovie);
-        } catch (Exception e) {
-            System.out.println("The movie could not be added.");
-            return false;
-        }
-        return true;
+    public WatchedMovie addWatchedMovie(SavedMovieDTO savedMovieDTO) {
+        WatchedMovie watchedMovie = convertDTOtoWatchedMovie(savedMovieDTO);
+        return watchHistoryRepository.save(watchedMovie);
     }
-    public boolean addSavedMovie(SavedMovie savedMovie) {
-        try {
-            savedMovieRepository.save(savedMovie);
-        } catch (Exception e) {
-            System.out.println("The movie could not be added.");
-            return false;
+    public SavedMovie addSavedMovie(SavedMovieDTO savedMovieDTO) {
+        SavedMovie savedMovie = convertDTOtoSavedMovie(savedMovieDTO);
+        return savedMovieRepository.save(savedMovie);
+    }
+
+    public List<Integer> getWatchedMovieIdsFromList(List<WatchedMovie> watchHistory) {
+        List<Integer> watchedMovieIds = new ArrayList<>();
+        for (WatchedMovie movie : watchHistory) {
+            watchedMovieIds.add(movie.getApiMovieId());
         }
-        return true;
+        return watchedMovieIds;
+    }
+    public List<Integer> getSavedMovieIdsFromList(List<SavedMovie> savedMovies) {
+        List<Integer> savedMovieIds = new ArrayList<>();
+        for (SavedMovie movie : savedMovies) {
+            savedMovieIds.add(movie.getApiMovieId());
+        }
+        return savedMovieIds;
+    }
+
+    private SavedMovie convertDTOtoSavedMovie(SavedMovieDTO savedMovieDTO) {
+        SavedMovie newSavedMovie = new SavedMovie();
+        newSavedMovie.setApiMovieId(savedMovieDTO.getApiMovieId());
+        User user = getUserById(savedMovieDTO.getUserId());
+        newSavedMovie.setUser(user);
+        return newSavedMovie;
+    }
+
+    private WatchedMovie convertDTOtoWatchedMovie(SavedMovieDTO savedMovieDTO) {
+        WatchedMovie newWatchedMovie = new WatchedMovie();
+        newWatchedMovie.setApiMovieId(savedMovieDTO.getApiMovieId());
+        User user = getUserById(savedMovieDTO.getUserId());
+        newWatchedMovie.setUser(user);
+        return newWatchedMovie;
     }
 }
