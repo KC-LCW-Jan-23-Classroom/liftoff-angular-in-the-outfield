@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-quiz',
@@ -24,7 +23,7 @@ export class QuizComponent {
 
   getStreamingIds() {
     this.watchProvidersIds = [];
-    
+
     if (this.streamingServices.netflix) {
       this.watchProvidersIds.push('8');
     }
