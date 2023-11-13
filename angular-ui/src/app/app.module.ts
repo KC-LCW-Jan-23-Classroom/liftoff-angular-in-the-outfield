@@ -5,6 +5,10 @@ import { NavbarComponent } from './navbar/navbar.component'; // Import the Navba
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './browse/movie-list/movie-list.component';
@@ -16,13 +20,22 @@ import { WatchHistoryComponent } from './profile/watch-history/watch-history.com
 import { FooterComponent } from './footer/footer.component';
 import { FilterOptionsComponent } from './browse/filter-options/filter-options.component';
 import { TimerComponent } from './sidebar/timer/timer.component';
-
 import { DatePipe } from '@angular/common';
 import { BrowseComponent } from './browse/browse.component';
 import { SearchByTextComponent } from './browse/search-by-text/search-by-text.component';
 import { ProfileComponent } from './profile/profile.component';
+
+import { RecommendationsComponent } from './sidebar/recommendations/recommendations.component';
+
+
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
+import { ProfileViewComponent } from './profile-view/profile-view.component';
+
+import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { MyListComponent } from './my-list/my-list.component';
+
 
 @NgModule({
   declarations: [
@@ -43,9 +56,18 @@ import { UserRegisterComponent } from './user-register/user-register.component';
     ProfileComponent,
     UserLoginComponent,
     UserRegisterComponent,
+    RecommendationsComponent,
+    ProfileViewComponent,
+    ScrollToTopComponent,
+    LoadingSpinnerComponent,
+    MyListComponent,
+
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+
+

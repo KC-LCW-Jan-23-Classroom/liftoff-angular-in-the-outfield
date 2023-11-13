@@ -9,6 +9,7 @@ export class Movie {
   public streamingSources: string[] | undefined;
   public director: string;
   public cast: string[];
+spinAnimationState: any;
 
   constructor(
     id: number,
@@ -21,7 +22,7 @@ export class Movie {
     director: string,
     cast: string[],
     streamingSources?: string[] | undefined,
-    
+
   ) {
     this.id = id;
     this.title = title;
