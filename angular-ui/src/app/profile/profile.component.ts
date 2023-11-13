@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../shared/users.service';
 import { UserReview } from '../shared/user-review.model';
+import { ReviewsService } from '../shared/reviews.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,10 @@ import { UserReview } from '../shared/user-review.model';
 export class ProfileComponent implements OnInit {
   userReviews: UserReview[] = [];
 
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private reviewsService: ReviewsService
+  ) {}
 
   ngOnInit(): void {
     this.loadUserReviews();
