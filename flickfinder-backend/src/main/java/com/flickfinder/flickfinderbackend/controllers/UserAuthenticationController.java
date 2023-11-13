@@ -25,8 +25,8 @@ public class UserAuthenticationController {
     String password = "mySecurePassword";
     String hashedPassword = PasswordEncoder.hashPassword(password);
 
-    String candidatePassword = "passwordToCheck";
-    boolean passwordMatches = PasswordEncoder.checkPassword(candidatePassword, hashedPassword);
+//    String candidatePassword = "passwordToCheck";
+//    boolean passwordMatches = PasswordEncoder.checkPassword(candidatePassword, hashedPassword);
 
 
 
@@ -53,98 +53,63 @@ public class UserAuthenticationController {
                     .body(responseBody);
             return response;
         }
-
-
         User registerNewUser = new User();
         registerNewUser.setUsername(formData.getName());
         registerNewUser.setPassword(formData.getPassword());
-
 
         // Encode the password before saving it
         registerNewUser.setPassword(PasswordEncoder.hashPassword(formData.getPassword()));
         userRepository.save(registerNewUser);
 
-
-
         responseBody.put("message","Successfully added new user ");
         responseBody.put("id", String.format("%d", registerNewUser.getId()));
         responseBody.put("name", String.format("%s", registerNewUser.getUsername()));
-
 
         response = ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(responseBody);
         return response;
-//        ResponseEntity<String> response;
-//        response = ResponseEntity.status(HttpStatus.CREATED).body( "Successfully created a new user" + registerNewUser);
-
     }
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<String> processUserLogin(@Valid @RequestBody LoginFormDTO loginFormDTO, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> processUserLogin(@Valid @RequestBody LoginFormDTO loginFormDTO, HttpServletRequest request) {
         String username = loginFormDTO.getName();
         User user = userRepository.findByUsername(username);
-
+        ResponseEntity<Map<String, String>> response;
+        Map<String,String> responseBody = new HashMap<>();
         if(user == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            responseBody.put("message","User not found");
+            response = ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(responseBody);
+            return response;
         };
 
         String submittedPassword = loginFormDTO.getPassword();
 
-        if(!user.getPassword().equals(submittedPassword)){
-            return new ResponseEntity<>("Password does not match", HttpStatus.UNAUTHORIZED);
-        };
+        if(!PasswordEncoder.checkPassword(submittedPassword, user.getPassword())){
+//            return new ResponseEntity<>("Password does not match", HttpStatus.UNAUTHORIZED);
+            responseBody.put("message","Password doesn't match");
+            response = ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(responseBody);
+            return response;
+        }
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        return new ResponseEntity<>("Login successful", HttpStatus.OK);
+//        return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        responseBody.put("message","Login successful");
+        responseBody.put("id", String.format("%d", user.getId()));
+        responseBody.put("name", String.format("%s", user.getUsername()));
+
+        response = ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(responseBody);
+        return response;
     }
 
 
 }
-
-
-
-
-
-
-    ///////////
-   // method and request mapping to get to that method
-
-//    @RequestMapping("/users")
-//    public List<User> getUsers() {
-//        return (List<User>) userRepository.findAll();
-//    }
-
-//    @PostMapping("/login")
-//    @ResponseBody
-//    public String processLoginForm(@Valid @RequestBody LoginFormDTO loginFormDTO,
-//                                   Errors errors, HttpServletRequest request
-//                                   ) {
-//
-//        if (errors.hasErrors()) {
-//            return "response entities";
-//        }
-
-       // User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
-
-//        if (theUser == null) {
-//            errors.rejectValue("username", "user.invalid", "The given username does not exist");
-//            return "login";
-//        }
-
-//        String password = loginFormDTO.getPassword();
-//
-//        if (!theUser.isMatchingPassword(password)) {
-//            errors.rejectValue("password", "password.invalid", "Invalid password");
-//            return "login";
-//        }
-
-       // setUserInSession(request.getSession(), theUser);
-
-       // return "response entities(these arent set up yet)";
-    //}
-//add authentication here make response entity
-//}
