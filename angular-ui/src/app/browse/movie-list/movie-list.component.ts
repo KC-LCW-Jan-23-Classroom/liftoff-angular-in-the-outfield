@@ -7,6 +7,7 @@ import { SavedMovie } from 'src/app/shared/saved-movie.model';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MoviesService } from 'src/app/shared/movies.service';
 
 @Component({
   selector: 'app-movie-list',
@@ -33,7 +34,7 @@ export class MovieListComponent implements OnInit {
     private datePipe: DatePipe,
     private searchService: SearchService,
     private usersService: UsersService,
-    private http: HttpClient,
+    private http: HttpClient, private moviesService : MoviesService
   ) {
     const today = new Date();
     this.formattedDate = this.datePipe.transform(today, 'MMMM d, y');
@@ -75,6 +76,21 @@ export class MovieListComponent implements OnInit {
         this.loadMore();
       }
     });
+
+    this.usersService.fetchWatchHistory().subscribe((watchedMovieIds)=>{
+      this.moviesService
+      .fetchMovieListDetails(watchedMovieIds)
+      .subscribe((movieListDetails) => {
+        this.watchHistory = movieListDetails;
+      });
+    });
+    this.usersService.fetchSavedMovies().subscribe((savedMovies)=>{
+      this.moviesService
+      .fetchMovieListDetails(savedMovies)
+      .subscribe((movieListDetails) => {
+        this.myList = movieListDetails;
+      });
+    });
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -103,6 +119,7 @@ export class MovieListComponent implements OnInit {
     this.loading = false;
     this.loadingRequested = false;
   }
+
 
   addToWatchHistory(movie : Movie) {
     this.usersService.addWatchedMovie(movie).subscribe((SavedMovie=> {

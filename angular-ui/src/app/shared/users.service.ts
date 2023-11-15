@@ -18,7 +18,7 @@ const httpOptions = {
 export class UsersService implements OnInit {
 
   private backendUrl = 'http://localhost:8080/'
-  public currentUserId = 1;
+  private currentUserId = 1;
 
   //TODO in login method, set currentUserId
 
@@ -32,6 +32,7 @@ export class UsersService implements OnInit {
   fetchWatchHistory(): Observable<number[]> {
     return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUserId);
   }
+
   addWatchedMovie(movie : Movie): Observable<SavedMovie> {
     const url = `${this.backendUrl}api/watch_history/add`;
     let newWatchedMovie = new SavedMovie(movie.id, this.currentUserId);
