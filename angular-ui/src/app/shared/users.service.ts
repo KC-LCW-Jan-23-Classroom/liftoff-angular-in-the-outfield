@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WatchedMovie } from './watched-movie.model';
+import { SavedMovie } from './saved-movie.model';
 import { Movie } from './movie.model';
 import { User } from './user.model';
 
@@ -18,9 +18,9 @@ const httpOptions = {
 export class UsersService implements OnInit {
 
   private backendUrl = 'http://localhost:8080/'
-  public currentUser = new User(1, 'popcorn', 'popcorn');
+  public currentUserId = 1;
 
-  //TODO in login method, set currentUser
+  //TODO in login method, set currentUserId
 
   constructor(private http: HttpClient) { }
 
@@ -29,12 +29,12 @@ export class UsersService implements OnInit {
   }
 
   fetchWatchHistory(): Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUser.id);
+    return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUserId);
   }
-  addWatchedMovie(movie : Movie): Observable<WatchedMovie> {
+  addWatchedMovie(movie : Movie): Observable<SavedMovie> {
     const url = `${this.backendUrl}api/watch_history/add`;
-    let newWatchedMovie = new WatchedMovie(movie.id, this.currentUser);
+    let newWatchedMovie = new SavedMovie(movie.id, this.currentUserId);
     console.log(newWatchedMovie);
-    return this.http.post<WatchedMovie>(url, newWatchedMovie, httpOptions);
+    return this.http.post<SavedMovie>(url, newWatchedMovie, httpOptions);
   }
 }
