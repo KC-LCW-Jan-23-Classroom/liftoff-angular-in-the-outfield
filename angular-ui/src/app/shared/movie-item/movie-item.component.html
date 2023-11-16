@@ -47,7 +47,7 @@
         More Details
       </a>
       <button class="btn btn-sm btn-secondary rounded-pill" (click)="onWatchedClick(movieItem)">Watched</button>
-      <img src="assets/images/plus.svg" alt="save for later" />
+      <img src="assets/images/plus.svg" alt="save for later" (click)="onSaveClick(movieItem)" />
     </div>
   </div>
   <div class="collapse" [id]="'movie' + movieItem.id">

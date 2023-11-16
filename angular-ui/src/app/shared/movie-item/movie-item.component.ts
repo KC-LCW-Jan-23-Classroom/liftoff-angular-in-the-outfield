@@ -18,8 +18,15 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class MovieItemComponent {
   @Input() movieItem!: Movie;
   @Output() markWatched: EventEmitter<Movie> = new EventEmitter();
+  @Output() markSaved: EventEmitter<Movie> = new EventEmitter();
+
+  // isMovieWatched: boolean;
+  // isMovieSaved: boolean;
 
   onWatchedClick(movie: Movie) : void {
     this.markWatched.emit(movie);
+  }
+  onSaveClick(movie: Movie) : void {
+    this.markSaved.emit(movie);
   }
 }

@@ -26,6 +26,9 @@ export class MovieListComponent implements OnInit {
 
   private scrollSubject = new Subject<Event>();
 
+  watchHistory: Movie[] = [];
+  myList : Movie[] = [];
+  
   constructor(
     private datePipe: DatePipe,
     private searchService: SearchService,
@@ -105,5 +108,10 @@ export class MovieListComponent implements OnInit {
     this.usersService.addWatchedMovie(movie).subscribe((SavedMovie=> {
       
     }));
+  }
+  addToSavedMovies(movie : Movie) {
+    this.usersService.addSavedMovie(movie).subscribe((SavedMovie=> {
+      
+    }))
   }
 }
