@@ -17,15 +17,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 export class MovieItemComponent {
   @Input() movieItem!: Movie;
-  @Input() watchHistory!: Movie[];
-  @Input() myList!: Movie[];
   @Output() markWatched: EventEmitter<Movie> = new EventEmitter();
   @Output() markSaved: EventEmitter<Movie> = new EventEmitter();
-
-  // isMovieWatched: boolean = this.watchHistory.includes(this.movieItem);
-  // isMovieSaved: boolean = this.myList.includes(this.movieItem);
-  // toSaveIconURL: string = "assets/images/plus.svg";
-  // savedIconURL: string ="assets/images/plus-cirlce-fill.svg";
 
   onWatchedClick(movie: Movie) : void {
     this.markWatched.emit(movie);

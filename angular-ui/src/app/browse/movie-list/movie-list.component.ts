@@ -26,9 +26,6 @@ export class MovieListComponent implements OnInit {
   loadingRequested: boolean = false;
 
   private scrollSubject = new Subject<Event>();
-
-  watchHistory: Movie[] = [];
-  myList : Movie[] = [];
   
   constructor(
     private datePipe: DatePipe,
@@ -77,20 +74,6 @@ export class MovieListComponent implements OnInit {
       }
     });
 
-    this.usersService.fetchWatchHistory().subscribe((watchedMovieIds)=>{
-      this.moviesService
-      .fetchMovieListDetails(watchedMovieIds)
-      .subscribe((movieListDetails) => {
-        this.watchHistory = movieListDetails;
-      });
-    });
-    this.usersService.fetchSavedMovies().subscribe((savedMovies)=>{
-      this.moviesService
-      .fetchMovieListDetails(savedMovies)
-      .subscribe((movieListDetails) => {
-        this.myList = movieListDetails;
-      });
-    });
   }
 
   @HostListener('window:scroll', ['$event'])
