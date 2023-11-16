@@ -22,8 +22,10 @@ export class MovieItemComponent {
   @Output() markWatched: EventEmitter<Movie> = new EventEmitter();
   @Output() markSaved: EventEmitter<Movie> = new EventEmitter();
 
-  isMovieWatched: boolean = this.watchHistory.includes(this.movieItem);
-  isMovieSaved: boolean = this.myList.includes(this.movieItem);
+  // isMovieWatched: boolean = this.watchHistory.includes(this.movieItem);
+  // isMovieSaved: boolean = this.myList.includes(this.movieItem);
+  // toSaveIconURL: string = "assets/images/plus.svg";
+  // savedIconURL: string ="assets/images/plus-cirlce-fill.svg";
 
   onWatchedClick(movie: Movie) : void {
     this.markWatched.emit(movie);
@@ -31,4 +33,19 @@ export class MovieItemComponent {
   onSaveClick(movie: Movie) : void {
     this.markSaved.emit(movie);
   }
+
+  // checkIfSaved(): string {
+  //   if (this.isMovieSaved) {
+  //     return this.savedIconURL;
+  //   }
+  //   return this.toSaveIconURL;
+  // }
+
+  // checkIfWatched(): string {
+  //   if (this.isMovieWatched) {
+  //     return "Watched";
+  //   }
+  //   return "Unwatched";
+
+  // }
 }
