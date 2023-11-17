@@ -19,7 +19,7 @@ public class User {
     @NotBlank
     private String username;
     @NotBlank
-    @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
+//    @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
     private String password;
 
     @OneToMany(mappedBy = "user")
@@ -31,6 +31,12 @@ public class User {
     public User() {
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+  
     public int getId() {
         return id;
     }

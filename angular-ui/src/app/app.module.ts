@@ -35,6 +35,7 @@ import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { MyListComponent } from './my-list/my-list.component';
+import { QuizComponent } from './quiz/quiz.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { MyListComponent } from './my-list/my-list.component';
     ScrollToTopComponent,
     LoadingSpinnerComponent,
     MyListComponent,
+    QuizComponent,
 
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
