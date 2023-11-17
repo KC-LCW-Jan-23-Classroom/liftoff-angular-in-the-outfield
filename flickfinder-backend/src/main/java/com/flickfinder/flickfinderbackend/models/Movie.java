@@ -14,6 +14,25 @@ public class Movie {
     private String director;
     private List<String> cast;
 
+    private boolean isWatched = false;
+    private boolean isSaved = false;
+
+    public boolean isWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(boolean watched) {
+        isWatched = watched;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
+    }
+
     public Movie(String title,
                  int id,
                  List<String> genres,

@@ -26,7 +26,15 @@ public class UserAuthenticationController {
     String candidatePassword = "passwordToCheck";
     boolean passwordMatches = PasswordEncoder.checkPassword(candidatePassword, hashedPassword);
 
+    private User currentUser;
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
 
     public class PasswordEncoder {
 
@@ -72,6 +80,7 @@ public class UserAuthenticationController {
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
+        setCurrentUser(user);
         return new ResponseEntity<>("Login successful", HttpStatus.OK);
     }
 

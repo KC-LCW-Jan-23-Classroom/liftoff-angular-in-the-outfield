@@ -80,9 +80,7 @@ public class MovieService {
                                         releaseYear = Integer.parseInt(releaseDate.substring(0, 4));
                                     }
                                 }
-
-
-                                return new Movie(
+                                Movie returnedMovie = new Movie(
                                         (String) movieResponse.get("title"),
                                         (int) movieResponse.get("id"),
                                         List.of(genre),
@@ -95,6 +93,9 @@ public class MovieService {
                                         directorAndCast.getCast()
 
                                 );
+
+
+                                return returnedMovie;
                             });
                 })
                 .collectList()
