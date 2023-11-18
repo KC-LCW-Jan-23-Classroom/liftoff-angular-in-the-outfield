@@ -37,6 +37,8 @@ public class MovieController {
     public Flux<Movie> getTrendingMovies() {
         return movieService.getTrendingMovies();
     }
+
+    // TODO @GetMapping("quiz") to call QuizService, pass quiz answers, then return selected movie
   
 //    @GetMapping("/movies")
 //    public List<Movie> getMovies() {
