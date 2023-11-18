@@ -2,6 +2,7 @@ package com.flickfinder.flickfinderbackend.services;
 
 import com.flickfinder.flickfinderbackend.models.Movie;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Flux;
@@ -9,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.*;
 
+@Service
 public class QuizService {
     private final WebClient webClient;
     private final String API_KEY;
@@ -28,9 +30,13 @@ public class QuizService {
 
     public Flux<Movie> getRecommendedMovie(List<String> watchProviders, String genre, String runtime, String timePeriod) {
         return getQuizMovieIds(watchProviders, genre, runtime, timePeriod)
-                .map(this::generateRandomIndex)
-                .flatMapMany(randomIndex -> movieService.getMovieDetails(Collections.singletonList(randomIndex)));
+                .flatMapMany(movieIds -> {
+                    int randomIndex = generateRandomIndex(movieIds);
+                    int randomMovieId = movieIds.get(randomIndex);
+                    return movieService.getMovieDetails(Collections.singletonList(randomMovieId));
+                });
     }
+
 
 
     private Mono<List<Integer>> getQuizMovieIds(List<String> watchProviders, String genre, String runtime, String timePeriod) {
