@@ -2,6 +2,7 @@ package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.SavedMovie;
 import com.flickfinder.flickfinderbackend.models.dtos.SavedMovieDTO;
+import com.flickfinder.flickfinderbackend.services.QuizService;
 import com.flickfinder.flickfinderbackend.services.UserMovieListService;
 
 import java.util.List;
@@ -27,10 +28,12 @@ public class MovieController {
     private ApiKeyService apiKeyService;
 
     private final MovieService movieService;
+    private final QuizService quizService;
 
-    public MovieController(UserMovieListService userMovieListService, MovieService movieService) {
+    public MovieController(UserMovieListService userMovieListService, MovieService movieService, QuizService quizService) {
         this.userMovieListService = userMovieListService;
         this.movieService = movieService;
+        this.quizService = quizService;
     }
 
     @GetMapping("trending")
@@ -39,6 +42,13 @@ public class MovieController {
     }
 
     // TODO @GetMapping("quiz") to call QuizService, pass quiz answers, then return selected movie
+
+    @GetMapping("quiz")
+    public Flux<Movie> getQuizResult(@RequestParam List<String> watchProviders, @RequestParam String genre, @RequestParam String runtime, @RequestParam String timePeriod) {
+
+        return quizService.getRecommendedMovie(watchProviders, genre, runtime, timePeriod);
+
+    }
   
 //    @GetMapping("/movies")
 //    public List<Movie> getMovies() {
