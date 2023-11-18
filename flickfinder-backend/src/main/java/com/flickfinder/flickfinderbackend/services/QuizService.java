@@ -59,7 +59,8 @@ public class QuizService {
                             .queryParam("total_results", 20)
                             .queryParam("with_watch_providers", watchProvidersString)
                             .queryParam("with_runtime.gte", this.withRuntimeGte)
-                            .queryParam("primary_release_date.gte", this.primaryReleaseDateGte);
+                            .queryParam("primary_release_date.gte", this.primaryReleaseDateGte)
+                            .queryParam("watch_region", "US");
 
                     if (this.withRuntimeLte != null) {
                         builder.queryParam("with_runtime.lte", this.withRuntimeLte);
@@ -130,9 +131,11 @@ public class QuizService {
             if (provider.equals(watchProviders.get(watchProviders.size() - 1))) {
                 returnString.append(provider);
             } else {
-                returnString.append(provider).append("%7C");
+                returnString.append(provider).append("|");
             }
         }
+
+        System.out.println(returnString);
         return returnString.toString();
     }
 
