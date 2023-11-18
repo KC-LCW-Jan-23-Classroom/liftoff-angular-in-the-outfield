@@ -25,9 +25,11 @@ export class MovieItemComponent {
 
   onWatchedClick(movie: Movie) : void {
     this.markWatched.emit(movie);
+    this.movieItem.isWatched = true;
   }
   onSaveClick(movie: Movie) : void {
     this.markSaved.emit(movie);
+    this.movieItem.isSaved = true;
   }
 
   checkIfSaved(): string {
