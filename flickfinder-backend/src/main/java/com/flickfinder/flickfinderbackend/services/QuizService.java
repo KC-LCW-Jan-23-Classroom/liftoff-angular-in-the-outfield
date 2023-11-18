@@ -10,15 +10,9 @@ import reactor.core.publisher.Mono;
 import java.util.*;
 
 public class QuizService {
-    // TODO place to save list of returned movie ids?
-    // TODO private function to call API, create list of movie ids, call random index picker, return single movie id
-    // TODO private function for random index picker
-    // TODO public function to call getMovieRecommendations, pass ID to getMovieDetails, then return Movie
-
     private final WebClient webClient;
     private final String API_KEY;
     private final MovieService movieService;
-
     private Integer withRuntimeGte;
     private Integer withRuntimeLte;
     private String primaryReleaseDateGte;
@@ -98,23 +92,28 @@ public class QuizService {
     }
 
     private void setReleaseDates(String quizDates) {
-        if (quizDates.equals("2020")) {
-            this.primaryReleaseDateGte = "2020-01-01";
-        } else if (quizDates.equals("2000")) {
-            this.primaryReleaseDateGte = "2000-01-01";
-            this.primaryReleaseDateLte = "2019-12-31";
-        } else if (quizDates.equals("1980")) {
-            this.primaryReleaseDateGte = "1980-01-01";
-            this.primaryReleaseDateLte = "1999-12-31";
-        } else if (quizDates.equals("1960")) {
-            this.primaryReleaseDateGte = "1960-01-01";
-            this.primaryReleaseDateLte = "1979-12-31";
-        } else if (quizDates.equals("1940")) {
-            this.primaryReleaseDateGte = "1940-01-01";
-            this.primaryReleaseDateLte = "1959-12-31";
-        } else {
-            this.primaryReleaseDateGte = "1920-01-01";
-            this.primaryReleaseDateLte = "1939-12-31";
+        switch (quizDates) {
+            case "2020" -> this.primaryReleaseDateGte = "2020-01-01";
+            case "2000" -> {
+                this.primaryReleaseDateGte = "2000-01-01";
+                this.primaryReleaseDateLte = "2019-12-31";
+            }
+            case "1980" -> {
+                this.primaryReleaseDateGte = "1980-01-01";
+                this.primaryReleaseDateLte = "1999-12-31";
+            }
+            case "1960" -> {
+                this.primaryReleaseDateGte = "1960-01-01";
+                this.primaryReleaseDateLte = "1979-12-31";
+            }
+            case "1940" -> {
+                this.primaryReleaseDateGte = "1940-01-01";
+                this.primaryReleaseDateLte = "1959-12-31";
+            }
+            default -> {
+                this.primaryReleaseDateGte = "1920-01-01";
+                this.primaryReleaseDateLte = "1939-12-31";
+            }
         }
     }
 
