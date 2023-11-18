@@ -1,4 +1,5 @@
 package com.flickfinder.flickfinderbackend.services;
+import com.flickfinder.flickfinderbackend.controllers.UserAuthenticationController;
 import com.flickfinder.flickfinderbackend.models.DirectorAndCastResponse;
 import com.flickfinder.flickfinderbackend.models.Movie;
 import org.springframework.core.ParameterizedTypeReference;
@@ -93,6 +94,7 @@ public class MovieService {
                                         directorAndCast.getCast()
 
                                 );
+
 
 
                                 return returnedMovie;
