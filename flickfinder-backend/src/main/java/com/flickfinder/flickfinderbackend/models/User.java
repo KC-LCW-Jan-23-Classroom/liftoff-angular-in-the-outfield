@@ -94,4 +94,11 @@ public class User {
     public boolean savedMoviesContains(SavedMovie aMovie) {
         return this.savedMovies.contains(aMovie);
     }
+    public void updateUserInfo(String newUsername, String newPassword) {
+        if (newUsername != null && !newUsername.isEmpty()) this.username = newUsername;
+        if (newPassword != null && !newPassword.isEmpty()) {
+            this.password = newPassword;
+        }
+    }
+}
 }

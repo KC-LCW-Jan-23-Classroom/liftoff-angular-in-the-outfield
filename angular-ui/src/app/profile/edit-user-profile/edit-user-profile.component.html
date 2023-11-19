@@ -1,11 +1,20 @@
 <div>
-  <h1>{{ user.name }}</h1>
-  <p>{{ user.email }}</p>
-  <a href="#" class="btn btn-link">Edit Profile</a>
-  <div *ngIf="editingProfile">
+  <ng-container *ngIf="!editingProfile; else editMode">
+    <h1>{{ user.name }}</h1>
+    <p>{{ user.email }}</p>
+    <a href="#" class="btn btn-link" (click)="toggleEdit()">Edit Profile</a>
+  </ng-container>
+
+  <ng-template #editMode>
     <form (ngSubmit)="saveChanges()">
-      <!-- Form fields for editing profile -->
-      <a href="#" class="btn btn-link">Save Changes</a>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="editedUser.name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="editedUser.email" required>
+
+      <a href="#" class="btn btn-link" (click)="saveChanges()">Save Changes</a>
+      <a href="#" class="btn btn-link" (click)="cancelEdit()">Cancel</a>
     </form>
-  </div>
+  </ng-template>
 </div>

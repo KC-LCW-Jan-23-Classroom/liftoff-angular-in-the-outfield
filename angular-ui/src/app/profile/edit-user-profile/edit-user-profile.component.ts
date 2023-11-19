@@ -1,24 +1,28 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-edit-user-profile',
+  selector: 'app-user-profile',
   templateUrl: './edit-user-profile.component.html',
-
   styleUrls: ['./edit-user-profile.component.css']
 })
 export class UserProfileComponent {
-  user: any = {}; // Initialize the user object with the current user's data
-  editingProfile: boolean = false; // Add the editingProfile variable
+  user = { name: 'John Doe', email: 'john@example.com' };
+  editedUser = { ...this.user }; // Create a copy of the user for editing
+  editingProfile = false;
 
-  // Constructor and other component methods
-
-  editProfile() {
-    this.editingProfile = !this.editingProfile; // Toggle edit mode
+  toggleEdit() {
+    this.editingProfile = true;
   }
 
   saveChanges() {
-    // Implement the saveChanges function to update the user's profile
-    // This function remains the same as in the previous response
+    // Perform actions to save changes to the user object
+    this.user = { ...this.editedUser }; // Update the original user object with changes
+    this.editingProfile = false; // Exit editing mode
+  }
+
+  cancelEdit() {
+    // Cancel the editing process and revert changes
+    this.editedUser = { ...this.user }; // Revert changes by restoring the editedUser
+    this.editingProfile = false; // Exit editing mode
   }
 }
-
