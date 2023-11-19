@@ -1,10 +1,12 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.SavedMovie;
+import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.dtos.SavedMovieDTO;
 import com.flickfinder.flickfinderbackend.services.LogInService;
 import com.flickfinder.flickfinderbackend.services.UserMovieListService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import com.flickfinder.flickfinderbackend.models.Movie;
 import com.flickfinder.flickfinderbackend.services.ApiKeyService;
 import com.flickfinder.flickfinderbackend.services.MovieService;
+import com.flickfinder.flickfinderbackend.services.LogInService;
 
 import reactor.core.publisher.Flux;
 
@@ -30,6 +33,7 @@ public class MovieController {
     private final MovieService movieService;
 
     private final LogInService logInService;
+    private int currentUserId;
 
     public MovieController(UserMovieListService userMovieListService, MovieService movieService, LogInService logInService) {
         this.userMovieListService = userMovieListService;
@@ -73,11 +77,14 @@ public class MovieController {
 
     @GetMapping("saved_movies/{userId}")
     public ResponseEntity<List<Integer>> displaySavedMovies(@PathVariable Integer userId) {
-        if (logInService.isLoggedIn()) {
-
+        List<Integer> savedMovieIds = new ArrayList<Integer>();
+        if (!logInService.isLoggedIn()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(savedMovieIds);
         }
+        User currentUser = logInService.getCurrentUser();
+        this.currentUserId = currentUser.getId();
         List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(userId);
-        List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
+        savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
     }
     @PostMapping("/saved_movies/add")
