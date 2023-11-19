@@ -21,6 +21,7 @@ public class MovieFilterService {
     }
 
     public Flux<Movie> getMoviesByGenre(String genre) {
+        System.out.println(genre);
         return webClient.get()
                 .uri("/discover/movie?with_genres={genre}&api_key={apiKey}", genre, APIKEY)
                 .retrieve()
