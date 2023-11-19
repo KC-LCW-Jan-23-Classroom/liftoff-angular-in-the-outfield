@@ -7,11 +7,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
 import { MyListComponent } from './my-list/my-list.component';
-<<<<<<< HEAD
-
-=======
 import { QuizComponent } from './quiz/quiz.component';
->>>>>>> 42b8302f08240094948fc71d784de235e09e96d4
 
 const routes: Routes = [
   { path: '', redirectTo: 'browse', pathMatch: 'full' },
@@ -20,14 +16,9 @@ const routes: Routes = [
   { path: 'password-form', component: PasswordFormComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: UserLoginComponent },
-<<<<<<< HEAD
-  { path: 'register', component: UserRegisterComponent },
-  { path: 'my-list', component: MyListComponent},
-=======
   { path: 'my-list', component: MyListComponent },
   { path: 'quiz', component: QuizComponent },
   { path: 'register', component: UserRegisterComponent },
->>>>>>> 42b8302f08240094948fc71d784de235e09e96d4
 ];
 
 @NgModule({
