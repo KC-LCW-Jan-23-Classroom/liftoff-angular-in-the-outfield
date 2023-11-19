@@ -38,27 +38,20 @@
         <option value="5">Horror</option>
         <option value="6">Kids</option>
       </select>
-    </div>
+      </div>
+</div>
 
-    <div class="dropdown">
-      <select class="form-select" aria-label="Decade">
-        <option selected>Decade</option>
-        <option value="1">70s</option>
-        <option value="2">80s</option>
-        <option value="3">90s</option>
-        <option value="4">00s</option>
+  <div class="dropdown">
+    <select class="form-select" aria-label="Decade">
+      <option selected>Decade</option>
+      <option *ngFor="let decade of decades" [value]="decade">{{ decade }}</option>
       </select>
-    </div>
+      </div>
 
-    <div class="dropdown">
-      <select class="form-select" aria-label="Now Streaming">
-        <option selected>Now Streaming</option>
-        <option value="1">Netflix</option>
-        <option value="2">Hulu</option>
-        <option value="3">Prime</option>
+  <div class="dropdown">
+    <select class="form-select" aria-label="Now Streaming">
+      <option selected>Now Streaming</option>
+      <option *ngFor="let platform of streamingPlatforms" [value]="platform">{{ platform }}</option>
       </select>
-    </div>
-  </div>
-  </body>
+      </div>
   
-  </html> -->

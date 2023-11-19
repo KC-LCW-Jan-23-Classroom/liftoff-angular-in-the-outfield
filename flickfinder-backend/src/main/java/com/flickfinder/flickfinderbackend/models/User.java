@@ -19,15 +19,24 @@ public class User {
     @NotBlank
     private String username;
     @NotBlank
-    @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
+//    @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<WatchedMovie> watchedMovies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<SavedMovie> savedMovies = new ArrayList<>();
 
     public User() {
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+  
     public int getId() {
         return id;
     }
@@ -56,6 +65,14 @@ public class User {
         this.watchedMovies = watchHistory;
     }
 
+    public List<SavedMovie> getSavedMovies() {
+        return savedMovies;
+    }
+
+    public void setSavedMovies(List<SavedMovie> savedMovies) {
+        this.savedMovies = savedMovies;
+    }
+
     public void addToWatchHistory(WatchedMovie newMovie) {
         this.watchedMovies.add(newMovie);
     }
@@ -64,7 +81,17 @@ public class User {
         this.watchedMovies.remove(movieToRemove);
     }
 
-    public boolean containsMovie(WatchedMovie aMovie) {
+    public boolean watchHistoryContains(WatchedMovie aMovie) {
         return this.watchedMovies.contains(aMovie);
+    }
+
+    public void addToSavedMovies(SavedMovie newMovie) {
+        this.savedMovies.add(newMovie);
+    }
+    public void removeFromSavedMovies(SavedMovie savedMovie) {
+        this.savedMovies.remove(savedMovie);
+    }
+    public boolean savedMoviesContains(SavedMovie aMovie) {
+        return this.savedMovies.contains(aMovie);
     }
 }

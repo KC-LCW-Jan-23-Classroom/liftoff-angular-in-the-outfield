@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReviewsService } from '../shared/review.service'; 
+import { ReviewsService } from 'src/app/shared/reviews.service';
 import { UserReview } from 'src/app/shared/user-review.model';
 @Component({
   selector: 'app-profile-view',
@@ -10,6 +10,7 @@ export class ProfileViewComponent implements OnInit {
   movieName: string = '';
   reviewText: string = '';
   reviews: UserReview[] = [];
+  userReviews: UserReview[] = [];
 
   constructor(private reviewsService: ReviewsService) {}
 
@@ -25,7 +26,9 @@ export class ProfileViewComponent implements OnInit {
 
   loadReviews(): void {
     this.reviewsService.getAllReviews().subscribe(
-      (reviews) => {},
+      (reviews) => {
+        this.userReviews = reviews;
+      },
       (error) => {
         console.error('Error loading reviews:', error);
       }

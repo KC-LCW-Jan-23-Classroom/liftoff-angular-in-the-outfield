@@ -30,7 +30,6 @@
         </li>
         <!-- replace movie-list with proper component when it is time -->
         <!-- <a class="nav-link" [routerLink]="['/movie-list']" href="#">My Picks</a> -->
-        <app-watch-history></app-watch-history>
     
     
         <li class="nav-item">
@@ -38,4 +37,6 @@
         </li>
     
     </ul>
+    <app-watch-history></app-watch-history>
     
+    <app-user-review-card *ngFor="let review of userReviews" [review]="review"></app-user-review-card>

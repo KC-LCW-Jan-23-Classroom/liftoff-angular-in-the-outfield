@@ -1,6 +1,8 @@
 package com.flickfinder.flickfinderbackend.models;
 
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import java.util.Objects;
@@ -8,34 +10,21 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class AbstractMovie {
     @Id
-    @GeneratedValue
-    private int movieId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer movieId;
 
     private int apiMovieId;
 
-    private String userReview;
-
     public AbstractMovie() {
-    }
-
-    public AbstractMovie(int movieId) {
-        this.movieId = movieId;
     }
 
     public int getMovieId() {
         return movieId;
     }
+    public void setMovieId(Integer id) {this.movieId = id;}
 
     public int getApiMovieId() {
         return apiMovieId;
-    }
-
-    public String getUserReview() {
-        return userReview;
-    }
-
-    public void setUserReview(String userReview) {
-        this.userReview = userReview;
     }
 
     public void setApiMovieId(int apiMovieId) {

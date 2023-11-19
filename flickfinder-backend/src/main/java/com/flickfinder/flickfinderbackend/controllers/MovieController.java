@@ -1,38 +1,35 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
+import com.flickfinder.flickfinderbackend.models.SavedMovie;
+import com.flickfinder.flickfinderbackend.models.dtos.SavedMovieDTO;
+import com.flickfinder.flickfinderbackend.services.UserMovieListService;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import com.flickfinder.flickfinderbackend.models.Movie;
 import com.flickfinder.flickfinderbackend.services.ApiKeyService;
 import com.flickfinder.flickfinderbackend.services.MovieService;
-import org.springframework.web.bind.annotation.*;
-import com.flickfinder.flickfinderbackend.models.User;
-import com.flickfinder.flickfinderbackend.models.WatchedMovie;
-import com.flickfinder.flickfinderbackend.data.WatchedMovieRepository;
-import com.flickfinder.flickfinderbackend.models.data.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+
 import reactor.core.publisher.Flux;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 @RestController
+//@CrossOrigin(origins ="http://localhost:4200/")
 @RequestMapping("/api")
 public class MovieController {
-    @Autowired
-    WatchedMovieRepository watchHistoryRepository;
 
-    @Autowired
+    private final UserMovieListService userMovieListService;
+
     private ApiKeyService apiKeyService;
-
-    @Autowired
-    UserRepository userRepository;
 
     private final MovieService movieService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(UserMovieListService userMovieListService, MovieService movieService) {
+        this.userMovieListService = userMovieListService;
         this.movieService = movieService;
     }
 
@@ -43,36 +40,43 @@ public class MovieController {
   
 //    @GetMapping("/movies")
 //    public List<Movie> getMovies() {
-//        return;
-//        // Return a list of available movies
-//    }
+//        return movieService.getMovies();
 //
 //
-//    @PostMapping("/recommendations")
-//    public List<Movie> getRecommendations(@RequestBody Movie movie) {
-//        // Implement recommendation algorithm and return recommended movies
 //    }
-  
-    //TODO post watch list based on user logged in
 
-    @RequestMapping("watch_history")
-    public ResponseEntity<List<Integer>> displayWatchHistory () {
-//        @PathVariable int userId
-//        Optional<User> currentUser = userRepository.findById(userId);
-//        if (currentUser.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST);
-//        }
-//        Optional<User> currentUser = userRepository.findById(1);
-//        System.out.println(currentUser);
-//        List<Integer> watchedMovieIds = new ArrayList<>();
-//        List<WatchedMovie> watchHistory = currentUser.get().getWatchHistory();
-//        for (WatchedMovie movie : watchHistory) {
-//            watchedMovieIds.add(movie.getApiMovieId());
-//        }
-        List<Integer> watchedMovieIds = new ArrayList<>();
-        watchedMovieIds.add(4935);
-        return ResponseEntity.status(HttpStatus.CREATED).body(watchedMovieIds);
+
+//    @PostMapping("/recommendations")
+// public List<Movie> getRecommendations(@RequestBody Movie movie) {
+//        List<Movie> recommendedMovies = new ArrayList<>();
+//              return recommendedMovies;
+//    }
+
+    @RequestMapping("/watch_history/{userId}")
+    public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
+        List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(userId);
+        List<Integer> watchHistoryIds = userMovieListService.getWatchedMovieIdsFromList(watchedMovies);
+        return ResponseEntity.status(HttpStatus.OK).body(watchHistoryIds);
     }
 
     //TODO get new movie to add to watch list
+    @PostMapping("/watch_history/add")
+    public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
+        WatchedMovie createdWatchedMovie = userMovieListService.addWatchedMovie(savedMovieDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
+    }
+
+    @GetMapping("saved_movies/{userId}")
+    public ResponseEntity<List<Integer>> displaySavedMovies(@PathVariable Integer userId) {
+        List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(userId);
+        List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
+        return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
+    }
+    @PostMapping("/saved_movies/add")
+    public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
+        SavedMovie createdSavedMovie = userMovieListService.addSavedMovie(savedMovieDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 }
