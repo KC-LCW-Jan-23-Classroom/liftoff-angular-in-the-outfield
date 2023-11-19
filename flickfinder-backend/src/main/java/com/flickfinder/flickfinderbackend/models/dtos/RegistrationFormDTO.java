@@ -33,6 +33,9 @@ public class RegistrationFormDTO {
         return null;
     }
 
+    //how to send a custom error message on spring validation in http response
+    //how to make @Email more accesible
+
 
     public String getName() {
         return name;

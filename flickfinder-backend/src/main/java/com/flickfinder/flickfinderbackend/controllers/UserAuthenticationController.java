@@ -74,7 +74,6 @@ public class UserAuthenticationController {
             responseBody.put("id", String.format("%d", registerNewUser.getId()));
             responseBody.put("name", String.format("%s", registerNewUser.getName()));
             responseBody.put("email", String.format("%s", registerNewUser.getEmail()));
-            //using %e to access email, not sure if that's correct
             response = ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(responseBody);
