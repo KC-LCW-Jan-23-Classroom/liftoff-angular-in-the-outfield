@@ -2,6 +2,7 @@ package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.SavedMovie;
 import com.flickfinder.flickfinderbackend.models.dtos.SavedMovieDTO;
+import com.flickfinder.flickfinderbackend.services.LogInService;
 import com.flickfinder.flickfinderbackend.services.UserMovieListService;
 
 import java.util.List;
@@ -28,9 +29,12 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    public MovieController(UserMovieListService userMovieListService, MovieService movieService) {
+    private final LogInService logInService;
+
+    public MovieController(UserMovieListService userMovieListService, MovieService movieService, LogInService logInService) {
         this.userMovieListService = userMovieListService;
         this.movieService = movieService;
+        this.logInService = logInService;
     }
 
     @GetMapping("trending")
@@ -69,6 +73,9 @@ public class MovieController {
 
     @GetMapping("saved_movies/{userId}")
     public ResponseEntity<List<Integer>> displaySavedMovies(@PathVariable Integer userId) {
+        if (logInService.isLoggedIn()) {
+
+        }
         List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(userId);
         List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
