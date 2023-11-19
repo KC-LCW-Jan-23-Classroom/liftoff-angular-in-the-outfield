@@ -1,7 +1,9 @@
 package com.flickfinder.flickfinderbackend.services;
 
 import com.flickfinder.flickfinderbackend.models.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LogInService {
 
     private boolean loggedIn = false;

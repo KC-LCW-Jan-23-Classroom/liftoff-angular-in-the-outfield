@@ -96,8 +96,8 @@ public class MovieService {
                                         directorAndCast.getCast()
 
                                 );
-                                if (UserAuthenticationController.loginService.isLoggedIn() == true) {
-                                    int currentUserId = UserAuthenticationController.loginService.getCurrentUser().getId();
+                                if (UserAuthenticationController.logInService.isLoggedIn() == true) {
+                                    int currentUserId = UserAuthenticationController.logInService.getCurrentUser().getId();
                                     List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(currentUserId);
                                     List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(currentUserId);
                                     for (WatchedMovie movie : watchedMovies) {

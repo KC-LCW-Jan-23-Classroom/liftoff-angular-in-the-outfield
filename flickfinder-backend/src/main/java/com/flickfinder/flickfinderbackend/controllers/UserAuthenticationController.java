@@ -26,9 +26,10 @@ public class UserAuthenticationController {
     String password = "mySecurePassword";
     String hashedPassword = PasswordEncoder.hashPassword(password);
 
+    public final static LogInService logInService = new LogInService();
+
 //    String candidatePassword = "passwordToCheck";
 //    boolean passwordMatches = PasswordEncoder.checkPassword(candidatePassword, hashedPassword);
-    public static final LogInService loginService = new LogInService();
 
     public class PasswordEncoder {
 
@@ -97,11 +98,11 @@ public class UserAuthenticationController {
                     .body(responseBody);
             return response;
         }
+        logInService.setLoggedIn(true);
+        logInService.setCurrentUser(user);
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        loginService.setCurrentUser(user);
-        loginService.setLoggedIn(true);
 //        return new ResponseEntity<>("Login successful", HttpStatus.OK);
         responseBody.put("message","Login successful");
         responseBody.put("id", String.format("%d", user.getId()));

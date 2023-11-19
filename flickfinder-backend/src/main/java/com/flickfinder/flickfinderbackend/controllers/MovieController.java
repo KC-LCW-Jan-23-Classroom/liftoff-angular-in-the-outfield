@@ -17,7 +17,6 @@ import com.flickfinder.flickfinderbackend.models.WatchedMovie;
 import com.flickfinder.flickfinderbackend.models.Movie;
 import com.flickfinder.flickfinderbackend.services.ApiKeyService;
 import com.flickfinder.flickfinderbackend.services.MovieService;
-import com.flickfinder.flickfinderbackend.services.LogInService;
 
 import reactor.core.publisher.Flux;
 
@@ -35,10 +34,10 @@ public class MovieController {
     private final LogInService logInService;
     private int currentUserId;
 
-    public MovieController(UserMovieListService userMovieListService, MovieService movieService, LogInService logInService) {
+    public MovieController(UserMovieListService userMovieListService, MovieService movieService, LogInService loginService) {
         this.userMovieListService = userMovieListService;
         this.movieService = movieService;
-        this.logInService = logInService;
+        this.logInService = loginService;
     }
 
     @GetMapping("trending")
@@ -77,14 +76,8 @@ public class MovieController {
 
     @GetMapping("saved_movies/{userId}")
     public ResponseEntity<List<Integer>> displaySavedMovies(@PathVariable Integer userId) {
-        List<Integer> savedMovieIds = new ArrayList<Integer>();
-        if (!logInService.isLoggedIn()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(savedMovieIds);
-        }
-        User currentUser = logInService.getCurrentUser();
-        this.currentUserId = currentUser.getId();
-        List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(userId);
-        savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
+        List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(currentUserId);
+        List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
     }
     @PostMapping("/saved_movies/add")
