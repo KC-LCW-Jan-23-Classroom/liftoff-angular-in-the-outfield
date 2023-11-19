@@ -1,6 +1,33 @@
-<!DOCTYPE html>
+<div class="d-flex align-items-center">
+  <!-- Genre Dropdown -->
+  <div class="dropdown">
+    <select class="form-select" aria-label="Genre" [(ngModel)]="selectedGenre" (change)="onGenreChange()">
+      <option selected disabled>Genre</option>
+      <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+      </select>
+      </div>
+      <!-- Decade Dropdown -->
+      <div class="dropdown">
+        <select class="form-select" aria-label="Decade" [(ngModel)]="selectedDecade" (change)="onDecadeChange()">
+          <option selected disabled>Decade</option>
+          <option *ngFor="let decade of decades" [value]="decade">{{ decade }}</option>
+        </select>
+      </div>
+      
+      <!-- Streaming Platform Dropdown -->
+      <div class="dropdown">
+        <select class="form-select" aria-label="Now Streaming" [(ngModel)]="selectedStreamingPlatform"
+          (change)="onStreamingPlatformChange()">
+          <option selected disabled>Now Streaming</option>
+          <option *ngFor="let platform of streamingPlatforms" [value]="platform">{{ platform }}</option>
+        </select>
+      </div>
+</div>
+
+<!-- <!DOCTYPE html>
 <html lang="en">
-  <body>
+
+<body>
   <div class="d-flex align-items-center">
     <div class="dropdown">
       <select class="form-select" aria-label="Genre">
@@ -32,5 +59,6 @@
       </select>
     </div>
   </div>
-</body>
-</html>
+  </body>
+  
+  </html> -->
