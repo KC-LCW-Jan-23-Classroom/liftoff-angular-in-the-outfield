@@ -5,6 +5,7 @@ import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.dtos.SavedMovieDTO;
 import com.flickfinder.flickfinderbackend.services.LogInService;
 import com.flickfinder.flickfinderbackend.services.UserMovieListService;
+import com.flickfinder.flickfinderbackend.controllers.UserAuthenticationController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,14 +60,16 @@ public class MovieController {
 //              return recommendedMovies;
 //    }
 
-    @RequestMapping("/watch_history/{userId}")
-    public ResponseEntity<List<Integer>> displayWatchHistory (@PathVariable int userId) {
+    @RequestMapping("/watch_history")
+    public ResponseEntity<List<Integer>> displayWatchHistory () {
+        User user = UserAuthenticationController.logInService.getCurrentUser();
+        int userId = user.getId();
+
         List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(userId);
         List<Integer> watchHistoryIds = userMovieListService.getWatchedMovieIdsFromList(watchedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(watchHistoryIds);
     }
 
-    //TODO get new movie to add to watch list
     @PostMapping("/watch_history/add")
     public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
         WatchedMovie createdWatchedMovie = userMovieListService.addWatchedMovie(savedMovieDTO);

@@ -20,7 +20,7 @@ const httpOptions = {
 
 export class UsersService implements OnInit {
 
-  private backendUrl = 'http://localhost:8080/'
+  private backendUrl = 'http://localhost:8080/';
   private currentUserId = 1;
   private loggedIn : boolean = false;
   private watchHistory : Movie[] = [];
@@ -29,7 +29,8 @@ export class UsersService implements OnInit {
 
   //TODO in login method, set currentUserId
 
-  constructor(private http: HttpClient, moviesService: MoviesService, private authService: AuthService) { }
+  constructor(private http: HttpClient, moviesService: MoviesService) { 
+  }
 
 
   ngOnInit(): void {
