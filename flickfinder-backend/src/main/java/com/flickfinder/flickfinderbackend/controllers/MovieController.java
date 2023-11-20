@@ -62,16 +62,14 @@ public class MovieController {
 
     @RequestMapping("/watch_history")
     public ResponseEntity<List<Integer>> displayWatchHistory () {
-        User user = UserAuthenticationController.logInService.getCurrentUser();
-        int userId = user.getId();
-
-        List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(userId);
+        List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(getCurrentUserId());
         List<Integer> watchHistoryIds = userMovieListService.getWatchedMovieIdsFromList(watchedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(watchHistoryIds);
     }
 
     @PostMapping("/watch_history/add")
-    public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
+    public ResponseEntity<WatchedMovie> addWatchedMovie(@RequestBody int apiMovieId) {
+        SavedMovieDTO savedMovieDTO =  new SavedMovieDTO(apiMovieId,this.getCurrentUserId());
         WatchedMovie createdWatchedMovie = userMovieListService.addWatchedMovie(savedMovieDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
@@ -79,16 +77,20 @@ public class MovieController {
 
     @GetMapping("/saved_movies")
     public ResponseEntity<List<Integer>> displaySavedMovies() {
-        User user = UserAuthenticationController.logInService.getCurrentUser();
-        int userId = user.getId();
-        List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(userId);
+        List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(getCurrentUserId());
         List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
     }
     @PostMapping("/saved_movies/add")
-    public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody SavedMovieDTO savedMovieDTO) {
+    public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody int apiMovieId) {
+        SavedMovieDTO savedMovieDTO = new SavedMovieDTO(apiMovieId, this.getCurrentUserId());
         SavedMovie createdSavedMovie = userMovieListService.addSavedMovie(savedMovieDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    private int getCurrentUserId() {
+        User user = UserAuthenticationController.logInService.getCurrentUser();
+        return user.getId();
     }
 
 }
