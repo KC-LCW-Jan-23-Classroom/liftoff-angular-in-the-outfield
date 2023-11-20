@@ -3,7 +3,7 @@
   <div class="dropdown">
     <select class="form-select" aria-label="Genre" [(ngModel)]="selectedGenre" (change)="onGenreChange()">
       <option selected disabled>Genre</option>
-      <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+      <option *ngFor="let genre of genres" [value]="genre.name">{{ genre.name }}</option>
       </select>
       </div>
       <!-- Decade Dropdown -->
