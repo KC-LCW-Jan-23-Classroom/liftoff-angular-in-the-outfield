@@ -1,7 +1,7 @@
 package com.flickfinder.flickfinderbackend.models;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<SavedMovie> savedMovies = new ArrayList<>();
+    private String username;
 
     public User() {
     }
@@ -112,5 +113,4 @@ public class User {
             this.password = newPassword;
         }
     }
-}
 }
