@@ -21,8 +21,9 @@ const httpOptions = {
 export class UsersService implements OnInit {
 
   private backendUrl = 'http://localhost:8080/';
-  private loggedIn : boolean = false;
   private moviesService : MoviesService;
+  public watchHistory : Movie[] =[];
+  public savedMovies : Movie[] = [];
 
 
   //TODO in login method, set currentUserId
@@ -33,6 +34,7 @@ export class UsersService implements OnInit {
 
 
   ngOnInit(): void {
+
 
   }
 
@@ -52,33 +54,5 @@ export class UsersService implements OnInit {
     const url = `${this.backendUrl}api/saved_movies/add`;
     return this.http.post<Number>(url, movie.id, httpOptions);
   }
-
-  returnSavedMovies() : Movie[] {
-    let savedMovieList: Movie[] = [];
-    this.fetchSavedMovies().subscribe((savedMovies)=>{
-      let savedMovieIds: number[] = savedMovies;
-      this.moviesService
-      .fetchMovieListDetails(savedMovieIds)
-      .subscribe((movieListDetails) => {
-        savedMovieList = movieListDetails;
-      });
-    })
-    return savedMovieList;
-  }
-
-  returnWatchedMovies() : Movie[] {
-    let watchedMovieList : Movie [] = [];
-    this.fetchWatchHistory().subscribe((watchHisory)=>{
-      let watchedMovieIds: number[] = watchHisory;
-
-      this.moviesService
-      .fetchMovieListDetails(watchedMovieIds)
-      .subscribe((movieListDetails) => {
-        watchedMovieList = movieListDetails;
-      });
-    })
-    return watchedMovieList;
-  }
-
 
 }

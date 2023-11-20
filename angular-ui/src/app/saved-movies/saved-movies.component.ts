@@ -23,7 +23,7 @@ export class SavedMoviesComponent implements OnInit {
       .subscribe((movieListDetails) => {
         this.myList = movieListDetails;
       });
-    })
+    });
   }
   
 
