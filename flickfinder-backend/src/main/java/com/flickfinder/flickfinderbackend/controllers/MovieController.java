@@ -93,4 +93,12 @@ public class MovieController {
         return user.getId();
     }
 
+    @PostMapping("/watch_history/delete")
+    public ResponseEntity<WatchedMovie> deleteWatchedMovie(@RequestBody int apiMovieId) {
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
 }

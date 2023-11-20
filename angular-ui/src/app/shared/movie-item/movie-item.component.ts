@@ -19,7 +19,7 @@ export class MovieItemComponent {
   @Input() movieItem!: Movie;
   @Output() markWatched: EventEmitter<Movie> = new EventEmitter();
   @Output() markSaved: EventEmitter<Movie> = new EventEmitter();
-  savedIconURL: string = 'assets/images/plus-circle-fill.svg';
+  savedIconURL: string = 'assets/images/minus.svg';
   toSaveIconURL: string = 'assets/images/plus.svg';
   
 

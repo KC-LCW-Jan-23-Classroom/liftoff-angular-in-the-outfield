@@ -47,7 +47,7 @@
         More Details
       </a>
       <button class="btn btn-sm btn-secondary rounded-pill" (click)="onWatchedClick(movieItem)" style="font-size: x-small;">{{ checkIfWatched() }}</button>
-      <img src="assets/images/plus.svg" alt="save for later" (click)="onSaveClick(movieItem)" />
+      <img *ngIf="!movieItem.isSaved; else ifSaved" src="assets/images/plus.svg" alt="save for later" (click)="onSaveClick(movieItem)" style="width:20px"/>
     </div>
   </div>
   <div class="collapse" [id]="'movie' + movieItem.id">
@@ -71,5 +71,5 @@
 >
 
 <ng-template #ifSaved>
-  <img src="assets/images/plus-circle-fill.svg" alt="save for later" (click)="onSaveClick(movieItem)">
+  <img src="assets/images/minus.svg" alt="save for later" (click)="onSaveClick(movieItem)" style="width:20px">
 </ng-template>
