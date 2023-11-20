@@ -1,35 +1,25 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
-import com.flickfinder.flickfinderbackend.models.Movie;
 import com.flickfinder.flickfinderbackend.models.dtos.dto.Genre;
 import com.flickfinder.flickfinderbackend.services.GetGenresService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.flickfinder.flickfinderbackend.services.MovieFilterService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/filter-options")
 public class FilterByGenreController {
 
-    private final MovieFilterService movieFilterService;
+    private final GetGenresService genresService;
 
-    @Autowired
-    public FilterByGenreController(MovieFilterService movieFilterService) {
-        this.movieFilterService = movieFilterService;
+    public FilterByGenreController(GetGenresService genresService) {
+        this.genresService = genresService;
     }
+
     @GetMapping("/genres")
     public List<Genre> fetchGenres() {
-        List<Genre> genres = new ArrayList<>();
-
-
-
-        return GetGenresService.fetchGenres();
+        return genresService.fetchGenres();
     }
-
-
 }

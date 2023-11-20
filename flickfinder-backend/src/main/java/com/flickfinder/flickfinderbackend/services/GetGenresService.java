@@ -1,8 +1,10 @@
 
 package com.flickfinder.flickfinderbackend.services;
 
+import com.flickfinder.flickfinderbackend.models.GenreResponse;
 import com.flickfinder.flickfinderbackend.models.data.GenreRepository;
 import com.flickfinder.flickfinderbackend.models.dtos.dto.Genre;
+import com.flickfinder.flickfinderbackend.services.ApiKeyService;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -24,28 +26,51 @@ public class GetGenresService {
     private static RestTemplate restTemplate;
     private static final String BASE_URL = "https://api.themoviedb.org/3";
 
-    public GetGenresService(GenreRepository genreRepository, RestTemplate restTemplate) {
+    private final ObjectMapper objectMapper; // Declare ObjectMapper
+
+    private String apiKey;
+
+
+
+
+    public GetGenresService(GenreRepository genreRepository, RestTemplate restTemplate, ApiKeyService apiKeyService, ObjectMapper objectMapper) {
         this.genreRepository = genreRepository;
         this.restTemplate = restTemplate;
+        this.apiKey = apiKeyService.getApiKey();
+        this.objectMapper = objectMapper;
+    }
+    public List<Genre> parseGenresFromApiResponse(String responseBody) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            GenreResponse genreResponse = objectMapper.readValue(responseBody, GenreResponse.class);
+            return genreResponse.getGenres();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception according to your application's requirements
+        }
+
+        return null;
     }
 
+    public List<Genre> fetchGenres() {
 
-    public static List<Genre> fetchGenres() {
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(BASE_URL + "/genre/movie/list?language=en", String.class);
+        String url = BASE_URL + "/genre/movie/list?language=en&api_key=" + apiKey;
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             String responseBody = responseEntity.getBody();
-            ObjectMapper objectMapper = new ObjectMapper();
             try {
-                // Map the JSON array in the response body to an array of Genre objects
-                Genre[] genres = objectMapper.readValue(responseBody, Genre[].class);
-                List<Genre> genreList = Arrays.asList(genres);
+                GenreResponse genreResponse = objectMapper.readValue(responseBody, GenreResponse.class);
+                List<Genre> genreList = genreResponse.getGenres();
                 genreRepository.saveAll(genreList);
                 return genreList;
             } catch (IOException e) {
                 e.printStackTrace();
+                // Handle the exception accordingly
             }
         }
-        return Collections.emptyList(); // Return an empty list in case of failure
+        return Collections.emptyList();
     }
 }
