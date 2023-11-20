@@ -9,7 +9,6 @@ import { UserRegisterComponent } from './user-register/user-register.component';
 import { MyListComponent } from './my-list/my-list.component';
 import { QuizComponent } from './quiz/quiz.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: 'browse', pathMatch: 'full' },
   { path: 'browse', component: BrowseComponent },
@@ -19,9 +18,7 @@ const routes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'register', component: UserRegisterComponent },
   { path: 'my-list', component: MyListComponent},
-  { path: 'my-list', component: MyListComponent },
   { path: 'quiz', component: QuizComponent },
-  { path: 'register', component: UserRegisterComponent },
 ];
 
 @NgModule({

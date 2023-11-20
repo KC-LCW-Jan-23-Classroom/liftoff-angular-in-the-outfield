@@ -33,7 +33,6 @@ setAuthStatus(status: boolean) {
   }
 
   loginUser(user: any): Observable<any>{
-    console.log("777", user)
     return this.http.post(this.authUrl, user)
   }
 
@@ -44,7 +43,7 @@ setAuthStatus(status: boolean) {
 
   setUser(user: User): void{
     this.user = user
-  console.log(this.user, "AuthSERVICE")}
+  }
 
 
 getVarResponse(){

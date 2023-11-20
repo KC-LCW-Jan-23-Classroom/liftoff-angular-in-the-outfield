@@ -1,4 +1,5 @@
 package com.flickfinder.flickfinderbackend.models;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -17,9 +18,11 @@ public class User {
     private int id;
 
     @NotBlank
-    private String username;
+    private String name;
     @NotBlank
-//    @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
+    @Email
+    private String email;
+    @NotBlank
     private String password;
 
     @OneToMany(mappedBy = "user")
@@ -31,9 +34,10 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String name, String password, String email) {
+        this.name = name;
         this.password = password;
+        this.email = email;
     }
 
   
@@ -41,12 +45,12 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -55,6 +59,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<WatchedMovie> getWatchHistory() {
