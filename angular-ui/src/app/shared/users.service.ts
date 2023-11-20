@@ -38,7 +38,7 @@ export class UsersService implements OnInit {
   }
 
   fetchWatchHistory(): Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"api/watch_history/"+this.currentUserId);
+    return this.http.get<number[]>(this.backendUrl+"api/watch_history");
   }
 
   addWatchedMovie(movie : Movie): Observable<SavedMovie> {
@@ -49,7 +49,7 @@ export class UsersService implements OnInit {
   }
 
   fetchSavedMovies() : Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"api/saved_movies/"+this.currentUserId);
+    return this.http.get<number[]>(this.backendUrl+"api/saved_movies");
   }
   addSavedMovie(movie : Movie) : Observable<SavedMovie> {
     const url = `${this.backendUrl}api/saved_movies/add`;

@@ -77,9 +77,11 @@ public class MovieController {
 
     }
 
-    @GetMapping("saved_movies/{userId}")
-    public ResponseEntity<List<Integer>> displaySavedMovies(@PathVariable Integer userId) {
-        List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(currentUserId);
+    @GetMapping("/saved_movies")
+    public ResponseEntity<List<Integer>> displaySavedMovies() {
+        User user = UserAuthenticationController.logInService.getCurrentUser();
+        int userId = user.getId();
+        List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(userId);
         List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
         return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
     }
