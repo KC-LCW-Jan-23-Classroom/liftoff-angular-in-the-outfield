@@ -15,13 +15,15 @@ export class UserProfileComponent {
   }
 
   saveChanges() {
-    // Perform actions to save changes to the user object
-    this.user = { ...this.editedUser }; // Update the original user object with changes
+    //Q: Perform actions to save changes to the user object
+    //a: Update the original user object with changes
+
+    this.user = { ...this.editedUser };
     this.editingProfile = false; // Exit editing mode
   }
 
   cancelEdit() {
-    // Cancel the editing process and revert changes
+
     this.editedUser = { ...this.user }; // Revert changes by restoring the editedUser
     this.editingProfile = false; // Exit editing mode
   }
