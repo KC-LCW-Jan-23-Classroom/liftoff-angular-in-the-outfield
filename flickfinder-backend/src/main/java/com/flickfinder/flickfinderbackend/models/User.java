@@ -113,4 +113,7 @@ public class User {
             this.password = newPassword;
         }
     }
+
+    public void setUsername(String newUsername) {
+    }
 }

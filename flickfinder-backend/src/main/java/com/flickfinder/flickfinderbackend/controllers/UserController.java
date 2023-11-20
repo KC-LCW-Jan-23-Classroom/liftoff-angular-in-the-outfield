@@ -1,6 +1,7 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
 import com.flickfinder.flickfinderbackend.models.User;
+import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     // Endpoint for updating user info
     @PutMapping("/{userId}")
@@ -26,4 +31,5 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }
