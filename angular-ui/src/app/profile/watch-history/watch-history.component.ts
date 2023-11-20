@@ -17,15 +17,7 @@ export class WatchHistoryComponent implements OnInit {
 
   // call backend to recieve a list of movie Ids that the user has added to their watch list
   ngOnInit(): void {
-    this.usersService.fetchWatchHistory().subscribe((watchHisory)=>{
-      let watchedMovieIds: number[] = watchHisory;
-
-      this.moviesService
-      .fetchMovieListDetails(watchedMovieIds)
-      .subscribe((movieListDetails) => {
-        this.watchedList = movieListDetails;
-      });
-    })
+    this.watchedList = this.usersService.returnWatchedMovies();
   }
 
 

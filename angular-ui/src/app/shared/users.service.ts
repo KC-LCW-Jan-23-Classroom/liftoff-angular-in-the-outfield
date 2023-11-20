@@ -21,15 +21,14 @@ const httpOptions = {
 export class UsersService implements OnInit {
 
   private backendUrl = 'http://localhost:8080/';
-  private currentUserId = 1;
   private loggedIn : boolean = false;
-  private watchHistory : Movie[] = [];
-  private myList : Movie[] = [];
+  private moviesService : MoviesService;
 
 
   //TODO in login method, set currentUserId
 
   constructor(private http: HttpClient, moviesService: MoviesService) { 
+    this.moviesService = moviesService;
   }
 
 
@@ -43,8 +42,6 @@ export class UsersService implements OnInit {
 
   addWatchedMovie(movie : Movie): Observable<Number> {
     const url = `${this.backendUrl}api/watch_history/add`;
-    let newWatchedMovie = new SavedMovie(movie.id, this.currentUserId);
-    console.log(newWatchedMovie);
     return this.http.post<Number>(url, movie.id, httpOptions);
   }
 
@@ -53,9 +50,34 @@ export class UsersService implements OnInit {
   }
   addSavedMovie(movie : Movie) : Observable<Number> {
     const url = `${this.backendUrl}api/saved_movies/add`;
-    let newSavedMoive = new SavedMovie(movie.id, this.currentUserId);
-    console.log(newSavedMoive);
     return this.http.post<Number>(url, movie.id, httpOptions);
+  }
+
+  returnSavedMovies() : Movie[] {
+    let savedMovieList: Movie[] = [];
+    this.fetchSavedMovies().subscribe((savedMovies)=>{
+      let savedMovieIds: number[] = savedMovies;
+      this.moviesService
+      .fetchMovieListDetails(savedMovieIds)
+      .subscribe((movieListDetails) => {
+        savedMovieList = movieListDetails;
+      });
+    })
+    return savedMovieList;
+  }
+
+  returnWatchedMovies() : Movie[] {
+    let watchedMovieList : Movie [] = [];
+    this.fetchWatchHistory().subscribe((watchHisory)=>{
+      let watchedMovieIds: number[] = watchHisory;
+
+      this.moviesService
+      .fetchMovieListDetails(watchedMovieIds)
+      .subscribe((movieListDetails) => {
+        watchedMovieList = movieListDetails;
+      });
+    })
+    return watchedMovieList;
   }
 
 

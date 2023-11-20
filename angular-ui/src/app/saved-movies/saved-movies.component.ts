@@ -5,10 +5,10 @@ import { MoviesService } from '../shared/movies.service';
 
 @Component({
   selector: 'app-my-list',
-  templateUrl: './my-list.component.html',
-  styleUrls: ['./my-list.component.css']
+  templateUrl: './saved-movies.component.html',
+  styleUrls: ['./saved-movies.component.css']
 })
-export class MyListComponent implements OnInit {
+export class SavedMoviesComponent implements OnInit {
   myList: Movie[] = [];
 
   constructor(private usersService: UsersService, private moviesService : MoviesService) {
