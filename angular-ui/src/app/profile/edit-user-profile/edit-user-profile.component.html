@@ -1,15 +1,27 @@
-<div>
+<div *ngIf="!editingProfile">
+  <!-- Display user profile data -->
+  <h2>{{ user.name }}'s Profile</h2>
+  <p>Email: {{ user.email }}</p>
+  <button (click)="toggleEdit()">Edit Profile</button>
+</div>
 
-  <ng-template #editMode>
-    <form (ngSubmit)="saveChanges()">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" [(ngModel)]="editedUser.name" required>
+<div *ngIf="editingProfile">
+  <!-- Form for editing user profile -->
+  <h2>Edit Profile</h2>
+  <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
+    <div>
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" formControlName="firstName">
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email">
+      <div *ngIf="profileForm.get('email')?.errors?.['required']">Email is required</div>
+      <div *ngIf="profileForm.get('email')?.errors?.['email']">Invalid email format</div>
+    </div>
+    <!-- Add more form controls as needed -->
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" [(ngModel)]="editedUser.email" required>
-
-      <button type="submit" class="btn btn-link">Save Changes</button>
-      <a href="#" class="btn btn-link" (click)="cancelEdit()">Cancel</a>
-    </form>
-  </ng-template>
+    <button type="submit">Save Changes</button>
+    <button type="button" (click)="cancelEdit()">Cancel</button>
+  </form>
 </div>

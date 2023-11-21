@@ -1,6 +1,11 @@
 <ul class="nav justify-content-end">
     <li class="nav-item">
-      <a class="nav-link active" [routerLink]="['/edit-user-profile']" aria-current=" page" href="#">Edit Profile</a>
+      <a class="nav-link active"
+   [routerLink]="['/edit-user-profile', { username: user.username, email: user.email }]"
+   aria-current="page"
+   href="#">
+   Edit Profile
+</a>
         </li>
         <li class="nav-item">
             <a class="nav-link active" [routerLink]="['/user-review']" aria-current=" page" href="#">User Reviews</a>
@@ -33,7 +38,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link enabled" aria-disabled="true">placeholder for Username</a>
+            <a class="nav-link disabled" aria-disabled="true">placeholder for Username</a>
         </li>
 
     </ul>

@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
  import { Movie } from './movie.model';
  import { User } from './user.model';
 
+
  const httpOptions = {
    headers: new HttpHeaders({
      'Content-Type': 'application/json',

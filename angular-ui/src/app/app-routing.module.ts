@@ -20,7 +20,8 @@ const routes: Routes = [
   { path: 'register', component: UserRegisterComponent },
   { path: 'my-list', component: MyListComponent},
   { path: 'quiz', component: QuizComponent },
-  { path: 'edit-user-profile', component: EditUserProfileComponent}
+  { path: 'edit-user-profile', component: EditUserProfileComponent},
+
 ];
 
 @NgModule({

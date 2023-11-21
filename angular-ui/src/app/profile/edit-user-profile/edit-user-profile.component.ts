@@ -1,44 +1,75 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EditUserProfileService } from '../../shared/edituserprofile.service';
 
 @Component({
-  selector: 'app-user-profile',
+  selector: 'app-edit-user-profile',
   templateUrl: './edit-user-profile.component.html',
   styleUrls: ['./edit-user-profile.component.css']
 })
-export class EditUserProfileComponent {
-  user: any = {
-    name: '', // Initialize with the user's data
-    email: '' // Initialize with the user's data
-  };
-  editedUser: any = {}; // Define editedUser to store edited values
-  editingProfile: boolean = false;
+export class EditUserProfileComponent implements OnInit {
+  profileForm!: FormGroup;
+  user: any = {};
+  editingProfile = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private formBuilder: FormBuilder, private editUserProfileService: EditUserProfileService) { }
 
-  toggleEdit() {
-    this.editingProfile = !this.editingProfile;
-    if (this.editingProfile) {
-      // Logic when entering edit mode
+  ngOnInit() {
+    this.profileForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      // Add more form controls as needed
+    });
+
+    this.loadUserProfile();
+  }
+
+  loadUserProfile() {
+    this.editUserProfileService.getUserProfile().subscribe(
+      (userData: any) => {
+        this.user = userData;
+        this.populateForm();
+      },
+      (error: any) => {
+        console.error('Error fetching user profile:', error);
+      }
+    );
+  }
+
+  populateForm() {
+    if (this.profileForm) {
+      this.profileForm.patchValue({
+        firstName: this.user.name,
+        email: this.user.email,
+        // Update other form controls as needed
+      });
     }
   }
 
   saveChanges() {
-    // Assuming editedUser contains the updated information
-    // Send editedUser to the server to update the user's profile
-    this.http.put('http://localhost:8080/api/users', this.editedUser)
-      .subscribe(
+    if (this.profileForm) {
+      const updatedProfile = { ...this.profileForm.value };
+      this.editUserProfileService.updateUserProfile(updatedProfile).subscribe(
         (res: any) => {
           this.user = res; // Update user data if the server sends updated data back
-          this.toggleEdit(); // Exit edit mode after successful update
+          // Optionally, perform any additional actions upon successful update
         },
         (error: any) => {
-          console.error('Error occurred:', error);
+          console.error('Error updating user profile:', error);
         }
       );
+    }
   }
 
   cancelEdit() {
-    this.toggleEdit(); // Exit edit mode
+    this.editingProfile = false;
+    this.populateForm(); // Reload user data when cancelling edit mode
+  }
+
+  toggleEdit() {
+    this.editingProfile = !this.editingProfile;
+    if (this.editingProfile) {
+      this.populateForm(); // Load user data when entering edit mode
+    }
   }
 }

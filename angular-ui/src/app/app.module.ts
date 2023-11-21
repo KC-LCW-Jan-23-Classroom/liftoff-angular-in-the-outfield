@@ -30,7 +30,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { MyListComponent } from './my-list/my-list.component';
 import { UserReviewCardComponent } from './user-review-card/user-review-card.component';
 import { QuizComponent } from './quiz/quiz.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +59,7 @@ import { QuizComponent } from './quiz/quiz.component';
     QuizComponent,
 
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule,ReactiveFormsModule],
   providers: [DatePipe],
   bootstrap: [AppComponent],
 })
