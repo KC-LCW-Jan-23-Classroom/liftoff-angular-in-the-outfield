@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private int userId;
+    private String newUsername;
+    private String newPassword;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -23,6 +26,9 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable int userId,
                                            @RequestParam(required = false) String newUsername,
                                            @RequestParam(required = false) String newPassword) {
+        this.userId = userId;
+        this.newUsername = newUsername;
+        this.newPassword = newPassword;
         User updatedUser = userService.updateUser(userId, newUsername, newPassword);
 
         if (updatedUser != null) {

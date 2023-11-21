@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserReviewComponent } from './profile/user-review/user-review.component';
 import { PasswordFormComponent } from './profile/password-form/password-form.component';
@@ -8,6 +8,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
 import { MyListComponent } from './my-list/my-list.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { EditUserProfileComponent } from './profile/edit-user-profile/edit-user-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'browse', pathMatch: 'full' },
@@ -19,10 +20,13 @@ const routes: Routes = [
   { path: 'register', component: UserRegisterComponent },
   { path: 'my-list', component: MyListComponent},
   { path: 'quiz', component: QuizComponent },
+  { path: 'edit-user-profile', component: EditUserProfileComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [RouterModule],
+
 })
 export class AppRoutingModule {}
