@@ -1,43 +1,26 @@
 <div class="d-flex align-items-center">
+  <!-- Genre Dropdown -->
   <div class="dropdown">
-    <!-- Disable template type checking for the following line -->
-    
     <select class="form-select" aria-label="Genre" [(ngModel)]="selectedGenre" (change)="onGenreChange()">
-      <option selected>Action</option>
-      <option selected>Adventure</option>
-      <option selected>Animation</option>
-      <option selected>Comedy</option>
-      <option selected>Crime</option>
-      <option selected>Documentary</option>
-      <option selected>Drama</option>
-      <option selected>Family</option>
-      <option selected>Fantasy</option>
-      <option selected>History</option>
-      <option selected>Horror</option>
-      <option selected>Music</option>
-      <option selected>Mystery</option>
-      <option selected>Romance</option>
-      <option selected>Science Fiction</option>
-      <option selected>TV Movie</option>
-      <option selected>Thriller</option>
-      <option selected>War</option>
-      <option selected>Western</option>
+      <option selected disabled>Genre</option>
       <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
       </select>
       </div>
+      <!-- Decade Dropdown -->
+      <div class="dropdown">
+        <select class="form-select" aria-label="Decade" [(ngModel)]="selectedDecade" (change)="onDecadeChange()">
+          <option selected disabled>Decade</option>
+          <option *ngFor="let decade of decades" [value]="decade">{{ decade }}</option>
+        </select>
+      </div>
+      
+      <!-- Streaming Platform Dropdown -->
+      <div class="dropdown">
+        <select class="form-select" aria-label="Now Streaming" [(ngModel)]="selectedStreamingPlatform"
+          (change)="onStreamingPlatformChange()">
+          <option selected disabled>Now Streaming</option>
+          <option *ngFor="let platform of streamingPlatforms" [value]="platform">{{ platform }}</option>
+        </select>
+      </div>
 </div>
 
-  <div class="dropdown">
-    <select class="form-select" aria-label="Decade">
-      <option selected>Decade</option>
-      <option *ngFor="let decade of decades" [value]="decade">{{ decade }}</option>
-      </select>
-      </div>
-
-  <div class="dropdown">
-    <select class="form-select" aria-label="Now Streaming">
-      <option selected>Now Streaming</option>
-      <option *ngFor="let platform of streamingPlatforms" [value]="platform">{{ platform }}</option>
-      </select>
-      </div>
-  
