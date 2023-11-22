@@ -46,6 +46,11 @@ public class QuizService {
         this.setRuntimes(runtime);
         this.setReleaseDates(timePeriod);
 
+        System.out.println(this.withRuntimeGte);
+        System.out.println(this.withRuntimeLte);
+        System.out.println(this.primaryReleaseDateGte);
+        System.out.println(this.primaryReleaseDateLte);
+
         return webClient.get()
                 .uri(uriBuilder -> {
                     UriBuilder builder = uriBuilder
@@ -60,7 +65,8 @@ public class QuizService {
                             .queryParam("with_watch_providers", watchProvidersString)
                             .queryParam("with_runtime.gte", this.withRuntimeGte)
                             .queryParam("primary_release_date.gte", this.primaryReleaseDateGte)
-                            .queryParam("watch_region", "US");
+                            .queryParam("watch_region", "US")
+                            .queryParam("with_watch_monetization_types", "flatrate");
 
                     if (this.withRuntimeLte != null) {
                         builder.queryParam("with_runtime.lte", this.withRuntimeLte);
@@ -95,12 +101,16 @@ public class QuizService {
             this.withRuntimeLte = 120;
         } else {
             this.withRuntimeGte = 121;
+            this.withRuntimeLte = null;
         }
     }
 
     private void setReleaseDates(String quizDates) {
         switch (quizDates) {
-            case "2020" -> this.primaryReleaseDateGte = "2020-01-01";
+            case "2020" -> {
+                this.primaryReleaseDateGte = "2020-01-01";
+                this.primaryReleaseDateLte = null;
+            }
             case "2000" -> {
                 this.primaryReleaseDateGte = "2000-01-01";
                 this.primaryReleaseDateLte = "2019-12-31";
@@ -134,8 +144,6 @@ public class QuizService {
                 returnString.append(provider).append("|");
             }
         }
-
-        System.out.println(returnString);
         return returnString.toString();
     }
 
