@@ -46,11 +46,6 @@ public class QuizService {
         this.setRuntimes(runtime);
         this.setReleaseDates(timePeriod);
 
-        System.out.println(this.withRuntimeGte);
-        System.out.println(this.withRuntimeLte);
-        System.out.println(this.primaryReleaseDateGte);
-        System.out.println(this.primaryReleaseDateLte);
-
         return webClient.get()
                 .uri(uriBuilder -> {
                     UriBuilder builder = uriBuilder
