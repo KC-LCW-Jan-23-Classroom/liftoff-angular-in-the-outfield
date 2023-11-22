@@ -1,12 +1,9 @@
 package com.flickfinder.flickfinderbackend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "user_review")
 public class UserReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
