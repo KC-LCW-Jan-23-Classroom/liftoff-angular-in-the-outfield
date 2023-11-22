@@ -28,6 +28,7 @@ export class MovieItemComponent implements OnInit {
   moviesService: MoviesService;
   usersService: UsersService;
 
+
   constructor(moviesService: MoviesService, userService: UsersService) {
     this.moviesService = moviesService;
     this.usersService = userService;
@@ -42,6 +43,8 @@ export class MovieItemComponent implements OnInit {
       .fetchMovieListDetails(watchedMovieIds)
       .subscribe((movieListDetails) => {
         this.watchedList = movieListDetails;
+        this.movieItem.isWatched = this.watchedList.includes(this.movieItem);
+        console.log(this.movieItem.isWatched);
       });
     });
 
@@ -52,10 +55,10 @@ export class MovieItemComponent implements OnInit {
       .fetchMovieListDetails(savedMovieIds)
       .subscribe((movieListDetails) => {
         this.savedMovieList = movieListDetails;
+        this.movieItem.isSaved = this.savedMovieList.includes(this.movieItem);
       });
     });
-    this.movieItem.isSaved = this.savedMovieList.includes(this.movieItem);
-    this.movieItem.isWatched = this.watchedList.includes(this.movieItem);
+    
 
   }
   
