@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Movie } from '../shared/movie.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-quiz',
@@ -20,6 +22,9 @@ export class QuizComponent {
   runtime!: string;
   timePeriod!: string;
   watchProvidersIds: string[] = [];
+  movieResult!: Movie;
+
+  constructor(private http: HttpClient) {}
 
   getStreamingIds() {
     this.watchProvidersIds = [];
@@ -59,6 +64,17 @@ export class QuizComponent {
 
   onSubmit() {
     this.getStreamingIds();
-    console.log(this.watchProvidersIds, this.genre, this.runtime, this.timePeriod);
+    const params = new HttpParams()
+      .set('genre', this.genre)
+      .set('runtime', this.runtime)
+      .set('timePeriod', this.timePeriod)
+      .set('watchProviders', this.watchProvidersIds.join(','));
+
+    this.http
+      .get<Movie>('http://localhost:8080/api/quiz', { params })
+      .subscribe((response) => {
+        this.movieResult = response;
+        console.log(this.movieResult);
+      });
   }
 }
