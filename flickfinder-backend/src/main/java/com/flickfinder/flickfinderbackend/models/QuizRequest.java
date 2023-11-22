@@ -1,0 +1,2 @@
+package com.flickfinder.flickfinderbackend.models;public class QuizRequest {
+}

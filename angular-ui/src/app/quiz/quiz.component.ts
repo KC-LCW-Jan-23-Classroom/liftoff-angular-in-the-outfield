@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Movie } from '../shared/movie.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { UsersService } from '../shared/users.service';
 
 @Component({
   selector: 'app-quiz',
@@ -22,9 +23,9 @@ export class QuizComponent {
   runtime!: string;
   timePeriod!: string;
   watchProvidersIds: string[] = [];
-  movieResult!: Movie;
+  movieResult!: Movie[];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private usersService: UsersService) {}
 
   getStreamingIds() {
     this.watchProvidersIds = [];
@@ -64,17 +65,32 @@ export class QuizComponent {
 
   onSubmit() {
     this.getStreamingIds();
-    const params = new HttpParams()
-      .set('genre', this.genre)
-      .set('runtime', this.runtime)
-      .set('timePeriod', this.timePeriod)
-      .set('watchProviders', this.watchProvidersIds.join(','));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    
+    const quizRequest = {
+      watchProviders: this.watchProvidersIds,
+      genre: this.genre,
+      runtime: this.runtime,
+      timePeriod: this.timePeriod
+    }
+
+    console.log(this.watchProvidersIds);
 
     this.http
-      .get<Movie>('http://localhost:8080/api/quiz', { params })
+      .post<Movie[]>('http://localhost:8080/api/quiz', quizRequest, httpOptions)
       .subscribe((response) => {
         this.movieResult = response;
-        console.log(this.movieResult);
       });
+  }
+
+  addToWatchHistory(movie: Movie) {
+    this.usersService.addWatchedMovie(movie).subscribe((SavedMovie) => {});
+  }
+  addToSavedMovies(movie: Movie) {
+    this.usersService.addSavedMovie(movie).subscribe((SavedMovie) => {});
   }
 }
