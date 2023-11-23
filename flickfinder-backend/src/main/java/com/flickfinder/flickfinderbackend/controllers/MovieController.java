@@ -95,6 +95,8 @@ public class MovieController {
 
     @PostMapping("/watch_history/delete")
     public ResponseEntity<WatchedMovie> deleteWatchedMovie(@RequestBody int apiMovieId) {
+        int currentUserId = logInService.getCurrentUser().getId();
+        if (userMovieListService.deleteWatchedMovie( currentUserId, apiMovieId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
