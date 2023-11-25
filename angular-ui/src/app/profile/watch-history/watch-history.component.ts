@@ -24,13 +24,7 @@ export class WatchHistoryComponent implements OnInit {
     // });
 
     this.usersService.fetchWatchHistory().subscribe((watchHisory)=>{
-      let watchedMovieIds: number[] = watchHisory;
-
-      this.moviesService
-      .fetchMovieListDetails(watchedMovieIds)
-      .subscribe((movieListDetails) => {
-        this.watchedList = movieListDetails;
-      });
+      this.watchedList = watchHisory;
     });
   }
 

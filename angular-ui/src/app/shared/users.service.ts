@@ -43,16 +43,16 @@ export class UsersService implements OnInit {
      return this.http.get<UserReview[]>(reviewsUrl);
    }
 
-  fetchWatchHistory(): Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"api/watch_history");
+  fetchWatchHistory(): Observable<Movie[]> {
+    return this.http.get<Movie[]>(this.backendUrl+"api/watch_history");
   }
   addWatchedMovie(movie : Movie): Observable<number> {
     const url = `${this.backendUrl}api/watch_history/add`;
     return this.http.post<number>(url, movie.id, httpOptions);
   }
 
-  fetchSavedMovies() : Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"api/saved_movies");
+  fetchSavedMovies() : Observable<Movie[]> {
+    return this.http.get<Movie[]>(this.backendUrl+"api/saved_movies");
   }
   addSavedMovie(movie : Movie) : Observable<number> {
     const url = `${this.backendUrl}api/saved_movies/add`;

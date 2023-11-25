@@ -57,10 +57,11 @@ public class MovieController {
 //    }
 
     @RequestMapping("/watch_history")
-    public ResponseEntity<List<Integer>> displayWatchHistory () {
+    public ResponseEntity<Flux<Movie>> displayWatchHistory () {
         List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(getCurrentUserId());
         List<Integer> watchHistoryIds = userMovieListService.getWatchedMovieIdsFromList(watchedMovies);
-        return ResponseEntity.status(HttpStatus.OK).body(watchHistoryIds);
+        Flux<Movie> watchedMovieList = movieService.getMovieDetails(watchHistoryIds);
+        return ResponseEntity.status(HttpStatus.OK).body(watchedMovieList);
     }
 
     @PostMapping("/watch_history/add")
@@ -72,10 +73,11 @@ public class MovieController {
     }
 
     @GetMapping("/saved_movies")
-    public ResponseEntity<List<Integer>> displaySavedMovies() {
+    public ResponseEntity<Flux<Movie>> displaySavedMovies() {
         List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(getCurrentUserId());
         List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
-        return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
+        Flux<Movie> savedMovieList = movieService.getMovieDetails(savedMovieIds);
+        return ResponseEntity.status(HttpStatus.OK).body(savedMovieList);
     }
     @PostMapping("/saved_movies/add")
     public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody int apiMovieId) {
