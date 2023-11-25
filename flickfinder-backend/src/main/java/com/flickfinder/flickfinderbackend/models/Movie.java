@@ -10,7 +10,11 @@ public class Movie {
     private int runtimeMinutes;
     private String poster;
     private String plot;
-    private List<String> streamingSources;
+    private List<String> subscription;
+    private List<String> free;
+    private List<String> ads;
+    private List<String> rent;
+    private List<String> buy;
     private String director;
     private List<String> cast;
 
@@ -21,7 +25,11 @@ public class Movie {
                  int runtimeMinutes,
                  String poster,
                  String plot,
-                 List<String> streamingSources,
+                 List<String> subscription,
+                 List<String> free,
+                 List<String> ads,
+                 List<String> rent,
+                 List<String> buy,
                  String director,
                  List<String> cast) {
         this.title = title;
@@ -31,7 +39,11 @@ public class Movie {
         this.runtimeMinutes = runtimeMinutes;
         this.poster = poster;
         this.plot = plot;
-        this.streamingSources = streamingSources;
+        this.subscription = subscription;
+        this.free = free;
+        this.ads = ads;
+        this.rent = rent;
+        this.buy = buy;
         this.director = director;
         this.cast = cast;
     }
@@ -72,10 +84,6 @@ public class Movie {
         this.plot = plot;
     }
 
-    public void setStreamingSources(List<String> streamingSources) {
-        this.streamingSources = streamingSources;
-    }
-
     public void setDirector(String director) {
         this.director = director;
     }
@@ -104,16 +112,52 @@ public class Movie {
         return plot;
     }
 
-    public List<String> getStreamingSources() {
-        return streamingSources;
-    }
-
     public String getDirector() {
         return director;
     }
 
     public List<String> getCast() {
         return cast;
+    }
+
+    public List<String> getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(List<String> subscription) {
+        this.subscription = subscription;
+    }
+
+    public List<String> getFree() {
+        return free;
+    }
+
+    public void setFree(List<String> free) {
+        this.free = free;
+    }
+
+    public List<String> getAds() {
+        return ads;
+    }
+
+    public void setAds(List<String> ads) {
+        this.ads = ads;
+    }
+
+    public List<String> getRent() {
+        return rent;
+    }
+
+    public void setRent(List<String> rent) {
+        this.rent = rent;
+    }
+
+    public List<String> getBuy() {
+        return buy;
+    }
+
+    public void setBuy(List<String> buy) {
+        this.buy = buy;
     }
 }
 

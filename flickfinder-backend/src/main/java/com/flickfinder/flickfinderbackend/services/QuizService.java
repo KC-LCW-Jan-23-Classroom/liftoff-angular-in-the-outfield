@@ -9,6 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
@@ -26,8 +27,6 @@ public class QuizService {
         this.movieService = movieService;
     }
 
-    //  --url 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2000-01-01&primary_release_date.lte=2019-12-31&sort_by=popularity.desc&with_genres=28&with_runtime.gte=0&with_runtime.lte=90&with_watch_providers=8%20%7C%2015'
-
     public Flux<Movie> getRecommendedMovie(List<String> watchProviders, String genre, String runtime, String timePeriod) {
         return getQuizMovieIds(watchProviders, genre, runtime, timePeriod)
                 .flatMapMany(movieIds -> {
@@ -37,6 +36,42 @@ public class QuizService {
                 });
     }
 
+
+
+    private Mono<Boolean> checkMonetizationType(int movieId, List<Integer> watchProviders) {
+        ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
+
+        String movieUrl = String.format("/movie/%d/watch/providers?api_key=%s", movieId, API_KEY);
+
+        return webClient.get()
+                .uri(movieUrl)
+                .retrieve()
+                .bodyToMono(responseType)
+                .map(response -> {
+                    Map<String, Object> results = (Map<String, Object>) response.get("results");
+                    if (results != null) {
+                        Map<String, Object> usProviders = (Map<String, Object>) results.get("US");
+                        if (usProviders != null) {
+                            List<Integer> streamingSources = extractProviderIds(usProviders, "flatrate", "ads", "free");
+                            return watchProviders.stream().anyMatch(streamingSources::contains);
+                        }
+                    }
+                    return false;
+                });
+    }
+
+    private List<Integer> extractProviderIds(Map<String, Object> usProviders, String... categories) {
+        List<Integer> streamingSources = new ArrayList<>();
+        for (String category : categories) {
+            List<Map<String, Object>> providers = (List<Map<String, Object>>) usProviders.get(category);
+            if (providers != null) {
+                streamingSources.addAll(providers.stream()
+                        .map(provider -> (Integer) provider.get("provider_id"))
+                        .collect(Collectors.toList()));
+            }
+        }
+        return streamingSources;
+    }
 
 
     private Mono<List<Integer>> getQuizMovieIds(List<String> watchProviders, String genre, String runtime, String timePeriod) {
@@ -56,12 +91,10 @@ public class QuizService {
                             .queryParam("sort_by", "popularity")
                             .queryParam("include_adult", "false")
                             .queryParam("with_genres", genre)
-                            .queryParam("total_results", 20)
                             .queryParam("with_watch_providers", watchProvidersString)
                             .queryParam("with_runtime.gte", this.withRuntimeGte)
                             .queryParam("primary_release_date.gte", this.primaryReleaseDateGte)
-                            .queryParam("watch_region", "US")
-                            .queryParam("with_watch_monetization_types", "flatrate");
+                            .queryParam("watch_region", "US");
 
                     if (this.withRuntimeLte != null) {
                         builder.queryParam("with_runtime.lte", this.withRuntimeLte);

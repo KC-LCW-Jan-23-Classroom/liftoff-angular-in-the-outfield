@@ -48,7 +48,11 @@ public class MovieService {
                                 Map<String, Object> movieResponse = tuple.getT1();
                                 DirectorAndCastResponse directorAndCast = tuple.getT2();
 
-                                List<String> streamingSources = new ArrayList<>();
+                                List<String> subscription = new ArrayList<>();
+                                List<String> free = new ArrayList<>();
+                                List<String> ads = new ArrayList<>();
+                                List<String> rent = new ArrayList<>();
+                                List<String> buy = new ArrayList<>();
 
                                 Map<String, Object> providers = (Map<String, Object>) movieResponse.get("watch/providers");
                                 if (providers != null) {
@@ -56,14 +60,11 @@ public class MovieService {
                                     if (results != null) {
                                         Map<String, Object> usProviders = (Map<String, Object>) results.get("US");
                                         if (usProviders != null) {
-                                            List<Map<String, Object>> flatrate = (List<Map<String, Object>>) usProviders.get("flatrate");
-                                            if (flatrate != null) {
-                                                for (Map<String, Object> source : flatrate) {
-                                                    String logoPath = (String) source.get("logo_path");
-                                                    String logoUrl = getLogoPath(logoPath);
-                                                    streamingSources.add(logoUrl);
-                                                }
-                                            }
+                                            subscription = extractProviderInfo(usProviders, "flatrate");
+                                            ads = extractProviderInfo(usProviders, "ads");
+                                            free = extractProviderInfo(usProviders, "free");
+                                            rent = extractProviderInfo(usProviders, "rent");
+                                            buy = extractProviderInfo(usProviders, "buy");
                                         }
                                     }
                                 }
@@ -90,12 +91,31 @@ public class MovieService {
                                         (int) movieResponse.get("runtime"),
                                         posterPath,
                                         (String) movieResponse.get("overview"),
-                                        streamingSources.isEmpty() ? null : streamingSources,
+                                        subscription.isEmpty() ? null : subscription,
+                                        free.isEmpty() ? null : free,
+                                        ads.isEmpty() ? null : ads,
+                                        rent.isEmpty() ? null : rent,
+                                        buy.isEmpty() ? null : buy,
                                         directorAndCast.getDirector(),
                                         directorAndCast.getCast()
                                 );
                             });
                 });
+    }
+
+    private List<String> extractProviderInfo(Map<String, Object> usProviders, String providerType) {
+        List<String> providerInfo = new ArrayList<>();
+
+        List<Map<String, Object>> providerIds = (List<Map<String, Object>>) usProviders.get(providerType);
+        if (providerIds != null) {
+            for (Map<String, Object> source : providerIds) {
+                String logoPath = (String) source.get("logo_path");
+                String logoUrl = getLogoPath(logoPath);
+                providerInfo.add(logoUrl);
+            }
+        }
+
+        return providerInfo;
     }
 
 
