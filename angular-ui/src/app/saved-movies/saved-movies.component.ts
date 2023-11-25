@@ -25,6 +25,12 @@ export class SavedMoviesComponent implements OnInit {
       });
     });
   }
+
+  deleteFromSavedMovies(movie : Movie) : void {
+    this.usersService.deleteSavedMovie(movie).subscribe();
+    let index = this.myList.indexOf(movie);
+    this.myList.splice(index, 1);
+  }
   
 
 }

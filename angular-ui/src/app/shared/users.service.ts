@@ -65,4 +65,10 @@ export class UsersService implements OnInit {
     return this.http.get<SavedMovie>(url);
   }
 
+  deleteSavedMovie(movie : Movie) : Observable<SavedMovie> {
+    const url = `${this.backendUrl}api/saved_movies/delete/${movie.id}`;
+    console.log(movie);
+    return this.http.get<SavedMovie>(url);
+  }
+
 }
