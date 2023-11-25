@@ -100,7 +100,7 @@ public class MovieController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    @GetMapping("/saved_movie/delete/{apiMovieId}")
+    @GetMapping("/saved_movies/delete/{apiMovieId}")
     public ResponseEntity<SavedMovie> deleteSavedMovie(@PathVariable int apiMovieId) {
         int currentUserId = 1;
         if (userMovieListService.deleteSavedMovie(currentUserId, apiMovieId)) {
