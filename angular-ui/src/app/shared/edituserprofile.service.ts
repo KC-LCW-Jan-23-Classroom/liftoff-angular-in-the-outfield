@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../shared/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EditUserProfileService {
-  private apiUrl = 'http://localhost:8080/api/users';
-  // Replace with your API endpoint
+  private apiUrl = 'http://localhost:8080/users';
 
   constructor(private http: HttpClient) {}
 
-  getUserProfile(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}`); // GET request to fetch user profile
+  getUserProfile(userId: string): Observable<User> {
+    // Implement logic to fetch user profile by ID from your API
+    const url = `${this.apiUrl}/users/${userId}`;
+    return this.http.get<User>(url);
   }
 
-  updateUserProfile(updatedProfile: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}`, updatedProfile); // PUT request to update user profile
+  updateUserProfile(userId: string, updatedProfile: User): Observable<User> {
+
+    const url = `${this.apiUrl}/users/${userId}`;
+    return this.http.put<User>(url, updatedProfile);
   }
 }

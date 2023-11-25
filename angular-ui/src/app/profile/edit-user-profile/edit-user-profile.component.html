@@ -1,27 +1,31 @@
-<div *ngIf="!editingProfile">
-  <!-- Display user profile data -->
-  <h2>{{ user.name }}'s Profile</h2>
-  <p>Email: {{ user.email }}</p>
-  <button (click)="toggleEdit()">Edit Profile</button>
-</div>
+<!DOCTYPE html><!-- Profile Header -->
+<div class="profile-header">
+  <!-- Navigation -->
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <!-- Link to Edit Profile -->
+      <a class="nav-link active" [routerLink]="['/edit-user-profile']" aria-current="page" href="#">Edit Profile</a>
+    </li>
+  </ul>
 
-<div *ngIf="editingProfile">
-  <!-- Form for editing user profile -->
-  <h2>Edit Profile</h2>
-  <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
-    <div>
-      <label for="firstName">First Name</label>
-      <input type="text" id="firstName" formControlName="firstName">
-    </div>
-    <div>
-      <label for="email">Email</label>
-      <input type="email" id="email" formControlName="email">
-      <div *ngIf="profileForm.get('email')?.errors?.['required']">Email is required</div>
-      <div *ngIf="profileForm.get('email')?.errors?.['email']">Invalid email format</div>
-    </div>
-    <!-- Add more form controls as needed -->
+  <!-- User Information -->
+  <div class="user-info">
+    <h1>{{ user.name }}</h1>
+    <p>{{ user.email }}</p>
+    <!-- Button to toggle Edit Mode -->
+    <a href="#" class="btn btn-link" (click)="toggleEdit()">Edit Profile</a>
+  </div>
 
-    <button type="submit">Save Changes</button>
-    <button type="button" (click)="cancelEdit()">Cancel</button>
-  </form>
+  <!-- Edit Profile Form -->
+  <div *ngIf="editingProfile">
+    <form (ngSubmit)="saveChanges()">
+      <!-- Form fields for editing profile -->
+      <input type="text" [(ngModel)]="user.name" name="name" placeholder="Name">
+      <input type="email" [(ngModel)]="user.email" name="email" placeholder="Email">
+      <!-- Save Changes Button -->
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <!-- Cancel Button -->
+      <a href="#" class="btn btn-link" (click)="cancelEdit()">Cancel</a>
+    </form>
+  </div>
 </div>
