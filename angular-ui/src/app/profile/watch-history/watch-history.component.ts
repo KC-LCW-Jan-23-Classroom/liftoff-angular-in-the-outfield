@@ -34,5 +34,11 @@ export class WatchHistoryComponent implements OnInit {
     });
   }
 
+  deleteFromWatchHistory(movie : Movie) : void {
+    this.usersService.deleteWatchedMovie(movie).subscribe();
+    let index = this.watchedList.indexOf(movie);
+    this.watchedList.splice(index, 1);
+  }
+
 
 }

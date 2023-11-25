@@ -32,13 +32,9 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    private final LogInService logInService;
-    private int currentUserId;
-
-    public MovieController(UserMovieListService userMovieListService, MovieService movieService, LogInService loginService) {
+    public MovieController(UserMovieListService userMovieListService, MovieService movieService) {
         this.userMovieListService = userMovieListService;
         this.movieService = movieService;
-        this.logInService = loginService;
     }
 
     @GetMapping("trending")
@@ -90,15 +86,27 @@ public class MovieController {
 
     private int getCurrentUserId() {
         User user = UserAuthenticationController.logInService.getCurrentUser();
+        if (user == null) {
+            return 0;
+        }
         return user.getId();
     }
 
-    @PostMapping("/watch_history/delete")
-    public ResponseEntity<WatchedMovie> deleteWatchedMovie(@RequestBody int apiMovieId) {
-        int currentUserId = logInService.getCurrentUser().getId();
-        if (userMovieListService.deleteWatchedMovie( currentUserId, apiMovieId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/watch_history/delete/{apiMovieId}")
+    public ResponseEntity<WatchedMovie> deleteWatchedMovie(@PathVariable int apiMovieId) {
+        int currentUserId = 1;
+        if (userMovieListService.deleteWatchedMovie(currentUserId, apiMovieId)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping("/saved_movie/delete/{apiMovieId}")
+    public ResponseEntity<SavedMovie> deleteSavedMovie(@PathVariable int apiMovieId) {
+        int currentUserId = 1;
+        if (userMovieListService.deleteSavedMovie(currentUserId, apiMovieId)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 

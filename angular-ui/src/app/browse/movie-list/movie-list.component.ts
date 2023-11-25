@@ -112,6 +112,6 @@ export class MovieListComponent implements OnInit {
   addToSavedMovies(movie : Movie) {
     this.usersService.addSavedMovie(movie).subscribe((SavedMovie=> {
       
-    }))
+    }));
   }
 }

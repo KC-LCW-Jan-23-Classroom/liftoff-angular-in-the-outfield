@@ -63,6 +63,14 @@ public class UserMovieListService {
        watchHistoryRepository.delete(movieToDelete);
        return true;
     }
+    public boolean deleteSavedMovie(int userId, int apiMovieId) {
+        SavedMovie movieToDelete = findSavedMovieByUserAndMovieId(userId, apiMovieId);
+        if (movieToDelete == null) {
+            return false;
+        }
+        savedMovieRepository.delete(movieToDelete);
+        return true;
+    }
 
     public List<Integer> getWatchedMovieIdsFromList(List<WatchedMovie> watchHistory) {
         List<Integer> watchedMovieIds = new ArrayList<>();
@@ -103,10 +111,10 @@ public class UserMovieListService {
         }
         return null;
     }
-    private SavedMovie findSavedMovieByUserAndMovieId(SavedMovieDTO savedMovieDTO) {
-        List<SavedMovie> watchedMovies = savedMovieRepository.findAllByUserId(savedMovieDTO.getUserId());
+    private SavedMovie findSavedMovieByUserAndMovieId(int userId, int apiMovieId) {
+        List<SavedMovie> watchedMovies = savedMovieRepository.findAllByUserId(userId);
         for (SavedMovie movie : watchedMovies) {
-            if (movie.getApiMovieId() == savedMovieDTO.getApiMovieId()) {
+            if (movie.getApiMovieId() == apiMovieId) {
                 return movie;
             }
         }
