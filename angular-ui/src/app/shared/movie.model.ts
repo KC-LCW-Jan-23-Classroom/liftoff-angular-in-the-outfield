@@ -6,10 +6,14 @@ export class Movie {
   public runtimeMinutes: number;
   public poster: string | null;
   public plot: string;
-  public streamingSources: string[] | undefined;
+  public subscription: string[] | undefined;
+  public free: string[] | undefined;
+  public ads: string[] | undefined;
+  public rent: string[] | undefined;
+  public buy: string[] | undefined;
   public director: string;
   public cast: string[];
-spinAnimationState: any;
+  spinAnimationState: any;
 
   constructor(
     id: number,
@@ -19,21 +23,28 @@ spinAnimationState: any;
     runtimeMinutes: number,
     poster: string | null,
     plot: string,
+    subscription: string[] | undefined,
+    free: string[] | undefined,
+    ads: string[] | undefined,
+    rent: string[] | undefined,
+    buy: string[] | undefined,
     director: string,
     cast: string[],
-    streamingSources?: string[] | undefined,
-
   ) {
-    this.id = id;
     this.title = title;
+    this.id = id;
     this.genres = genres;
     this.releaseYear = releaseYear;
     this.runtimeMinutes = runtimeMinutes;
     this.poster = poster;
     this.plot = plot;
-    this.director = director
-    this.cast = cast
-    this.streamingSources = streamingSources;
+    this.subscription = subscription;
+    this.free = free;
+    this.ads = ads;
+    this.rent = rent;
+    this.buy = buy;
+    this.director = director;
+    this.cast = cast;
+    
   }
-
 }
