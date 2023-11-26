@@ -12,6 +12,8 @@ import { MoviesService } from 'src/app/shared/movies.service';
 export class TimerComponent implements OnInit {
 
   timesUp: boolean = false;
+  minutesInt: number =5;
+  countdownDisplay: string="";
 
   randomMovie: Movie = new Movie(
     1,
@@ -42,9 +44,10 @@ export class TimerComponent implements OnInit {
     });
   }
 
-  startTimer() {
+  startTimer(minutes: string = "5") {
+    this.minutesInt = parseInt(minutes);
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
-    setTimeout(()=> {this.timesUp=true;}, 3000);
+    setTimeout(()=> {this.timesUp=true;}, 60000*this.minutesInt);
   }
   
   restartTimer() {
@@ -53,8 +56,19 @@ export class TimerComponent implements OnInit {
     this.startTimer();
   }
 
-    randomizeMovieSelection(movies: Movie[]) : Movie {
+  randomizeMovieSelection(movies: Movie[]) : Movie {
       let randomNum: number = Math.floor(Math.random()*movies.length);
       return movies[randomNum];
-    }
   }
+  timer(minutes: number) {
+    const timer = setInterval(()=> {
+      let seconds: number = minutes*60;
+      seconds--;
+      this.countdownDisplay=`${seconds}`;
+      if (seconds === 0) {
+        clearInterval(timer);
+      }
+    }, 1000)
+  }
+
+}
