@@ -1,8 +1,5 @@
-<<<<<<<< HEAD:flickfinder-backend/src/main/java/com/flickfinder/flickfinderbackend/models/dtos/dto/ReviewDto.java
+
 package com.flickfinder.flickfinderbackend.models.dtos.dto;
-========
-package com.flickfinder.flickfinderbackend.models.dtos;
->>>>>>>> main:flickfinder-backend/src/main/java/com/flickfinder/flickfinderbackend/models/dtos/ReviewDto.java
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
