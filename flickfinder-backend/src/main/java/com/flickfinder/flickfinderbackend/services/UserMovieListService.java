@@ -55,6 +55,10 @@ public class UserMovieListService {
         return savedMovieRepository.save(savedMovie);
     }
 
+    public void deleteWatchedMovie(SavedMovieDTO savedMovieDTO) {
+        WatchedMovie watchedMovie = convertDTOtoWatchedMovie(savedMovieDTO);
+    }
+
     public List<Integer> getWatchedMovieIdsFromList(List<WatchedMovie> watchHistory) {
         List<Integer> watchedMovieIds = new ArrayList<>();
         for (WatchedMovie movie : watchHistory) {

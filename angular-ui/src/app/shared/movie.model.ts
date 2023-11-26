@@ -13,6 +13,8 @@ export class Movie {
   public buy: string[] | undefined;
   public director: string;
   public cast: string[];
+  public isWatched: boolean;
+  public isSaved: boolean;
   spinAnimationState: any;
 
   constructor(
@@ -30,6 +32,8 @@ export class Movie {
     buy: string[] | undefined,
     director: string,
     cast: string[],
+    isWatched: boolean = false,
+    isSaved: boolean = false
   ) {
     this.title = title;
     this.id = id;
@@ -45,6 +49,7 @@ export class Movie {
     this.buy = buy;
     this.director = director;
     this.cast = cast;
-    
+    this.isWatched = isWatched;
+    this.isSaved = isSaved;
   }
 }

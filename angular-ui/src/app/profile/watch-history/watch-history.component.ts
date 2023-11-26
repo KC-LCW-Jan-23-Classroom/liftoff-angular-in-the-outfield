@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from '../../shared/movie.model';
 import { UsersService } from '../../shared/users.service';
 import { MoviesService } from 'src/app/shared/movies.service';
+import { AuthService } from 'src/app/user/auth.service';
 
 @Component({
   selector: 'app-watch-history',
@@ -10,13 +11,18 @@ import { MoviesService } from 'src/app/shared/movies.service';
 })
 export class WatchHistoryComponent implements OnInit {
   watchedList: Movie[] = [];
+  loggedIn: boolean = false;
 
-  constructor(private usersService: UsersService, private moviesService : MoviesService) {
+  constructor(private usersService: UsersService, private moviesService : MoviesService, private authService: AuthService) {
 
   }
 
   // call backend to recieve a list of movie Ids that the user has added to their watch list
   ngOnInit(): void {
+    // this.authService.checkLoggedIn().subscribe((loggedInStatus)=>{
+    //   this.loggedIn = loggedInStatus;
+    // });
+
     this.usersService.fetchWatchHistory().subscribe((watchHisory)=>{
       let watchedMovieIds: number[] = watchHisory;
 
@@ -25,7 +31,7 @@ export class WatchHistoryComponent implements OnInit {
       .subscribe((movieListDetails) => {
         this.watchedList = movieListDetails;
       });
-    })
+    });
   }
 
 

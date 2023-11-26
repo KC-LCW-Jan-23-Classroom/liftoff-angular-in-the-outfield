@@ -1,6 +1,6 @@
 package com.flickfinder.flickfinderbackend.services;
-import com.flickfinder.flickfinderbackend.models.DirectorAndCastResponse;
-import com.flickfinder.flickfinderbackend.models.Movie;
+import com.flickfinder.flickfinderbackend.controllers.UserAuthenticationController;
+import com.flickfinder.flickfinderbackend.models.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.stereotype.Service;
@@ -19,9 +19,12 @@ public class MovieService {
     private final WebClient webClient;
     private final String API_KEY;
 
-    public MovieService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService) {
+    private final UserMovieListService userMovieListService;
+
+    public MovieService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService, UserMovieListService userMovieListService) {
         this.webClient = webClientBuilder.baseUrl("https://api.themoviedb.org/3").build();
         this.API_KEY = apiKeyService.getApiKey();
+        this.userMovieListService = userMovieListService;
     }
 
     public Flux<Movie> getTrendingMovies() {
@@ -83,7 +86,7 @@ public class MovieService {
                                     }
                                 }
 
-                                return new Movie(
+                                Movie returnedMovie = new Movie(
                                         (String) movieResponse.get("title"),
                                         (int) movieResponse.get("id"),
                                         List.of(genre),
@@ -99,6 +102,23 @@ public class MovieService {
                                         directorAndCast.getDirector(),
                                         directorAndCast.getCast()
                                 );
+                                if (UserAuthenticationController.logInService.isLoggedIn() == true) {
+                                    int currentUserId = UserAuthenticationController.logInService.getCurrentUser().getId();
+                                    List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(currentUserId);
+                                    List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(currentUserId);
+                                    for (WatchedMovie movie : watchedMovies) {
+                                        if (movie.getApiMovieId() == returnedMovie.getId()) {
+                                            returnedMovie.setWatched(true);
+                                        }
+                                    }
+                                    for (SavedMovie movie : savedMovies) {
+                                        if (movie.getApiMovieId() == returnedMovie.getId()) {
+                                            returnedMovie.setSaved(true);
+                                        }
+                                    }
+                                }
+
+                                return returnedMovie;
                             });
                 });
     }

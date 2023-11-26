@@ -170,4 +170,5 @@ export class MoviesService {
   getApiUrl() {
     return this.apiUrl;
   }
+
 }
