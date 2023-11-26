@@ -7,9 +7,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 @Service
 public class QuizService {
@@ -35,44 +35,6 @@ public class QuizService {
                     return movieService.getMovieDetails(Collections.singletonList(randomMovieId));
                 });
     }
-
-
-
-    private Mono<Boolean> checkMonetizationType(int movieId, List<Integer> watchProviders) {
-        ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
-
-        String movieUrl = String.format("/movie/%d/watch/providers?api_key=%s", movieId, API_KEY);
-
-        return webClient.get()
-                .uri(movieUrl)
-                .retrieve()
-                .bodyToMono(responseType)
-                .map(response -> {
-                    Map<String, Object> results = (Map<String, Object>) response.get("results");
-                    if (results != null) {
-                        Map<String, Object> usProviders = (Map<String, Object>) results.get("US");
-                        if (usProviders != null) {
-                            List<Integer> streamingSources = extractProviderIds(usProviders, "flatrate", "ads", "free");
-                            return watchProviders.stream().anyMatch(streamingSources::contains);
-                        }
-                    }
-                    return false;
-                });
-    }
-
-    private List<Integer> extractProviderIds(Map<String, Object> usProviders, String... categories) {
-        List<Integer> streamingSources = new ArrayList<>();
-        for (String category : categories) {
-            List<Map<String, Object>> providers = (List<Map<String, Object>>) usProviders.get(category);
-            if (providers != null) {
-                streamingSources.addAll(providers.stream()
-                        .map(provider -> (Integer) provider.get("provider_id"))
-                        .collect(Collectors.toList()));
-            }
-        }
-        return streamingSources;
-    }
-
 
     private Mono<List<Integer>> getQuizMovieIds(List<String> watchProviders, String genre, String runtime, String timePeriod) {
         ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};

@@ -118,7 +118,6 @@ public class MovieService {
         return providerInfo;
     }
 
-
     private Mono<Integer[]> getTrendingMoviesIds() {
         ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
         return webClient.get()

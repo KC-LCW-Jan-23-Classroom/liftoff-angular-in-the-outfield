@@ -42,8 +42,6 @@ public class MovieController {
         return movieService.getTrendingMovies();
     }
 
-    // TODO @GetMapping("quiz") to call QuizService, pass quiz answers, then return selected movie
-
     @PostMapping("quiz")
     public Flux<Movie> getQuizResult(@RequestBody QuizRequest quizRequest) {
 
