@@ -67,6 +67,10 @@ public class Movie {
         this.cast = cast;
     }
 
+    public Movie() {
+
+    }
+
     public String getTitle() {
         return title;
     }

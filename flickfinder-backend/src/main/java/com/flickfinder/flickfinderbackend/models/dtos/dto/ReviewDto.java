@@ -1,6 +1,5 @@
 
-package com.flickfinder.flickfinderbackend.models.dtos;
-
+package com.flickfinder.flickfinderbackend.models.dtos.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
