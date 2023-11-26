@@ -34,10 +34,13 @@ public class MovieController {
 
     private final MovieService movieService;
     private final QuizService quizService;
+    private final LogInService logInService;
+    private int currentUserId;
 
-    public MovieController(UserMovieListService userMovieListService, MovieService movieService, QuizService quizService) {
+    public MovieController(UserMovieListService userMovieListService, MovieService movieService, LogInService loginService, QuizService quizService) {
         this.userMovieListService = userMovieListService;
         this.movieService = movieService;
+        this.logInService = loginService;
         this.quizService = quizService;
     }
 
