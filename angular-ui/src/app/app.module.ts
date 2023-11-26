@@ -27,7 +27,6 @@ import { UserRegisterComponent } from './user-register/user-register.component';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { ScrollToTopComponent } from './shared/scroll-to-top/scroll-to-top.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
-import { MyListComponent } from './my-list/my-list.component';
 import { SavedMoviesComponent } from './saved-movies/saved-movies.component';
 import { UserReviewCardComponent } from './user-review-card/user-review-card.component';
 import { QuizComponent } from './quiz/quiz.component';
@@ -60,8 +59,6 @@ import { UserprofileComponent } from './profile/userprofile/userprofile.componen
     UserReviewCardComponent,
     QuizComponent,
     UserprofileComponent,
-    MyListComponent,
-
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule,ReactiveFormsModule],
   providers: [DatePipe],

@@ -21,7 +21,6 @@ const routes: Routes = [
   { path: 'login', component: UserLoginComponent },
   { path: 'saved-movies', component: SavedMoviesComponent },
   { path: 'register', component: UserRegisterComponent },
-  { path: 'my-list', component: MyListComponent},
   { path: 'quiz', component: QuizComponent },
   { path: 'edit-user-profile', component: EditUserProfileComponent},
   { path: 'userprofile', component: UserprofileComponent}
