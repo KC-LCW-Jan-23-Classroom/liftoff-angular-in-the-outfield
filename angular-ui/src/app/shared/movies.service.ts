@@ -49,7 +49,11 @@ export class MoviesService {
             this.http.get<any>(movieUrl),
             directorAndCast$,
             (movieResponse, directorAndCast) => {
-              let streamingSources: string[] | undefined;
+              let subscription: string[] | undefined;
+              let free: string[] | undefined;
+              let ads: string[] | undefined;
+              let rent: string[] | undefined;
+              let buy: string[] | undefined;
 
               if (
                 movieResponse['watch/providers'] &&
@@ -59,7 +63,36 @@ export class MoviesService {
                 const flatrate =
                   movieResponse['watch/providers'].results.US.flatrate;
                 if (flatrate) {
-                  streamingSources = flatrate.map((source: any) =>
+                  subscription = flatrate.map((source: any) =>
+                    this.getLogoPath(source.logo_path)
+                  );
+                }
+                const freeIds =
+                  movieResponse['watch/providers'].results.US.free;
+                if (freeIds) {
+                  free = freeIds.map((source: any) =>
+                    this.getLogoPath(source.logo_path)
+                  );
+                }
+
+                const adIds = movieResponse['watch/providers'].results.US.ads;
+                if (adIds) {
+                  ads = adIds.map((source: any) =>
+                    this.getLogoPath(source.logo_path)
+                  );
+                }
+
+                const rentIds =
+                  movieResponse['watch/providers'].results.US.rent;
+                if (rentIds) {
+                  rent = rentIds.map((source: any) =>
+                    this.getLogoPath(source.logo_path)
+                  );
+                }
+
+                const buyIds = movieResponse['watch/providers'].results.US.buy;
+                if (buyIds) {
+                  buy = buyIds.map((source: any) =>
                     this.getLogoPath(source.logo_path)
                   );
                 }
@@ -75,11 +108,15 @@ export class MoviesService {
                 movieResponse.runtime,
                 posterPath,
                 movieResponse.overview,
+                subscription && subscription.length > 0
+                  ? subscription
+                  : undefined,
+                free && free.length > 0 ? free : undefined,
+                ads && ads.length > 0 ? ads : undefined,
+                rent && rent.length > 0 ? rent : undefined,
+                buy && buy.length > 0 ? buy : undefined,
                 directorAndCast.director,
-                directorAndCast.cast,
-                streamingSources && streamingSources.length > 0
-                  ? streamingSources
-                  : undefined
+                directorAndCast.cast
               );
             }
           );

@@ -1,5 +1,6 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
+import com.flickfinder.flickfinderbackend.models.QuizRequest;
 import com.flickfinder.flickfinderbackend.models.SavedMovie;
 import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.dtos.SavedMovieDTO;
@@ -51,12 +52,10 @@ public class MovieController {
         return movieService.getTrendingMovies();
     }
 
-    // TODO @GetMapping("quiz") to call QuizService, pass quiz answers, then return selected movie
+    @PostMapping("quiz")
+    public Flux<Movie> getQuizResult(@RequestBody QuizRequest quizRequest) {
 
-    @GetMapping("quiz")
-    public Flux<Movie> getQuizResult(@RequestParam List<String> watchProviders, @RequestParam String genre, @RequestParam String runtime, @RequestParam String timePeriod) {
-
-        return quizService.getRecommendedMovie(watchProviders, genre, runtime, timePeriod);
+        return quizService.getRecommendedMovie(quizRequest.getWatchProviders(), quizRequest.getGenre(), quizRequest.getRuntime(), quizRequest.getTimePeriod());
 
     }
   

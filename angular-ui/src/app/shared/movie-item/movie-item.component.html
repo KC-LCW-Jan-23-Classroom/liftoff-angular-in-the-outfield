@@ -25,15 +25,70 @@
       </p>
     </div>
     <div
-      *ngIf="movieItem.streamingSources; else elseNoStreaming"
-      class="d-flex justify-content-start flex-wrap gap-1"
+      *ngIf="
+        movieItem.subscription ||
+          movieItem.free ||
+          movieItem.ads ||
+          movieItem.rent ||
+          movieItem.buy;
+        else elseNoStreaming
+      "
     >
-      <img
-        *ngFor="let source of movieItem.streamingSources"
-        [src]="source"
-        alt=""
-        class="stream-logo rounded"
-      />
+      <div *ngIf="movieItem.subscription" class="border-bottom mb-1">
+        <div class="price fw-bold">Subscription</div>
+        <div class="d-flex justify-content-start flex-wrap gap-1 pb-1">
+          <img
+            *ngFor="let source of movieItem.subscription"
+            [src]="source"
+            alt=""
+            class="stream-logo rounded"
+          />
+        </div>
+      </div>
+      <div *ngIf="movieItem.free" class="border-bottom mb-1">
+        <div class="price fw-bold">Free</div>
+        <div class="d-flex justify-content-start flex-wrap gap-1 pb-1">
+          <img
+            *ngFor="let source of movieItem.free"
+            [src]="source"
+            alt=""
+            class="stream-logo rounded"
+          />
+        </div>
+      </div>
+      <div *ngIf="movieItem.ads" class="border-bottom mb-1">
+        <div class="price fw-bold">Ads</div>
+        <div class="d-flex justify-content-start flex-wrap gap-1 pb-1">
+          <img
+            *ngFor="let source of movieItem.ads"
+            [src]="source"
+            alt=""
+            class="stream-logo rounded"
+          />
+        </div>
+      </div>
+      <div *ngIf="movieItem.rent" class="border-bottom mb-1">
+        <div class="price fw-bold">Rent</div>
+        <div class="d-flex justify-content-start flex-wrap gap-1 pb-1">
+          <img
+            *ngFor="let source of movieItem.rent"
+            [src]="source"
+            alt=""
+            class="stream-logo rounded"
+          />
+        </div>
+      </div>
+      <div *ngIf="movieItem.buy" class="border-bottom mb-1">
+        <div class="price fw-bold">Buy</div>
+        <div class="d-flex justify-content-start flex-wrap gap-1 pb-1">
+          <img
+            *ngFor="let source of movieItem.buy"
+            [src]="source"
+            alt=""
+            class="stream-logo rounded"
+          />
+        </div>
+      </div>
     </div>
     <div class="d-flex justify-content-between">
       <a
@@ -66,7 +121,7 @@
 
 <ng-template #elseNoStreaming
   ><p class="fst-italic no-streaming">
-    Not available on subscription streaming. May be available to buy or rent.
+    Not available on streaming.
   </p></ng-template
 >
 
