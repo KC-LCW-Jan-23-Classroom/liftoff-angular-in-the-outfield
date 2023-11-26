@@ -22,7 +22,6 @@ export class UserLoginComponent implements OnInit {
     };
 
     onSubmit(): void {
-          console.log("888", this.user);
       this.authService.loginUser(this.user).subscribe({
         next: (response: any) => {
   
@@ -30,8 +29,6 @@ export class UserLoginComponent implements OnInit {
           if (response.id) {
             console.log('Login successful');
             this.authService.setUser(response)
-            console.log(response, "%%%");
-            //this.authService.setVarResponse(true);  
             this.authService.setAuthStatus(true);
             
             this.router.navigate(['/']);

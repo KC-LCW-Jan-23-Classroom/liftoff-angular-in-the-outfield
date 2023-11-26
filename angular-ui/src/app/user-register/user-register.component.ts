@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 export class UserRegisterComponent implements OnInit {
   isLoggedIn = false;
   user: User = new User(0, '', '', '', '');
-
+  errorMessage: string = '';
   constructor(private authService: AuthService, private router: Router){
     
   }
@@ -35,6 +35,10 @@ export class UserRegisterComponent implements OnInit {
         },
         error: (error: HttpErrorResponse) => {
           console.error('Registration failed', error);
+          if (error.error && error.error.error) {
+            // Display the error message to the user
+            this.errorMessage = error.error.error;
+          }
         },
       });
       
