@@ -34,6 +34,8 @@ public class MovieService {
 
 
     public Flux<Movie> getMovieDetails(List<Integer> movieIds) {
+        ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
+
         return Flux.fromIterable(movieIds)
                 .flatMap(movieId -> {
                     Mono<DirectorAndCastResponse> directorAndCastMono = getDirectorAndCast(movieId);
@@ -43,10 +45,10 @@ public class MovieService {
                     return webClient.get()
                             .uri(movieUrl)
                             .retrieve()
-                            .bodyToMono(Object.class)
+                            .bodyToMono(responseType)
                             .zipWith(directorAndCastMono)
                             .map(tuple -> {
-                                Map<String, Object> movieResponse = (Map<String, Object>) tuple.getT1();
+                                Map<String, Object> movieResponse = tuple.getT1();
                                 DirectorAndCastResponse directorAndCast = tuple.getT2();
 
                                 List<String> streamingSources = new ArrayList<>();
@@ -69,7 +71,6 @@ public class MovieService {
                                     }
                                 }
 
-
                                 String posterPath = this.getPosterPath((String) movieResponse.get("poster_path"));
 
                                 List<Map<String, Object>> genres = (List<Map<String, Object>>) movieResponse.get("genres");
@@ -83,6 +84,7 @@ public class MovieService {
                                         releaseYear = Integer.parseInt(releaseDate.substring(0, 4));
                                     }
                                 }
+
                                 Movie returnedMovie = new Movie(
                                         (String) movieResponse.get("title"),
                                         (int) movieResponse.get("id"),
@@ -94,7 +96,6 @@ public class MovieService {
                                         streamingSources.isEmpty() ? null : streamingSources,
                                         directorAndCast.getDirector(),
                                         directorAndCast.getCast()
-
                                 );
                                 if (UserAuthenticationController.logInService.isLoggedIn() == true) {
                                     int currentUserId = UserAuthenticationController.logInService.getCurrentUser().getId();
@@ -114,10 +115,9 @@ public class MovieService {
 
                                 return returnedMovie;
                             });
-                })
-                .collectList()
-                .flatMapMany(Flux::fromIterable);
+                });
     }
+
 
     private Mono<Integer[]> getTrendingMoviesIds() {
         ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
