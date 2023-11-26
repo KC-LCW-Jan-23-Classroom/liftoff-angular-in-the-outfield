@@ -9,6 +9,8 @@ export class Movie {
   public streamingSources: string[] | undefined;
   public director: string;
   public cast: string[];
+  public isWatched: boolean;
+  public isSaved: boolean;
 spinAnimationState: any;
 
   constructor(
@@ -22,7 +24,8 @@ spinAnimationState: any;
     director: string,
     cast: string[],
     streamingSources?: string[] | undefined,
-
+    isWatched: boolean = false,
+    isSaved: boolean = false
   ) {
     this.id = id;
     this.title = title;
@@ -34,6 +37,8 @@ spinAnimationState: any;
     this.director = director
     this.cast = cast
     this.streamingSources = streamingSources;
+    this.isWatched = isWatched;
+    this.isSaved = isSaved;
   }
 
 }
