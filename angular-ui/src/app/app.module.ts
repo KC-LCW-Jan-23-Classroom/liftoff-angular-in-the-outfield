@@ -11,9 +11,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MovieListComponent } from './browse/movie-list/movie-list.component';
 import { MovieItemComponent } from './shared/movie-item/movie-item.component';
-import { EditUserProfileComponent } from './profile/edit-user-profile/edit-user-profile.component';
+import { EditUserProfileComponent } from './profile/userprofile/edit-user-profile/edit-user-profile.component';
 import { UserReviewComponent } from './profile/user-review/user-review.component';
-import { PasswordFormComponent } from './profile/password-form/password-form.component';
+import { PasswordFormComponent } from './profile/userprofile/password-form/password-form.component';
 import { WatchHistoryComponent } from './profile/watch-history/watch-history.component';
 import { FooterComponent } from './footer/footer.component';
 import { FilterOptionsComponent } from './browse/filter-options/filter-options.component';
@@ -31,6 +31,7 @@ import { MyListComponent } from './my-list/my-list.component';
 import { UserReviewCardComponent } from './user-review-card/user-review-card.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserprofileComponent } from './profile/userprofile/userprofile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +58,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MyListComponent,
     UserReviewCardComponent,
     QuizComponent,
+    UserprofileComponent,
 
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule,ReactiveFormsModule],

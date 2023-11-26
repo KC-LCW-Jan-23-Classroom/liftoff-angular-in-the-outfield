@@ -1,5 +1,6 @@
 package com.flickfinder.flickfinderbackend.services;
 
+import com.flickfinder.flickfinderbackend.controllers.UserProfileDTO;
 import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.models.dtos.UserEditDTO;
@@ -41,12 +42,27 @@ public class UserService {
                 user.setPassword(userEditDTO.getNewPassword());
             }
 
-            // Update other fields similarly
+
 
             return userRepository.save(user);
         }
 
         return null;
+    }
+
+    public int updateUserProfile(Long userId, UserProfileDTO updatedProfile) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.updateUserProfile(updatedProfile);
+            userRepository.save(user);
+            return 1;
+        }
+
+        int i = 0;
+        int i1 = i;
+        return i1;
     }
 
 }

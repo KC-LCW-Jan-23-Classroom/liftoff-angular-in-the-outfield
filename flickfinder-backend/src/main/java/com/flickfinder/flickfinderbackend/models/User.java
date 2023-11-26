@@ -1,4 +1,5 @@
 package com.flickfinder.flickfinderbackend.models;
+import com.flickfinder.flickfinderbackend.controllers.UserProfileDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -117,4 +118,6 @@ public class User {
     public void setUsername(String newUsername) {
     }
 
+    public void updateUserProfile(UserProfileDTO updatedProfile) {
+    }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EditUserProfileService } from '../../shared/edituserprofile.service';
-import { User } from '../../shared/user.model';
+import { EditUserProfileService } from '../../../shared/edituserprofile.service';
+import { User } from '../../../shared/user.model';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -48,7 +48,7 @@ export class EditUserProfileComponent implements OnInit {
   populateForm() {
     if (this.profileForm) {
       this.profileForm.patchValue({
-        firstName: this.user.firstName,
+        firstName: this.user.username,
         email: this.user.email,
         // Update other form controls as needed
       });
