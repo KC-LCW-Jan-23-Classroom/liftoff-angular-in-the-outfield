@@ -11,14 +11,14 @@ export class EditUserProfileService {
 
   constructor(private http: HttpClient) {}
 
-  getUserProfile(userId: string): Observable<User> {
-    const url = `${this.apiUrl}/users/${userId}`;
+  getUserProfile(userId: number | undefined): Observable<User> {
+    const url = `${this.apiUrl}/${userId}`;
     return this.http.get<User>(url);
   }
 
-  updateUserProfile(userId: string, updatedProfile: User): Observable<User> {
+  updateUserProfile(userId: number | undefined, updatedProfile: User): Observable<User> {
 
-    const url = `${this.apiUrl}/users/${userId}`;
+    const url = `${this.apiUrl}/${userId}`;
     return this.http.put<User>(url, updatedProfile);
   }
 }
