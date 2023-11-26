@@ -3,6 +3,8 @@ package com.flickfinder.flickfinderbackend.controllers;
 import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.dtos.RegistrationFormDTO;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -12,8 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.security.Key;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import io.jsonwebtoken.security.Keys;
 
 import static java.lang.System.out;
 
@@ -108,6 +113,8 @@ public class UserAuthenticationController {
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
+        String token = generateToken(user.getEmail());
+        responseBody.put("token", token);
         responseBody.put("message","Login successful");
         responseBody.put("id", String.format("%d", user.getId()));
         responseBody.put("name", String.format("%s", user.getName()));
@@ -118,5 +125,19 @@ public class UserAuthenticationController {
         return response;
     }
 
+    private String generateToken(String email) {
+        // Add your token generation logic here
+        // Use a secure key generator
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+        Date expirationDate = new Date(System.currentTimeMillis() + 10 * 24 * 60 * 60 * 1000);
+
+        // For simplicity, let's say the token is the email itself
+        return Jwts.builder()
+                .setSubject(email)
+                .setExpiration(expirationDate)
+                .signWith(SignatureAlgorithm.HS512, key) // Use a secure secret key
+                .compact();
+    }
 
 }
