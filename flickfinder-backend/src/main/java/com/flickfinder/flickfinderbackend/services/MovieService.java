@@ -120,6 +120,40 @@ public class MovieService {
 
     }
 
+    private List<Integer> extractMovieIdsFromResponse(Object response) {
+        List<Integer> movieIds = new ArrayList<>();
+
+        if (response instanceof List) {
+            List<Map<String, Object>> movieList = (List<Map<String, Object>>) response;
+            for (Map<String, Object> movie : movieList) {
+                if (movie.containsKey("id")) {
+                    Integer movieId = (Integer) movie.get("id");
+                    movieIds.add(movieId);
+                }
+            }
+        }
+
+        return movieIds;
+    }
+
+    public Flux<Movie> getMoviesByGenre(int genreId, int page) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/discover/movie")
+                        .queryParam("api_key", API_KEY)
+                        .queryParam("with_genres", genreId)
+                        .queryParam("language", "en-US")
+                        .queryParam("page", page)
+                        .build())
+                .retrieve()
+                .bodyToMono(Object.class) // Assumes response in JSON format
+                .flatMapMany(response -> {
+                    List<Integer> movieIds = extractMovieIdsFromResponse(response); // Extract movie IDs from the response
+
+                    // Fetch movie details based on movie IDs for the given genre
+                    return getMovieDetails(movieIds);
+                });
+    }
     private String getPosterPath (String posterPath) {
         if (posterPath != null) {
             return "https://image.tmdb.org/t/p/w500" + posterPath;

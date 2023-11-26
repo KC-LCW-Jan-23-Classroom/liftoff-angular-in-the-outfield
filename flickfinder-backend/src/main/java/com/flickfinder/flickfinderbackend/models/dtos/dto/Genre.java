@@ -6,20 +6,20 @@ import jakarta.persistence.Id;
 @Entity
 public class Genre {
     @Id
-    private Number id;
+    private Integer id;
     private String name;
 
-    public Genre(Number id, String name) {
+    public Genre(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
     public Genre(){}
 
-    public Number getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Number id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,4 +30,5 @@ public class Genre {
     public void setName(String name) {
         this.name = name;
     }
+
 }

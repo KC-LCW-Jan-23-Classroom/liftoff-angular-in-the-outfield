@@ -2,6 +2,8 @@
 package com.flickfinder.flickfinderbackend.services;
 
 import com.flickfinder.flickfinderbackend.models.GenreResponse;
+import com.flickfinder.flickfinderbackend.models.Movie;
+import com.flickfinder.flickfinderbackend.models.MovieResponse;
 import com.flickfinder.flickfinderbackend.models.data.GenreRepository;
 import com.flickfinder.flickfinderbackend.models.dtos.dto.Genre;
 import com.flickfinder.flickfinderbackend.services.ApiKeyService;
@@ -39,19 +41,7 @@ public class GetGenresService {
         this.apiKey = apiKeyService.getApiKey();
         this.objectMapper = objectMapper;
     }
-    public List<Genre> parseGenresFromApiResponse(String responseBody) {
-        ObjectMapper objectMapper = new ObjectMapper();
 
-        try {
-            GenreResponse genreResponse = objectMapper.readValue(responseBody, GenreResponse.class);
-            return genreResponse.getGenres();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception according to your application's requirements
-        }
-
-        return null;
-    }
 
     public List<Genre> fetchGenres() {
 
@@ -72,5 +62,9 @@ public class GetGenresService {
             }
         }
         return Collections.emptyList();
+    }
+
+    public Genre findGenreByName(String genreName) {
+        return genreRepository.findByName(genreName.toString()); // Assuming you have a method like this in GenreRepository
     }
 }
