@@ -17,12 +17,12 @@ export class SearchByTextComponent implements OnInit {
 
   onSubmit() {
     if (!this.searchInput || !this.searchType) {
-      this.invalid = true
-      return
+      this.invalid = true;
+      return;
     } else {
-      this.invalid = false
+      this.invalid = false;
     }
-    this.searchService.clearResponseMovies()
+    this.searchService.clearResponseMovies();
     this.searchService.setSearchInput(this.searchInput);
     if (this.searchType === 'person') {
       this.searchService.searchMoviesByPerson(this.searchInput, 0);

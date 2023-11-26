@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Genre } from 'src/app/shared/genre.model';
 
 @Component({
@@ -14,6 +15,7 @@ export class FilterOptionsComponent implements OnInit {
   selectedGenre: string = '';
   selectedDecade: number = 0; // Change type to number, or use string if appropriate
   selectedStreamingPlatform: string = '';
+  backendService: any;
 
   constructor(private http: HttpClient) {}
 
@@ -68,14 +70,26 @@ export class FilterOptionsComponent implements OnInit {
     console.log('Selected Genre:', this.selectedGenre);
     // Add logic as needed
   }
-
-  onDecadeChange(): void {
-    console.log('Selected Decade:', this.selectedDecade);
-    // Add logic as needed
+  onSubmit() {
+    if (this.selectedGenre) {
+      const url = 'http://localhost:8080/api/filter-options/movies-by-genre';
+      this.http.post<any>(url, { genre: this.selectedGenre }).subscribe(
+        (response) => {
+          // Handle response from backend if needed
+          console.log('Response from backend:', response);
+        },
+        (error) => {
+          // Handle errors if any
+          console.error('Error:', error);
+        }
+      );
+    } else {
+      console.log('Please select a genre.');
+    }
   }
 
-  onStreamingPlatformChange(): void {
-    console.log('Selected Streaming Platform:', this.selectedStreamingPlatform);
-    // Add logic as needed
+  sendGenreToBackend(genre: string): Observable<any> {
+    const url = 'https://api.themoviedb.org/3/discover/movie'; // Replace with your backend API endpoint
+    return this.http.post<any>(url, { genre });
   }
 }
