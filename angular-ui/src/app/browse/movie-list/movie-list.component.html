@@ -2,7 +2,12 @@
   Top 20 Trending Movies for {{ formattedDate }}
 </h1>
 <div class="d-flex flex-wrap">
-    <app-movie-item *ngFor="let movie of movieList" [movieItem]="movie" (markWatched)="addToWatchHistory(movie)" (markSaved)="addToSavedMovies(movie)"></app-movie-item>
+  <app-movie-item
+    *ngFor="let movie of movieList"
+    [movieItem]="movie"
+    (markWatched)="addToWatchHistory(movie)"
+    (markSaved)="addToSavedMovies(movie)"
+  ></app-movie-item>
 </div>
 <div *ngIf="showLoadingSpinner || loading" style="text-align: center">
   <app-loading-spinner></app-loading-spinner>

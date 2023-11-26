@@ -4,7 +4,9 @@ import com.flickfinder.flickfinderbackend.models.UserReview;
 import com.flickfinder.flickfinderbackend.models.data.UserReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.flickfinder.flickfinderbackend.models.dtos.ReviewDto;
+
+import com.flickfinder.flickfinderbackend.models.dtos.dto.ReviewDto;
+
 
 import java.util.List;
 import java.util.stream.Collectors;

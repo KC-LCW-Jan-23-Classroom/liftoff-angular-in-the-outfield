@@ -12,19 +12,11 @@ import { MoviesService } from 'src/app/shared/movies.service';
 export class TimerComponent implements OnInit {
 
   timesUp: boolean = false;
+  timerRunning: boolean = false;
+  minutesInt: number = 5;
+  countdownDisplay: string = "";
 
-  randomMovie: Movie = new Movie(
-    1,
-    'Peter Pan',
-    ['Adventure', 'Family', 'Fantasy', 'Romance'],
-    2003,
-    113,
-    '/assets/images/posters/peter-pan.png',
-    'In stifling Edwardian London, Wendy Darling mesmerizes her brothers every night with bedtime tales of swordplay, swashbuckling, and the fearsome Captain Hook. But the children become the heroes of an even greater story, when Peter Pan flies into their nursery one night and leads them over moonlit rooftops through a galaxy of stars and to the lush jungles of Neverland. Wendy and her brothers join Peter and the Lost Boys in an exhilarating life--free of grown-up rules--while also facing the inevitable showdown with Hook and his bloodthirsty pirates.',
-    'P.J. Hogan',
-    ['Jeremy Sumpter', 'Jason Isaacs', 'Olivia Williams'],
-    ['Prime']
-  );
+  randomMovie!: Movie;
 
   movieListOptions: Movie[] = [];
 
@@ -42,9 +34,12 @@ export class TimerComponent implements OnInit {
     });
   }
 
-  startTimer() {
+  startTimer(minutes: string = "5") {
+    this.timerRunning=true;
+    this.minutesInt = parseInt(minutes);
+    this.timer(this.minutesInt);
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
-    setTimeout(()=> {this.timesUp=true;}, 3000);
+    setTimeout(()=> {this.timesUp=true; this.timerRunning=false}, 60000*this.minutesInt);
   }
   
   restartTimer() {
@@ -52,9 +47,38 @@ export class TimerComponent implements OnInit {
     this.randomMovie = this.randomizeMovieSelection(this.movieListOptions);
     this.startTimer();
   }
+  reset() {
+    this.timesUp = false;
+    this.timerRunning= false;
+  }
 
-    randomizeMovieSelection(movies: Movie[]) : Movie {
+  randomizeMovieSelection(movies: Movie[]) : Movie {
       let randomNum: number = Math.floor(Math.random()*movies.length);
       return movies[randomNum];
-    }
   }
+  timer(minutes: number) {
+    let totalSeconds: number = minutes*60;
+    let countingSeconds: number = 60;
+    let displaySeconds: any = '00';
+    let displayMinutes: any = '00';
+
+    const timer = setInterval(()=> {
+      totalSeconds--;
+      displayMinutes = Math.floor(totalSeconds/60);
+      if (displayMinutes<10) {
+        displayMinutes = "0"+displayMinutes;
+      }
+      if (countingSeconds !== 0) {
+        countingSeconds--;
+      } else {countingSeconds = 59}
+      if (countingSeconds<10) {
+        displaySeconds = "0"+countingSeconds;
+      } else {displaySeconds = countingSeconds}
+      this.countdownDisplay=`${displayMinutes}:${displaySeconds}`;
+      if (totalSeconds === 0) {
+        clearInterval(timer);
+      }
+    }, 1000)
+  }
+
+}

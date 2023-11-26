@@ -1,6 +1,6 @@
 package com.flickfinder.flickfinderbackend.services;
-import com.flickfinder.flickfinderbackend.models.DirectorAndCastResponse;
-import com.flickfinder.flickfinderbackend.models.Movie;
+import com.flickfinder.flickfinderbackend.controllers.UserAuthenticationController;
+import com.flickfinder.flickfinderbackend.models.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.stereotype.Service;
@@ -19,9 +19,12 @@ public class MovieService {
     private final WebClient webClient;
     private final String API_KEY;
 
-    public MovieService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService) {
+    private final UserMovieListService userMovieListService;
+
+    public MovieService(WebClient.Builder webClientBuilder, ApiKeyService apiKeyService, UserMovieListService userMovieListService) {
         this.webClient = webClientBuilder.baseUrl("https://api.themoviedb.org/3").build();
         this.API_KEY = apiKeyService.getApiKey();
+        this.userMovieListService = userMovieListService;
     }
 
     public Flux<Movie> getTrendingMovies() {
@@ -31,6 +34,8 @@ public class MovieService {
 
 
     public Flux<Movie> getMovieDetails(List<Integer> movieIds) {
+        ParameterizedTypeReference<Map<String, Object>> responseType = new ParameterizedTypeReference<>() {};
+
         return Flux.fromIterable(movieIds)
                 .flatMap(movieId -> {
                     Mono<DirectorAndCastResponse> directorAndCastMono = getDirectorAndCast(movieId);
@@ -40,13 +45,17 @@ public class MovieService {
                     return webClient.get()
                             .uri(movieUrl)
                             .retrieve()
-                            .bodyToMono(Object.class)
+                            .bodyToMono(responseType)
                             .zipWith(directorAndCastMono)
                             .map(tuple -> {
-                                Map<String, Object> movieResponse = (Map<String, Object>) tuple.getT1();
+                                Map<String, Object> movieResponse = tuple.getT1();
                                 DirectorAndCastResponse directorAndCast = tuple.getT2();
 
-                                List<String> streamingSources = new ArrayList<>();
+                                List<String> subscription = new ArrayList<>();
+                                List<String> free = new ArrayList<>();
+                                List<String> ads = new ArrayList<>();
+                                List<String> rent = new ArrayList<>();
+                                List<String> buy = new ArrayList<>();
 
                                 Map<String, Object> providers = (Map<String, Object>) movieResponse.get("watch/providers");
                                 if (providers != null) {
@@ -54,18 +63,14 @@ public class MovieService {
                                     if (results != null) {
                                         Map<String, Object> usProviders = (Map<String, Object>) results.get("US");
                                         if (usProviders != null) {
-                                            List<Map<String, Object>> flatrate = (List<Map<String, Object>>) usProviders.get("flatrate");
-                                            if (flatrate != null) {
-                                                for (Map<String, Object> source : flatrate) {
-                                                    String logoPath = (String) source.get("logo_path");
-                                                    String logoUrl = getLogoPath(logoPath);
-                                                    streamingSources.add(logoUrl);
-                                                }
-                                            }
+                                            subscription = extractProviderInfo(usProviders, "flatrate");
+                                            ads = extractProviderInfo(usProviders, "ads");
+                                            free = extractProviderInfo(usProviders, "free");
+                                            rent = extractProviderInfo(usProviders, "rent");
+                                            buy = extractProviderInfo(usProviders, "buy");
                                         }
                                     }
                                 }
-
 
                                 String posterPath = this.getPosterPath((String) movieResponse.get("poster_path"));
 
@@ -81,8 +86,7 @@ public class MovieService {
                                     }
                                 }
 
-
-                                return new Movie(
+                                Movie returnedMovie = new Movie(
                                         (String) movieResponse.get("title"),
                                         (int) movieResponse.get("id"),
                                         List.of(genre),
@@ -90,15 +94,48 @@ public class MovieService {
                                         (int) movieResponse.get("runtime"),
                                         posterPath,
                                         (String) movieResponse.get("overview"),
-                                        streamingSources.isEmpty() ? null : streamingSources,
+                                        subscription.isEmpty() ? null : subscription,
+                                        free.isEmpty() ? null : free,
+                                        ads.isEmpty() ? null : ads,
+                                        rent.isEmpty() ? null : rent,
+                                        buy.isEmpty() ? null : buy,
                                         directorAndCast.getDirector(),
                                         directorAndCast.getCast()
-
                                 );
+                                if (UserAuthenticationController.logInService.isLoggedIn() == true) {
+                                    int currentUserId = UserAuthenticationController.logInService.getCurrentUser().getId();
+                                    List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(currentUserId);
+                                    List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(currentUserId);
+                                    for (WatchedMovie movie : watchedMovies) {
+                                        if (movie.getApiMovieId() == returnedMovie.getId()) {
+                                            returnedMovie.setWatched(true);
+                                        }
+                                    }
+                                    for (SavedMovie movie : savedMovies) {
+                                        if (movie.getApiMovieId() == returnedMovie.getId()) {
+                                            returnedMovie.setSaved(true);
+                                        }
+                                    }
+                                }
+
+                                return returnedMovie;
                             });
-                })
-                .collectList()
-                .flatMapMany(Flux::fromIterable);
+                });
+    }
+
+    private List<String> extractProviderInfo(Map<String, Object> usProviders, String providerType) {
+        List<String> providerInfo = new ArrayList<>();
+
+        List<Map<String, Object>> providerIds = (List<Map<String, Object>>) usProviders.get(providerType);
+        if (providerIds != null) {
+            for (Map<String, Object> source : providerIds) {
+                String logoPath = (String) source.get("logo_path");
+                String logoUrl = getLogoPath(logoPath);
+                providerInfo.add(logoUrl);
+            }
+        }
+
+        return providerInfo;
     }
 
     private Mono<Integer[]> getTrendingMoviesIds() {
@@ -120,6 +157,40 @@ public class MovieService {
 
     }
 
+    private List<Integer> extractMovieIdsFromResponse(Object response) {
+        List<Integer> movieIds = new ArrayList<>();
+
+        if (response instanceof List) {
+            List<Map<String, Object>> movieList = (List<Map<String, Object>>) response;
+            for (Map<String, Object> movie : movieList) {
+                if (movie.containsKey("id")) {
+                    Integer movieId = (Integer) movie.get("id");
+                    movieIds.add(movieId);
+                }
+            }
+        }
+
+        return movieIds;
+    }
+
+    public Flux<Movie> getMoviesByGenre(int genreId, int page) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/discover/movie")
+                        .queryParam("api_key", API_KEY)
+                        .queryParam("with_genres", genreId)
+                        .queryParam("language", "en-US")
+                        .queryParam("page", page)
+                        .build())
+                .retrieve()
+                .bodyToMono(Object.class) // Assumes response in JSON format
+                .flatMapMany(response -> {
+                    List<Integer> movieIds = extractMovieIdsFromResponse(response); // Extract movie IDs from the response
+
+                    // Fetch movie details based on movie IDs for the given genre
+                    return getMovieDetails(movieIds);
+                });
+    }
     private String getPosterPath (String posterPath) {
         if (posterPath != null) {
             return "https://image.tmdb.org/t/p/w500" + posterPath;

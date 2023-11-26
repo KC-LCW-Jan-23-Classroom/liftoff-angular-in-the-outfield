@@ -6,7 +6,7 @@ import { BrowseComponent } from './browse/browse.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
-import { MyListComponent } from './my-list/my-list.component';
+import { SavedMoviesComponent } from './saved-movies/saved-movies.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { EditUserProfileComponent } from './profile/userprofile/edit-user-profile/edit-user-profile.component';
 import { UserprofileComponent } from './profile/userprofile/userprofile.component';
@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'password-form', component: PasswordFormComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: UserLoginComponent },
+  { path: 'saved-movies', component: SavedMoviesComponent },
   { path: 'register', component: UserRegisterComponent },
   { path: 'my-list', component: MyListComponent},
   { path: 'quiz', component: QuizComponent },

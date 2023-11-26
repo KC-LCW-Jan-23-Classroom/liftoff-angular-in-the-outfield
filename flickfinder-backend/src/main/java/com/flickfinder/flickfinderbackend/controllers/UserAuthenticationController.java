@@ -3,6 +3,7 @@ package com.flickfinder.flickfinderbackend.controllers;
 import com.flickfinder.flickfinderbackend.models.data.UserRepository;
 import com.flickfinder.flickfinderbackend.models.User;
 import com.flickfinder.flickfinderbackend.models.dtos.RegistrationFormDTO;
+import com.flickfinder.flickfinderbackend.services.LogInService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -27,7 +28,10 @@ public class UserAuthenticationController {
     String password = "mySecurePassword";
     String hashedPassword = PasswordEncoder.hashPassword(password);
 
+    public final static LogInService logInService = new LogInService();
 
+//    String candidatePassword = "passwordToCheck";
+//    boolean passwordMatches = PasswordEncoder.checkPassword(candidatePassword, hashedPassword);
 
     public class PasswordEncoder {
 
@@ -105,6 +109,8 @@ public class UserAuthenticationController {
                     .body(responseBody);
             return response;
         }
+        logInService.setLoggedIn(true);
+        logInService.setCurrentUser(user);
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
