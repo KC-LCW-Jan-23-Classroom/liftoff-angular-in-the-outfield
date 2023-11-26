@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../user/auth.service';
+import { User } from '../user/user';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -9,11 +12,34 @@ import { AuthService } from '../user/auth.service';
 })
 export class UserLoginComponent implements OnInit {
   isLoggedIn = false;
+  user: User = new User(0, '', '', '', '');
 
-  constructor(private authService: AuthService){}
+
+  constructor(private authService: AuthService, private router: Router){}
 
   ngOnInit(){
-    this.authService.popcornLogin();
+    this.authService.checkLoggedIn();
+    };
+
+    onSubmit(): void {
+      this.authService.loginUser(this.user).subscribe({
+        next: (response: any) => {
+  
+          console.log(this.authService.getAuthStatusObservable());
+          if (response.id) {
+            console.log('Login successful');
+            this.authService.setUser(response)
+            this.authService.setAuthStatus(true);
+            
+            this.router.navigate(['/']);
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Registration failed', error);
+        },
+      });
+    
+    
     };
   }
 

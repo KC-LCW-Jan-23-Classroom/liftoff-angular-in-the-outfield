@@ -1,21 +1,20 @@
 package com.flickfinder.flickfinderbackend.models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
+@Entity
 public class SavedMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Integer id;
-    @NotBlank
+
     private int apiMovieId;
-    @NotBlank
+
     @ManyToOne
     private User user;
 

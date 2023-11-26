@@ -1,4 +1,5 @@
 package com.flickfinder.flickfinderbackend.models;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -17,28 +18,39 @@ public class User {
     private int id;
 
     @NotBlank
-    private String username;
+    private String name;
     @NotBlank
-    @Size(min = 8, max = 42, message = "Password must be between 8 and 42 characters.")
+    @Email
+    private String email;
+    @NotBlank
     private String password;
-
 
     @OneToMany(mappedBy = "user")
     private List<WatchedMovie> watchedMovies = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<SavedMovie> savedMovies = new ArrayList<>();
+
     public User() {
     }
 
+    public User(String name, String password, String email) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+    }
+
+  
     public int getId() {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -49,12 +61,28 @@ public class User {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public List<WatchedMovie> getWatchHistory() {
         return watchedMovies;
     }
 
     public void setWatchHistory(List<WatchedMovie> watchHistory) {
         this.watchedMovies = watchHistory;
+    }
+
+    public List<SavedMovie> getSavedMovies() {
+        return savedMovies;
+    }
+
+    public void setSavedMovies(List<SavedMovie> savedMovies) {
+        this.savedMovies = savedMovies;
     }
 
     public void addToWatchHistory(WatchedMovie newMovie) {
@@ -65,7 +93,17 @@ public class User {
         this.watchedMovies.remove(movieToRemove);
     }
 
-    public boolean containsMovie(WatchedMovie aMovie) {
+    public boolean watchHistoryContains(WatchedMovie aMovie) {
         return this.watchedMovies.contains(aMovie);
+    }
+
+    public void addToSavedMovies(SavedMovie newMovie) {
+        this.savedMovies.add(newMovie);
+    }
+    public void removeFromSavedMovies(SavedMovie savedMovie) {
+        this.savedMovies.remove(savedMovie);
+    }
+    public boolean savedMoviesContains(SavedMovie aMovie) {
+        return this.savedMovies.contains(aMovie);
     }
 }

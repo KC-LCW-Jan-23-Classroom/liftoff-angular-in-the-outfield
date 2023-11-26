@@ -25,10 +25,7 @@ export class WatchHistoryComponent implements OnInit {
       .subscribe((movieListDetails) => {
         this.watchedList = movieListDetails;
       });
-
     })
-
-    
   }
 
 

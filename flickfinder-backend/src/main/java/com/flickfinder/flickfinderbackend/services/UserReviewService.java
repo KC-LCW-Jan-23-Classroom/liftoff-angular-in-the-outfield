@@ -1,6 +1,10 @@
 package com.flickfinder.flickfinderbackend.services;
 
+<<<<<<< HEAD
         import com.flickfinder.flickfinderbackend.models.dtos.dto.ReviewDto;
+=======
+        import com.flickfinder.flickfinderbackend.models.dtos.ReviewDto;
+>>>>>>> main
         import com.flickfinder.flickfinderbackend.models.UserReview;
         import com.flickfinder.flickfinderbackend.models.data.UserReviewRepository;
         import org.springframework.beans.factory.annotation.Autowired;

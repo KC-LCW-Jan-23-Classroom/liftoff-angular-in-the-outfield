@@ -1,11 +1,18 @@
-<form (ngSubmit)="submitForm()">
-    <div class="mb-3">
-<label for="movieName" class="form-label">Movie</label>
-<input type="text" class="form-control" id="movieName" [(ngModel)]="movieName" name="movieName" required />
-</div>
-<div class="mb-3">
-        <label for="reviewText" class="form-label">My Review</label>
-        <textarea class="form-control" id="reviewText" rows="3" [(ngModel)]="reviewText" name="reviewText" required></textarea>
+<div class="container">
+    <h2>Add Review</h2>
+    <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="movieName">Movie Name:</label>
+            <input type="text" class="form-control" name="movieName" id="movieName" [(ngModel)]="movieName" required>
         </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <label for="reviewText">Review:</label>
+            <textarea class="form-control" name="reviewText" id="reviewText" [(ngModel)]="reviewText" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Review</button>
     </form>
+<h2>Reviews</h2>
+<ul>
+    <li *ngFor="let review of reviews">{{ review.movieName }} - {{ review.reviewText }}</li>
+</ul>
+</div>

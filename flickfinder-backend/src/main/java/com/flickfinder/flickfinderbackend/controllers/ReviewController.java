@@ -1,7 +1,11 @@
 package com.flickfinder.flickfinderbackend.controllers;
 
 
+<<<<<<< HEAD
 import com.flickfinder.flickfinderbackend.models.dtos.dto.ReviewDto;
+=======
+import com.flickfinder.flickfinderbackend.models.dtos.ReviewDto;
+>>>>>>> main
 import com.flickfinder.flickfinderbackend.services.ReviewServiceDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +24,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping
+    @GetMapping("user-reviews")
     public ResponseEntity<List<ReviewDto>> getAllReviews() {
         List<ReviewDto> reviews = reviewService.getAllReviews();
         return ResponseEntity.ok(reviews);
