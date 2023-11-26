@@ -10,6 +10,8 @@ import { ReviewsService } from '../shared/reviews.service';
 })
 export class ProfileComponent implements OnInit {
   userReviews: UserReview[] = [];
+user: any;
+authService: any;
 
   constructor(
     private userService: UsersService,

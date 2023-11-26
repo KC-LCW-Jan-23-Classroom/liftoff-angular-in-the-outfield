@@ -1,0 +1,25 @@
+
+<!-- Profile Header -->
+<div class="profile-header">
+
+  <!-- User Information -->
+  <div class="user-info">
+    <h1>{{ user.name }}</h1>
+    <p>{{ user.email }}</p>
+    <!-- Button to toggle Edit Mode -->
+    <a class="btn btn-link" (click)="toggleEdit()">Edit Profile</a>
+  </div>
+
+  <!-- Edit Profile Form -->
+  <div *ngIf="editingProfile">
+    <form (ngSubmit)="saveChanges()">
+      <!-- Form fields for editing profile -->
+      <input type="text" [(ngModel)]="user.name" name="name" placeholder="Name">
+      <input type="email" [(ngModel)]="user.email" name="email" placeholder="Email">
+      <!-- Save Changes Button -->
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <!-- Cancel Button -->
+      <a class="btn btn-link" (click)="cancelEdit()">Cancel</a>
+    </form>
+  </div>
+</div>

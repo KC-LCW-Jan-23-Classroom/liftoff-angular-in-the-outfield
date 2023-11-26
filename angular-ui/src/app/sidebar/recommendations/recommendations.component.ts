@@ -17,7 +17,7 @@ import { MoviesService } from '../../shared/movies.service';
       state('end', style({ transform: 'rotate(360deg)' })),
       transition('start <=> end', animate('1s ease-out')),
     ]),
-  ]
+  ],
 })
 export class RecommendationsComponent implements OnInit {
   private apiUrl: string = 'https://api.themoviedb.org/3/';
@@ -33,7 +33,7 @@ export class RecommendationsComponent implements OnInit {
     private movieService: MoviesService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchRecommendedMoviesIds().subscribe((recommendedMovies) => {
       this.recommendedMovies = recommendedMovies;
       this.selectedMovie = [];
@@ -49,16 +49,13 @@ export class RecommendationsComponent implements OnInit {
     this.spinAnimationState = 'end';
     setTimeout(() => {
       this.spinAnimationState = 'start';
-
     }, 1000); // Assuming the animation duration is 1s (1000ms)
   }
 
   changeAndSpinPoster() {
     this.startSpin();
     this.showNextMovie();
-
   }
-
 
   showNextMovie() {
     this.currentMovieIndex = (this.currentMovieIndex + 1) % this.selectedMovie.length;

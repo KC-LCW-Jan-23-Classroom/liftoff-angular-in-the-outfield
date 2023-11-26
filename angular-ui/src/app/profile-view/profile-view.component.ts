@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ReviewsService } from 'src/app/shared/reviews.service';
 import { UserReview } from 'src/app/shared/user-review.model';
+import { Router } from '@angular/router'; // Import Router from '@angular/router'
+
 @Component({
   selector: 'app-profile-view',
   templateUrl: './profile-view.component.html',
@@ -12,7 +14,10 @@ export class ProfileViewComponent implements OnInit {
   reviews: UserReview[] = [];
   userReviews: UserReview[] = [];
 
-  constructor(private reviewsService: ReviewsService) {}
+  constructor(
+    private reviewsService: ReviewsService,
+    private router: Router // Inject Router
+  ) {}
 
   ngOnInit(): void {
     this.loadReviews();
@@ -49,5 +54,10 @@ export class ProfileViewComponent implements OnInit {
         console.error('Error adding review:', error);
       }
     );
+  }
+
+  // Method to navigate to edit profile route
+  editProfile(): void {
+    this.router.navigate(['/edit-user-profile']);
   }
 }

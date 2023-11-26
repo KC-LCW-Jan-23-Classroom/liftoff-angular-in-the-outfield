@@ -12,6 +12,7 @@ import { MoviesService } from './movies.service';
 import { UserLoginComponent } from '../user-login/user-login.component';
 import { AuthService } from '../user/auth.service';
 
+
  const httpOptions = {
    headers: new HttpHeaders({
      'Content-Type': 'application/json',

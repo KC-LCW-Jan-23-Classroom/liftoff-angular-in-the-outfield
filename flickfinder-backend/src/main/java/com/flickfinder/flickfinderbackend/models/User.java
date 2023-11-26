@@ -1,7 +1,8 @@
 package com.flickfinder.flickfinderbackend.models;
+import com.flickfinder.flickfinderbackend.controllers.UserProfileDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<SavedMovie> savedMovies = new ArrayList<>();
+    private String username;
 
     public User() {
     }
@@ -105,5 +107,17 @@ public class User {
     }
     public boolean savedMoviesContains(SavedMovie aMovie) {
         return this.savedMovies.contains(aMovie);
+    }
+    public void updateUserInfo(String newUsername, String newPassword) {
+        if (newUsername != null && !newUsername.isEmpty()) this.username = newUsername;
+        if (newPassword != null && !newPassword.isEmpty()) {
+            this.password = newPassword;
+        }
+    }
+
+    public void setUsername(String newUsername) {
+    }
+
+    public void updateUserProfile(UserProfileDTO updatedProfile) {
     }
 }
