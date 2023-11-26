@@ -9,6 +9,8 @@ import { UserRegisterComponent } from './user-register/user-register.component';
 import { MyListComponent } from './my-list/my-list.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { EditUserProfileComponent } from './profile/userprofile/edit-user-profile/edit-user-profile.component';
+import { UserprofileComponent } from './profile/userprofile/userprofile.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'browse', pathMatch: 'full' },
@@ -21,6 +23,7 @@ const routes: Routes = [
   { path: 'my-list', component: MyListComponent},
   { path: 'quiz', component: QuizComponent },
   { path: 'edit-user-profile', component: EditUserProfileComponent},
+  { path: 'userprofile', component: UserprofileComponent}
 
 ];
 

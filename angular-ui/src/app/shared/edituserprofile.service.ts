@@ -12,7 +12,6 @@ export class EditUserProfileService {
   constructor(private http: HttpClient) {}
 
   getUserProfile(userId: string): Observable<User> {
-    // Implement logic to fetch user profile by ID from your API
     const url = `${this.apiUrl}/users/${userId}`;
     return this.http.get<User>(url);
   }
