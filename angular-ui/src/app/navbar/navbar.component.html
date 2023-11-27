@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <button
@@ -12,17 +11,31 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#"><img src="../../assets/PopcornPicksLogo_Long.svg" alt="Popcorn Picks Logo" width="300"/></a>
+    <a class="navbar-brand" href="#"
+      ><img
+        src="../../assets/PopcornPicksLogo_Long.svg"
+        alt="Popcorn Picks Logo"
+        width="300"
+    /></a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav me-auto ">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'browse'" routerLinkActive="active">Browse</a>
+          <a class="nav-link" [routerLink]="'browse'" routerLinkActive="active"
+            >Browse</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'quiz'" routerLinkActive="active">Pick For Me</a>
+          <a class="nav-link" [routerLink]="'quiz'" routerLinkActive="active"
+            >Pick For Me</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'saved-movies'" routerLinkActive="active">My List</a>
+          <a
+            class="nav-link"
+            [routerLink]="'saved-movies'"
+            routerLinkActive="active"
+            >My List</a
+          >
         </li>
       </ul>
       <ul class="nav-item dropdown">
@@ -30,22 +43,22 @@
 
         <div class="dropdown-center">
           <button
-          *ngIf = "!isLoggedIn"
-          [routerLink]="['login']"
-          class="btn btn-secondary"
-          type="button"
-          aria-expanded="false"
-        >
-          Login/Sign Up
-        </button>
+            *ngIf="!isLoggedIn"
+            [routerLink]="['login']"
+            class="btn btn-secondary"
+            type="button"
+            aria-expanded="false"
+          >
+            Login/Sign Up
+          </button>
           <button
-          *ngIf = "isLoggedIn"
+            *ngIf="isLoggedIn"
             class="btn btn-secondary dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Welcome, {{authService.getUser().name}}
+            Welcome, {{ authService.getUser().name }}
           </button>
           <ul class="dropdown-menu">
             <li>
@@ -55,7 +68,8 @@
             </li>
             <li class="nav-item">
               <a class="dropdown-item" [routerLink]="['/edit-user-profile']"
-              >Edit Profile</a>
+                >Edit Profile</a
+              >
             </li>
             <li class="nav-item">
               <a class="dropdown-item" [routerLink]="['password-form']"
