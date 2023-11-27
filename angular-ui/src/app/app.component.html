@@ -1,14 +1,8 @@
 <app-navbar class=""></app-navbar>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-9">
-      <router-outlet></router-outlet>
-    </div>
-    <app-sidebar class="col"></app-sidebar>
+<div class="d-flex">
+  <div class="w-100">
+    <router-outlet></router-outlet>
   </div>
-  <div class="row">
-    <div class="col">
-      <app-footer></app-footer>
-    </div>
-  </div>
+  <app-sidebar class="flex-shrink-1"></app-sidebar>
 </div>
+<app-footer></app-footer>

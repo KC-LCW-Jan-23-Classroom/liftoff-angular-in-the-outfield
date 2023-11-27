@@ -4,7 +4,7 @@
     <div *ngIf="!timerRunning; else countdown">
         <h3>Minutes:</h3>
         <input #minutes type="number"/>
-        <button (click)="startTimer(minutes.value)">START TIMER</button>
+        <div><button (click)="startTimer(minutes.value)">START TIMER</button></div>
     </div>
     <button (click)="reset()">Reset Timer</button>
 </div>
