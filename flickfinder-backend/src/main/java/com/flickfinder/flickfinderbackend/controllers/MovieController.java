@@ -96,16 +96,14 @@ public class MovieController {
 
     @GetMapping("/watch_history/delete/{apiMovieId}")
     public ResponseEntity<WatchedMovie> deleteWatchedMovie(@PathVariable int apiMovieId) {
-        int currentUserId = 1;
-        if (userMovieListService.deleteWatchedMovie(currentUserId, apiMovieId)) {
+        if (userMovieListService.deleteWatchedMovie(getCurrentUserId(), apiMovieId)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/saved_movies/delete/{apiMovieId}")
     public ResponseEntity<SavedMovie> deleteSavedMovie(@PathVariable int apiMovieId) {
-        int currentUserId = 1;
-        if (userMovieListService.deleteSavedMovie(currentUserId, apiMovieId)) {
+        if (userMovieListService.deleteSavedMovie(getCurrentUserId(), apiMovieId)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
