@@ -1,20 +1,24 @@
-<div *ngIf="!timesUp; else movieDisplay">
+<div class="text-center" *ngIf="!timesUp; else movieDisplay">
     <h2>Popcorn Timer</h2>
-    <p>Set the popcorn timer and we'll pick for your if you browse for more than 5 minutes.</p>
+    <p class="p-0 m-0">Set the popcorn timer and we'll pick for your if you browse for more than 5 minutes.</p>
     <div *ngIf="!timerRunning; else countdown">
         <h3>Minutes:</h3>
         <input #minutes type="number"/>
-        <button (click)="startTimer(minutes.value)">START TIMER</button>
+        <div><button (click)="startTimer(minutes.value)">START TIMER</button></div>
     </div>
     <button (click)="reset()">Reset Timer</button>
 </div>
 
 <ng-template #movieDisplay>
-    <h2>You're Watching:</h2>
-    <h3>{{randomMovie.title}}</h3>
+    <div class="text-center">
+        <h2>You're Watching:</h2>
+        <h3>{{randomMovie.title}}</h3>
+    </div>
     <app-movie-item [movieItem]="randomMovie"></app-movie-item>
-    <button (click)="restartTimer()">Restart Timer</button>
-    <button (click)="reset()">Reset Timer</button>
+    <div class="text-center">
+        <button (click)="restartTimer()">Restart Timer</button>
+        <button (click)="reset()">Reset Timer</button>
+    </div>
 </ng-template>
 
 <ng-template #countdown>

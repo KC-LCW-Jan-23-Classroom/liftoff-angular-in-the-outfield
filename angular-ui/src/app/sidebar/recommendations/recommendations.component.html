@@ -1,12 +1,13 @@
+<h2 class="text-center">Movie Recommendation</h2>
 
-<!DOCTYPE html>
-<h2>Movie Recommendation</h2>
-
-
-<div class="spinner">
-
-
-  <app-movie-item [movieItem]="selectedMovie[currentMovieIndex]" [@spin]="spinAnimationState"></app-movie-item></div>
-<button (click)="changeAndSpinPoster()" style="cursor: pointer;">Next Recommended Movie</button>
-
-
+<div class="spinner d-flex justify-content-center">
+  <app-movie-item
+    [movieItem]="selectedMovie[currentMovieIndex]"
+    [@spin]="spinAnimationState"
+  ></app-movie-item>
+</div>
+<div class="text-center">
+  <button (click)="changeAndSpinPoster()" style="cursor: pointer">
+    Next Recommended Movie
+  </button>
+</div>

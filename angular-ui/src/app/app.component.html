@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-
-
-  <app-navbar></app-navbar>
-
-<div class="d-flex flex-row">
-  <router-outlet></router-outlet>
-  <!-- <app-password-form></app-password-form> -->
-  <app-sidebar></app-sidebar>
-  <!-- <div [class.spin]="isSpinning"></div> -->
+<app-navbar class=""></app-navbar>
+<div class="d-flex">
+  <div class="w-100">
+    <router-outlet></router-outlet>
+  </div>
+  <app-sidebar class="flex-shrink-1"></app-sidebar>
 </div>
 <app-footer></app-footer>
-
-
-
-
-
-
-
-
