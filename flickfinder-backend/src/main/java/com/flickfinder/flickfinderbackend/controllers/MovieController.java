@@ -35,8 +35,6 @@ public class MovieController {
 
     private final MovieService movieService;
     private final QuizService quizService;
-
-
     private final LogInService logInService;
     private int currentUserId;
 
@@ -74,10 +72,11 @@ public class MovieController {
 //    }
 
     @RequestMapping("/watch_history")
-    public ResponseEntity<List<Integer>> displayWatchHistory () {
+    public ResponseEntity<Flux<Movie>> displayWatchHistory () {
         List<WatchedMovie> watchedMovies = userMovieListService.getWatchedMoviesByUser(getCurrentUserId());
         List<Integer> watchHistoryIds = userMovieListService.getWatchedMovieIdsFromList(watchedMovies);
-        return ResponseEntity.status(HttpStatus.OK).body(watchHistoryIds);
+        Flux<Movie> watchedMovieList = movieService.getMovieDetails(watchHistoryIds);
+        return ResponseEntity.status(HttpStatus.OK).body(watchedMovieList);
     }
 
     @PostMapping("/watch_history/add")
@@ -89,10 +88,11 @@ public class MovieController {
     }
 
     @GetMapping("/saved_movies")
-    public ResponseEntity<List<Integer>> displaySavedMovies() {
+    public ResponseEntity<Flux<Movie>> displaySavedMovies() {
         List<SavedMovie> savedMovies = userMovieListService.getSavedMoviesByUser(getCurrentUserId());
         List<Integer> savedMovieIds = userMovieListService.getSavedMovieIdsFromList(savedMovies);
-        return ResponseEntity.status(HttpStatus.OK).body(savedMovieIds);
+        Flux<Movie> savedMovieList = movieService.getMovieDetails(savedMovieIds);
+        return ResponseEntity.status(HttpStatus.OK).body(savedMovieList);
     }
     @PostMapping("/saved_movies/add")
     public ResponseEntity<SavedMovie> addSavedMovie(@RequestBody int apiMovieId) {
@@ -103,13 +103,25 @@ public class MovieController {
 
     private int getCurrentUserId() {
         User user = UserAuthenticationController.logInService.getCurrentUser();
+        if (user == null) {
+            return 0;
+        }
         return user.getId();
     }
 
-    @PostMapping("/watch_history/delete")
-    public ResponseEntity<WatchedMovie> deleteWatchedMovie(@RequestBody int apiMovieId) {
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/watch_history/delete/{apiMovieId}")
+    public ResponseEntity<WatchedMovie> deleteWatchedMovie(@PathVariable int apiMovieId) {
+        if (userMovieListService.deleteWatchedMovie(getCurrentUserId(), apiMovieId)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping("/saved_movies/delete/{apiMovieId}")
+    public ResponseEntity<SavedMovie> deleteSavedMovie(@PathVariable int apiMovieId) {
+        if (userMovieListService.deleteSavedMovie(getCurrentUserId(), apiMovieId)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 

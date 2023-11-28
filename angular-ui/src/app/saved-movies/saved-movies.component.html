@@ -6,5 +6,5 @@
 </div>
 
 <ng-template #movieDisplay>
-    <app-movie-item *ngFor="let movie of myList" [movieItem]="movie"></app-movie-item>
+    <app-movie-item *ngFor="let movie of myList" [movieItem]="movie" (markSaved)="deleteFromSavedMovies(movie)"></app-movie-item>
 </ng-template>

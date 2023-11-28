@@ -55,8 +55,21 @@ public class UserMovieListService {
         return savedMovieRepository.save(savedMovie);
     }
 
-    public void deleteWatchedMovie(SavedMovieDTO savedMovieDTO) {
-        WatchedMovie watchedMovie = convertDTOtoWatchedMovie(savedMovieDTO);
+    public boolean deleteWatchedMovie(int userId, int apiMovieId) {
+       WatchedMovie movieToDelete = findWatchedMovieByUserAndMovieId(userId, apiMovieId);
+       if (movieToDelete == null) {
+           return false;
+       }
+       watchHistoryRepository.delete(movieToDelete);
+       return true;
+    }
+    public boolean deleteSavedMovie(int userId, int apiMovieId) {
+        SavedMovie movieToDelete = findSavedMovieByUserAndMovieId(userId, apiMovieId);
+        if (movieToDelete == null) {
+            return false;
+        }
+        savedMovieRepository.delete(movieToDelete);
+        return true;
     }
 
     public List<Integer> getWatchedMovieIdsFromList(List<WatchedMovie> watchHistory) {
@@ -88,5 +101,23 @@ public class UserMovieListService {
         User user = getUserById(savedMovieDTO.getUserId());
         newWatchedMovie.setUser(user);
         return newWatchedMovie;
+    }
+    private WatchedMovie findWatchedMovieByUserAndMovieId(int userId, int apiMovieId) {
+        List<WatchedMovie> watchedMovies = watchHistoryRepository.findAllByUserId(userId);
+        for (WatchedMovie movie : watchedMovies) {
+            if (movie.getApiMovieId() == apiMovieId) {
+                return movie;
+            }
+        }
+        return null;
+    }
+    private SavedMovie findSavedMovieByUserAndMovieId(int userId, int apiMovieId) {
+        List<SavedMovie> watchedMovies = savedMovieRepository.findAllByUserId(userId);
+        for (SavedMovie movie : watchedMovies) {
+            if (movie.getApiMovieId() == apiMovieId) {
+                return movie;
+            }
+        }
+        return null;
     }
 }

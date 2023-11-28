@@ -7,7 +7,7 @@
     </div>
 </div>
 <ng-template #movieDisplay>
-    <app-movie-item *ngFor="let movie of watchedList" [movieItem]="movie"></app-movie-item>
+    <app-movie-item *ngFor="let movie of watchedList" [movieItem]="movie" (markWatched)="deleteFromWatchHistory(movie)"></app-movie-item>
 </ng-template>
 <ng-template #ifLoggedOut>
     <h3>You need to be logged in to save movies to your watch history!</h3>
