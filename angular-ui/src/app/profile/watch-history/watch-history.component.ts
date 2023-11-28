@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/user/auth.service';
 export class WatchHistoryComponent implements OnInit {
   watchedList: Movie[] = [];
   loggedIn: boolean = false;
+  loading: boolean = false;
 
   constructor(private usersService: UsersService, private moviesService : MoviesService, private authService: AuthService) {
 
@@ -22,6 +23,7 @@ export class WatchHistoryComponent implements OnInit {
     // this.authService.checkLoggedIn().subscribe((loggedInStatus)=>{
     //   this.loggedIn = loggedInStatus;
     // });
+    this.loading = true;
 
     this.usersService.fetchWatchHistory().subscribe((watchHisory)=>{
       let watchedMovieIds: number[] = watchHisory;
@@ -30,6 +32,7 @@ export class WatchHistoryComponent implements OnInit {
       .fetchMovieListDetails(watchedMovieIds)
       .subscribe((movieListDetails) => {
         this.watchedList = movieListDetails;
+        this.loading = false;
       });
     });
   }

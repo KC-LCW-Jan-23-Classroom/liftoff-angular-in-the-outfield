@@ -10,11 +10,13 @@ import { MoviesService } from '../shared/movies.service';
 })
 export class SavedMoviesComponent implements OnInit {
   myList: Movie[] = [];
+  loading: boolean = false;
 
   constructor(private usersService: UsersService, private moviesService : MoviesService) {
   }
   
   ngOnInit(): void {
+    this.loading = true;
     this.usersService.fetchSavedMovies().subscribe((savedMovies)=>{
       let savedMovieIds: number[] = savedMovies;
 
@@ -22,6 +24,7 @@ export class SavedMoviesComponent implements OnInit {
       .fetchMovieListDetails(savedMovieIds)
       .subscribe((movieListDetails) => {
         this.myList = movieListDetails;
+        this.loading = false;
       });
     });
   }

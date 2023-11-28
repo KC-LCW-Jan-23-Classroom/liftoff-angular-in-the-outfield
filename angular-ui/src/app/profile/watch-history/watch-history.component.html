@@ -1,8 +1,10 @@
 <div class="container my-3">
     <div>
         <h2>Watch History</h2>
-        <div class="d-flex flex-wrap">
-            <h3 *ngIf="!watchedList.length; else movieDisplay">Nothing to see here! You haven't marked any movies as watched yet.</h3>
+        <div> class="d-flex flex-wrap">
+            <div *ngIf="!loading; else loadingSpinner">
+                <h3 *ngIf="!watchedList.length; else movieDisplay">Nothing to see here! You haven't marked any movies as watched yet.</h3>
+            </div>
         </div>
     </div>
 </div>
@@ -11,4 +13,7 @@
 </ng-template>
 <ng-template #ifLoggedOut>
     <h3>You need to be logged in to save movies to your watch history!</h3>
+</ng-template>
+<ng-template #loadingSpinner>
+    <app-loading-spinner></app-loading-spinner>
 </ng-template>
