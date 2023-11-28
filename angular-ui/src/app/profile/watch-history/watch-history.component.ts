@@ -32,7 +32,6 @@ export class WatchHistoryComponent implements OnInit {
       .fetchMovieListDetails(watchedMovieIds)
       .subscribe((movieListDetails) => {
         this.watchedList = movieListDetails;
-        this.loading = false;
       });
     });
   }

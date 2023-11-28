@@ -44,20 +44,32 @@ export class UsersService implements OnInit {
      return this.http.get<UserReview[]>(reviewsUrl);
    }
 
-  fetchWatchHistory(): Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"api/watch_history");
+  fetchWatchHistory(): Observable<Movie[]> {
+    return this.http.get<Movie[]>(this.backendUrl+"api/watch_history");
   }
-  addWatchedMovie(movie : Movie): Observable<Number> {
+  addWatchedMovie(movie : Movie): Observable<number> {
     const url = `${this.backendUrl}api/watch_history/add`;
-    return this.http.post<Number>(url, movie.id, httpOptions);
+    return this.http.post<number>(url, movie.id, httpOptions);
   }
 
-  fetchSavedMovies() : Observable<number[]> {
-    return this.http.get<number[]>(this.backendUrl+"api/saved_movies");
+  fetchSavedMovies() : Observable<Movie[]> {
+    return this.http.get<Movie[]>(this.backendUrl+"api/saved_movies");
   }
-  addSavedMovie(movie : Movie) : Observable<Number> {
+  addSavedMovie(movie : Movie) : Observable<number> {
     const url = `${this.backendUrl}api/saved_movies/add`;
-    return this.http.post<Number>(url, movie.id, httpOptions);
+    return this.http.post<number>(url, movie.id, httpOptions);
+  }
+
+  deleteWatchedMovie(movie : Movie) : Observable<SavedMovie> {
+    const url = `${this.backendUrl}api/watch_history/delete/${movie.id}`;
+    console.log(movie);
+    return this.http.get<SavedMovie>(url);
+  }
+
+  deleteSavedMovie(movie : Movie) : Observable<SavedMovie> {
+    const url = `${this.backendUrl}api/saved_movies/delete/${movie.id}`;
+    console.log(movie);
+    return this.http.get<SavedMovie>(url);
   }
 
 }

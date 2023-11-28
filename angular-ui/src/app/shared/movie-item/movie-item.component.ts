@@ -37,26 +37,13 @@ export class MovieItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.usersService.fetchWatchHistory().subscribe((watchHisory)=>{
-      let watchedMovieIds: number[] = watchHisory;
-
-      this.moviesService
-      .fetchMovieListDetails(watchedMovieIds)
-      .subscribe((movieListDetails) => {
-        this.watchedList = movieListDetails;
-        this.movieItem.isWatched = this.movieItem.containsMovie(this.watchedList);
-        console.log(this.movieItem.isWatched);
-      });
+      this.watchedList = watchHisory;
+      this.movieItem.isWatched = this.movieItem.containsMovie(this.watchedList);
     });
 
     this.usersService.fetchSavedMovies().subscribe((savedMovies)=>{
-      let savedMovieIds: number[] = savedMovies;
-
-      this.moviesService
-      .fetchMovieListDetails(savedMovieIds)
-      .subscribe((movieListDetails) => {
-        this.savedMovieList = movieListDetails;
-        this.movieItem.isSaved = this.movieItem.containsMovie(this.savedMovieList);
-      });
+      this.savedMovieList = savedMovies;
+      this.movieItem.isSaved = this.movieItem.containsMovie(this.savedMovieList);
     });
     
 

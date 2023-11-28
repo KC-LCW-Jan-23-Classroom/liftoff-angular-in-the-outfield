@@ -18,15 +18,16 @@ export class SavedMoviesComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.usersService.fetchSavedMovies().subscribe((savedMovies)=>{
-      let savedMovieIds: number[] = savedMovies;
-
-      this.moviesService
-      .fetchMovieListDetails(savedMovieIds)
-      .subscribe((movieListDetails) => {
-        this.myList = movieListDetails;
-        this.loading = false;
-      });
+      this.myList = savedMovies;
+      this.loading = false;
     });
+  }
+
+  deleteFromSavedMovies(movie : Movie) : void {
+    console.log(movie);
+    this.usersService.deleteSavedMovie(movie).subscribe();
+    let index = this.myList.indexOf(movie);
+    this.myList.splice(index, 1);
   }
   
 
