@@ -1,6 +1,6 @@
 <div class="text-center" *ngIf="!timesUp; else movieDisplay">
     <h2>Popcorn Timer</h2>
-    <p class="p-0 m-0">Set the popcorn timer and we'll pick for your if you browse for more than 5 minutes.</p>
+    <p class="p-0 m-0">Set the popcorn timer and we'll pick for you if you browse for more than 5 minutes.</p>
     <div *ngIf="!timerRunning; else countdown">
         <h3>Minutes:</h3>
         <input #minutes type="number"/>
