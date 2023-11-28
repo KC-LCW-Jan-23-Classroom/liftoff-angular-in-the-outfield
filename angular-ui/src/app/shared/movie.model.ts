@@ -52,4 +52,13 @@ export class Movie {
     this.isWatched = isWatched;
     this.isSaved = isSaved;
   }
+
+  containsMovie(movieList: Movie[]): boolean {
+    for (let movie of movieList) {
+      if (this.id === movie.id) {
+        return true
+      }
+    }
+    return false;
+  }
 }

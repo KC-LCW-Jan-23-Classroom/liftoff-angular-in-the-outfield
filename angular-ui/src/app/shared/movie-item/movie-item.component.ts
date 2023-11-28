@@ -43,7 +43,7 @@ export class MovieItemComponent implements OnInit {
       .fetchMovieListDetails(watchedMovieIds)
       .subscribe((movieListDetails) => {
         this.watchedList = movieListDetails;
-        this.movieItem.isWatched = this.watchedList.includes(this.movieItem);
+        this.movieItem.isWatched = this.movieItem.containsMovie(this.watchedList);
         console.log(this.movieItem.isWatched);
       });
     });
@@ -55,7 +55,7 @@ export class MovieItemComponent implements OnInit {
       .fetchMovieListDetails(savedMovieIds)
       .subscribe((movieListDetails) => {
         this.savedMovieList = movieListDetails;
-        this.movieItem.isSaved = this.savedMovieList.includes(this.movieItem);
+        this.movieItem.isSaved = this.movieItem.containsMovie(this.savedMovieList);
       });
     });
     

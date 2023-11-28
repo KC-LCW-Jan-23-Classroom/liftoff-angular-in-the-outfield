@@ -1,7 +1,7 @@
 <div class="container my-3">
     <div>
         <h2>Watch History</h2>
-        <div> class="d-flex flex-wrap">
+        <div class="d-flex flex-wrap">
             <div *ngIf="!loading; else loadingSpinner">
                 <h3 *ngIf="!watchedList.length; else movieDisplay">Nothing to see here! You haven't marked any movies as watched yet.</h3>
             </div>
