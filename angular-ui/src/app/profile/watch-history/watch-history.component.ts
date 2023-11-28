@@ -26,14 +26,15 @@ export class WatchHistoryComponent implements OnInit {
     this.loading = true;
 
     this.usersService.fetchWatchHistory().subscribe((watchHisory)=>{
-      let watchedMovieIds: number[] = watchHisory;
-
-      this.moviesService
-      .fetchMovieListDetails(watchedMovieIds)
-      .subscribe((movieListDetails) => {
-        this.watchedList = movieListDetails;
-      });
+      this.watchedList = watchHisory;
+      this.loading = false;
     });
+  }
+
+  deleteFromWatchHistory(movie : Movie) : void {
+    this.usersService.deleteWatchedMovie(movie).subscribe();
+    let index = this.watchedList.indexOf(movie);
+    this.watchedList.splice(index, 1);
   }
 
 
