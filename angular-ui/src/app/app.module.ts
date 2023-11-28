@@ -32,6 +32,9 @@ import { UserReviewCardComponent } from './user-review-card/user-review-card.com
 import { QuizComponent } from './quiz/quiz.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserprofileComponent } from './profile/userprofile/userprofile.component';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,9 +61,9 @@ import { UserprofileComponent } from './profile/userprofile/userprofile.componen
     SavedMoviesComponent,
     UserReviewCardComponent,
     QuizComponent,
-    UserprofileComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule,ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule,
+    ReactiveFormsModule],
   providers: [DatePipe],
   bootstrap: [AppComponent],
 })
