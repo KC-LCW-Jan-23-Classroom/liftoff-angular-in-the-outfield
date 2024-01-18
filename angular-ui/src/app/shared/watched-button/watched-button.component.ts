@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, DoCheck } from '@angular/core';
 import { Movie } from '../movie.model';
 import { UsersService } from '../users.service';
 import { BehaviorSubject } from 'rxjs';
@@ -9,10 +9,10 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './watched-button.component.html',
   styleUrls: ['./watched-button.component.css']
 })
-export class WatchedButtonComponent {
+export class WatchedButtonComponent implements OnInit {
   @Input() thisMovie!: Movie;
   watchedList: Movie[]=[];
-  checkWatched = new BehaviorSubject("Unwatched");
+  // checkWatched = new BehaviorSubject("Unwatched");
   usersService: UsersService;
 
   constructor(userService: UsersService) {
@@ -23,9 +23,9 @@ export class WatchedButtonComponent {
     this.usersService.fetchWatchHistory().subscribe((watchHisory)=>{
       this.watchedList = watchHisory;
       this.thisMovie.isWatched = this.thisMovie.containsMovie(this.watchedList);
-      this.checkWatched.next(this.checkIfWatched());
     });
   }
+
 
   checkIfWatched(): string {
     if (this.thisMovie.isWatched) {
