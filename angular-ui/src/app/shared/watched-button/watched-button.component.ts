@@ -22,7 +22,7 @@ export class WatchedButtonComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.fetchWatchHistory().subscribe((watchHisory)=>{
       this.watchedList = watchHisory;
-      this.thisMovie.isWatched = this.thisMovie.containsMovie(this.watchedList);
+      // this.thisMovie.isWatched = this.thisMovie.containsMovie(this.watchedList);
     });
   }
 
@@ -36,14 +36,16 @@ export class WatchedButtonComponent implements OnInit {
   }
 
   onWatchedClick(movie: Movie) : void {
-    if (this.thisMovie.isWatched) {
-      let answer = window.confirm("You already added this movie to your watch list. Are you sure you want to remove it?");
-      if (answer) {
-        this.usersService.deleteWatchedMovie(movie);
-      }
+    // if (this.thisMovie.isWatched) {
+    //   let answer = window.confirm("You already added this movie to your watch list. Are you sure you want to remove it?");
+    //   if (answer) {
+    //     this.usersService.deleteWatchedMovie(movie);
+    //   }
 
-    }
-    this.usersService.addWatchedMovie(movie);
+    // }
+    this.usersService.addWatchedMovie(movie).subscribe(SavedMovie => {
+
+    });
     this.thisMovie.isWatched = true;
   }
 

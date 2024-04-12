@@ -34,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserprofileComponent } from './profile/userprofile/userprofile.component';
 import { WatchedButtonComponent } from './shared/watched-button/watched-button.component';
 import { SavedButtonComponent } from './shared/saved-button/saved-button.component';
+import { UserService } from './user/user.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +66,7 @@ import { SavedButtonComponent } from './shared/saved-button/saved-button.compone
     SavedButtonComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule,ReactiveFormsModule],
-  providers: [DatePipe],
+  providers: [DatePipe, UserService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
